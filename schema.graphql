@@ -1,0 +1,12 @@
+type playerData {
+	type: String
+	description: String
+	author: String
+	moral: [String!]
+	ethic: [String!]
+	race: [String!]
+}
+type Query {
+	allPlayerData: [playerData!]
+	playerDataByType(type: String!): [playerData!]
+}
