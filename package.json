@@ -14,8 +14,8 @@
 		"shallow-equal": "^1.2.1"
 	},
 	"scripts": {
-		"start": "react-scripts start",
-		"build": "react-scripts build"
+		"start": "CI=false react-scripts start",
+		"build": "CI=false react-scripts build"
 	},
 	"eslintConfig": {
 		"extends": [
