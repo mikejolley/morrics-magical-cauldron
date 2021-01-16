@@ -37,7 +37,8 @@
 	},
 	"devDependencies": {
 		"@wordpress/eslint-plugin": "^7.4.0",
-		"@wordpress/prettier-config": "^0.4.0"
+		"@wordpress/prettier-config": "^0.4.0",
+		"prettier": "^2.2.1"
 	},
 	"prettier": "@wordpress/prettier-config"
 }
