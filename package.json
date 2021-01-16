@@ -4,6 +4,7 @@
 	"private": true,
 	"dependencies": {
 		"node-sass": "^4.14.1",
+		"patch-package": "^6.2.2",
 		"random-item": "^3.1.0",
 		"react": "^17.0.1",
 		"react-dom": "^17.0.1",
@@ -15,7 +16,8 @@
 	},
 	"scripts": {
 		"start": "CI=false react-scripts start",
-		"build": "CI=false react-scripts build"
+		"build": "CI=false react-scripts build",
+		"postinstall": "patch-package"
 	},
 	"eslintConfig": {
 		"extends": [
