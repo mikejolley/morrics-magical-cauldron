@@ -14,6 +14,7 @@ import AbilityItem from './components/ability-item';
 import { getAbiltyScore } from './utils';
 import { npc, generateAll, generateFields } from './data/generators';
 import './App.scss';
+import { races } from './data/constants';
 
 /**
  * TODO:
@@ -23,7 +24,6 @@ import './App.scss';
  * More data
  * Move CSS to components
  * Move data under each component, e.g. npc/data npc/generator
- * Make fields in the generate form un-rerollable. Use that to pull in all JSON from DB.
  * https://docs.netlify.com/visitor-access/identity/
  * https://community.netlify.com/t/support-guide-understanding-and-using-netlifys-api/160
  * https://open-api.netlify.com/#operation/listMembersForAccount
@@ -38,7 +38,8 @@ function App() {
 		occupation: '',
 		alignment: '',
 	} );
-	const npcData = npc( options );
+	const [ generateCount, setGenerateCount ] = useState( 0 );
+	const npcData = npc( { ...options, generateCount } );
 	const [ data, setData ] = useState( () => generateAll( npcData ) );
 
 	const reroll = ( fields ) => {
@@ -54,27 +55,19 @@ function App() {
 						<NpcOptions
 							options={ options }
 							setOptions={ setOptions }
-							onDone={ () => setData( generateAll( npcData ) ) }
+							onDone={ () => {
+								setData( generateAll( npcData ) );
+								setGenerateCount( generateCount + 1 );
+							} }
 						/>
 					</div>
 					<div className="section character-appearance">
 						<hgroup>
-							<h3>
-								<InlineData
-									value={ data.name }
-									reroll={ () => reroll( 'name' ) }
-								/>
-							</h3>
+							<h3>{ data.name }</h3>
 							<h4>
-								<InlineData
-									value={ data.alignment.description }
-									reroll={ () => reroll( 'alignment' ) }
-								/>{ ' ' }
-								::{ ' ' }
-								<InlineData
-									value={ data.occupation }
-									reroll={ () => reroll( 'occupation' ) }
-								/>
+								{ `${ data.alignment?.description } :: ${
+									data.gender
+								} ${ races[ data.race ].singular }` }
 							</h4>
 						</hgroup>
 						<p>
@@ -90,16 +83,8 @@ function App() {
 							/>
 							{ ` ` }
 							<InlineData
-								value={ data.gender }
-								reroll={ () => reroll( 'gender' ) }
-							/>
-							{ `, ` }
-							<InlineData
-								value={ data.race }
-								reroll={ () =>
-									reroll( [ 'race', 'height', 'appearance' ] )
-								}
-								capitalize={ true }
+								value={ data.occupation }
+								reroll={ () => reroll( 'occupation' ) }
 							/>
 							{ ` who is ` }
 							<InlineData
@@ -121,15 +106,15 @@ function App() {
 						</p>
 						<p>
 							<InlineData
-								value={ data.clothing.description }
-								author={ data.clothing.author }
+								value={ data.clothing?.description }
+								author={ data.clothing?.author }
 								reroll={ () => reroll( 'clothing' ) }
 							/>
 						</p>
 						<p>
 							<InlineData
-								value={ data.distinguishingMark.description }
-								author={ data.distinguishingMark.author }
+								value={ data.distinguishingMark?.description }
+								author={ data.distinguishingMark?.author }
 								reroll={ () => reroll( 'distinguishingMark' ) }
 							/>
 						</p>
@@ -194,8 +179,11 @@ function App() {
 								<strong>Personality</strong>
 								<span>
 									<InlineData
-										value={ data.personality.description }
-										author={ data.personality.author }
+										value={
+											data.personality?.description ||
+											'None'
+										}
+										author={ data.personality?.author }
 										reroll={ () => reroll( 'personality' ) }
 									/>
 								</span>
@@ -204,8 +192,8 @@ function App() {
 								<strong>Ideal</strong>
 								<span>
 									<InlineData
-										value={ data.ideal.description }
-										author={ data.ideal.author }
+										value={ data.ideal?.description }
+										author={ data.ideal?.author }
 										reroll={ () => reroll( 'ideal' ) }
 									/>
 								</span>
@@ -214,8 +202,8 @@ function App() {
 								<strong>Bond</strong>
 								<span>
 									<InlineData
-										value={ data.bond.description }
-										author={ data.bond.author }
+										value={ data.bond?.description }
+										author={ data.bond?.author }
 										reroll={ () => reroll( 'bond' ) }
 									/>
 								</span>
@@ -224,8 +212,8 @@ function App() {
 								<strong>Flaw</strong>
 								<span>
 									<InlineData
-										value={ data.flaw.description }
-										author={ data.flaw.author }
+										value={ data.flaw?.description }
+										author={ data.flaw?.author }
 										reroll={ () => reroll( 'flaw' ) }
 									/>
 								</span>
@@ -234,8 +222,8 @@ function App() {
 								<strong>Voice</strong>
 								<span>
 									<InlineData
-										value={ data.voice.description }
-										author={ data.voice.author }
+										value={ data.voice?.description }
+										author={ data.voice?.author }
 										reroll={ () => reroll( 'voice' ) }
 									/>
 								</span>
@@ -244,8 +232,8 @@ function App() {
 								<strong>Plot Hook</strong>
 								<span>
 									<InlineData
-										value={ data.plotHook.description }
-										author={ data.plotHook.author }
+										value={ data.plotHook?.description }
+										author={ data.plotHook?.author }
 										reroll={ () => reroll( 'plotHook' ) }
 									/>
 								</span>

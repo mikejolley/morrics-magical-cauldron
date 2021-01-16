@@ -6,3 +6,4 @@ export * from './weight-descriptors';
 export * from './race';
 export * from './occupations';
 export * from './alignments';
+export * from './playerNames';

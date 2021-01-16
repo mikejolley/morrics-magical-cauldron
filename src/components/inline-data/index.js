@@ -10,7 +10,7 @@
  * @param {string} props.suffix Appended to the value.
  */
 const InlineField = ( {
-	value,
+	value = '-',
 	author = '',
 	reroll,
 	capitalize = false,

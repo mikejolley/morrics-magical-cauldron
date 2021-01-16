@@ -3,217 +3,301 @@
 		"type": "flaw",
 		"description": "If left alone with someone, will most likely murder them.",
 		"author": "Mike",
-		"moral": "evil",
-		"ethic": "chaotic"
+		"ethic": "chaotic",
+		"moral": "evil"
 	},
 	{
 		"type": "bond",
 		"description": "Will face any challenge to win the approval of their family.",
-		"author": "Mike"
+		"author": "Mike",
+		"ethic": "lawful",
+		"moral": "good"
 	},
 	{
 		"type": "bond",
 		"description": "In love with the heir of a family that my family despises.",
-		"author": "Mike"
+		"author": "Mike",
+		"ethic": "any",
+		"moral": "any"
 	},
 	{
 		"type": "bond",
 		"description": "Their loyalty to their sovereign is unwavering.",
-		"author": "Mike"
+		"author": "Mike",
+		"ethic": "lawful",
+		"moral": "good"
 	},
 	{
 		"type": "bond",
 		"description": "They would die to recover an ancient artifact of their faith that was lost long ago.",
-		"author": "Mike"
+		"author": "Mike",
+		"moral": "any",
+		"ethic": "any"
 	},
 	{
 		"type": "bond",
 		"description": "Sold their soul for knowledge and is willing to do great deeds to win it back.",
-		"author": "Mike"
+		"author": "Mike",
+		"ethic": "any",
+		"moral": "any"
 	},
 	{
 		"type": "bond",
 		"description": "Their home town.",
-		"author": "Mike"
+		"author": "Mike",
+		"ethic": "any",
+		"moral": "any"
 	},
 	{
 		"type": "bond",
 		"description": "Their dear old grandpa.",
-		"author": "Mike"
+		"author": "Mike",
+		"ethic": "any",
+		"moral": "any"
 	},
 	{
 		"type": "bond",
 		"description": "A small, grey, tedder bear.",
-		"author": "Mike"
+		"author": "Mike",
+		"ethic": "any",
+		"moral": "any"
 	},
 	{
 		"type": "flaw",
 		"description": "Secretly believe that everyone is beneath them.",
-		"author": "Mike"
+		"author": "Mike",
+		"ethic": "lawful",
+		"moral": "any"
 	},
 	{
 		"type": "flaw",
 		"description": "Hides a truly scandalous secret that could ruin their family forever.",
-		"author": "Mike"
+		"author": "Mike",
+		"ethic": "any",
+		"moral": "any"
 	},
 	{
 		"type": "flaw",
 		"description": "In fact, the world does revolve around them.",
-		"author": "Mike"
+		"author": "Mike",
+		"ethic": "any",
+		"moral": "any"
 	},
 	{
 		"type": "flaw",
 		"description": "By their words and actions, they often bring shame to their family.",
-		"author": "Mike"
+		"author": "Mike",
+		"ethic": "any",
+		"moral": "any"
 	},
 	{
 		"type": "flaw",
 		"description": "Full on alcoholic.",
-		"author": "Mike"
+		"author": "Mike",
+		"ethic": "any",
+		"moral": "any"
 	},
 	{
 		"type": "flaw",
 		"description": "Argues about literally anything.",
-		"author": "Mike"
+		"author": "Mike",
+		"ethic": "any",
+		"moral": "any"
 	},
 	{
 		"type": "flaw",
 		"description": "Will start a fight just for looking at them.",
 		"author": "Mike",
-		"ethic": "chaotic"
+		"ethic": "chaotic",
+		"moral": "evil"
 	},
 	{
 		"type": "flaw",
 		"description": "Will attempt to run away if you talk to them.",
-		"author": "Mike"
+		"author": "Mike",
+		"ethic": "any",
+		"moral": "any"
 	},
 	{
 		"type": "flaw",
 		"description": "Will attempt to pick-pocket anyone who talks to them.",
 		"author": "Mike",
-		"ethic": "chaotic"
+		"ethic": "chaotic",
+		"moral": "any"
 	},
 	{
 		"type": "ideal",
 		"description": "A free spirit--no one tells them what to do.",
 		"author": "Mike",
-		"ethic": "chaotic"
+		"ethic": "chaotic",
+		"moral": "any"
 	},
 	{
 		"type": "ideal",
 		"description": "Believes there is a spark of good in everyone.",
 		"author": "Mike",
+		"ethic": "any",
 		"moral": "good"
 	},
 	{
 		"type": "ideal",
 		"description": "Believes no-one deserves to be living.",
 		"author": "Mike",
+		"ethic": "any",
 		"moral": "evil"
 	},
 	{
 		"type": "plotHook",
 		"description": "An important holiday is coming up and there are a couple things they still need for the festival.",
-		"author": "Mike"
+		"author": "Mike",
+		"ethic": "lawful",
+		"moral": "good"
 	},
 	{
 		"type": "plotHook",
 		"description": "A family member has been involved in the most unseemly activities. If word got out, we'd be a laughingstock.",
-		"author": "Mike"
+		"author": "Mike",
+		"ethic": "any",
+		"moral": "any"
 	},
 	{
 		"type": "plotHook",
 		"description": "A con artist has been scamming a fortune out of poor old widows.",
-		"author": "Mike"
+		"author": "Mike",
+		"ethic": "lawful",
+		"moral": "good"
 	},
 	{
 		"type": "plotHook",
 		"description": "They'd like to help out a friend who is in need, but they would prefer to remain anonymous.",
-		"author": "Mike"
+		"author": "Mike",
+		"ethic": "lawful",
+		"moral": "any"
 	},
 	{
 		"type": "mark",
 		"description": "They have a large scar on their right cheek, which looks like it was made by the claws of a bear.",
-		"author": "Mike"
+		"author": "Mike",
+		"ethic": "any",
+		"moral": "any"
 	},
 	{
 		"type": "mark",
 		"description": "They have a large scar across their right cheek, and burn marks on their neck.",
-		"author": "Mike"
+		"author": "Mike",
+		"ethic": "any",
+		"moral": "any"
 	},
 	{
 		"type": "mark",
 		"description": "They have a heart shaped tattoo on their neck.",
-		"author": "Mike"
+		"author": "Mike",
+		"ethic": "any",
+		"moral": "any"
 	},
 	{
 		"type": "trait",
 		"description": "Fixated on the number 58; they count their steps and bites of food to keep in track with it.",
-		"author": "Mike"
+		"author": "Mike",
+		"ethic": "any",
+		"moral": "any"
 	},
 	{
 		"type": "trait",
 		"description": "They seem to be used to being ignored and do not question it.",
-		"author": "Mike"
+		"author": "Mike",
+		"ethic": "any",
+		"moral": "any"
 	},
 	{
 		"type": "trait",
 		"description": "They do not regard money as being a problem because it has never been a problem for them.",
-		"author": "Mike"
+		"author": "Mike",
+		"ethic": "any",
+		"moral": "any"
 	},
 	{
 		"type": "trait",
 		"description": "Compulsively sings.",
-		"author": "Mike"
+		"author": "Mike",
+		"ethic": "any",
+		"moral": "any"
 	},
 	{
 		"type": "trait",
 		"description": "Very touchy-feely, even with total strangers.",
-		"author": "Mike"
+		"author": "Mike",
+		"ethic": "chaotic",
+		"moral": "any"
 	},
 	{
 		"type": "clothing",
 		"description": "They are dressed in scruffy rags that smell like poo.",
-		"author": "Mike"
+		"author": "Mike",
+		"ethic": "any",
+		"moral": "any"
 	},
 	{
 		"type": "clothing",
 		"description": "They are wearing violet leather gloves, a violet jacket, and tight pants.",
-		"author": "Mike"
+		"author": "Mike",
+		"ethic": "any",
+		"moral": "any"
 	},
 	{
 		"type": "clothing",
 		"description": "They are wearing Velvet robes, and a silky red cap.",
-		"author": "Mike"
+		"author": "Mike",
+		"ethic": "any",
+		"moral": "any"
 	},
 	{
 		"type": "voice",
 		"description": "Speaks with a posh accent.",
-		"author": "Mike"
+		"author": "Mike",
+		"ethic": "any",
+		"moral": "any"
 	},
 	{
 		"type": "voice",
 		"description": "Slurs their words.",
-		"author": "Mike"
+		"author": "Mike",
+		"ethic": "any",
+		"moral": "any"
 	},
 	{
 		"type": "voice",
 		"description": "If bugs bunny was in Dalton Abbey.",
-		"author": "Mike"
+		"author": "Mike",
+		"ethic": "any",
+		"moral": "any"
 	},
 	{
 		"type": "voice",
 		"description": "South African accent.",
-		"author": "Mike"
+		"author": "Mike",
+		"ethic": "any",
+		"moral": "any"
 	},
 	{
 		"type": "voice",
 		"description": "Cowboy.",
-		"author": "Mike"
+		"author": "Mike",
+		"ethic": "any",
+		"moral": "any"
 	},
 	{
 		"type": "voice",
 		"description": "Slack-jawed Yokel.",
-		"author": "Mike"
+		"author": "Mike",
+		"ethic": "any",
+		"moral": "any"
+	},
+	{
+		"type": "voice",
+		"description": "Growls and sneers angrily when talking.",
+		"author": "Mike",
+		"ethic": "any",
+		"moral": "evil"
 	}
 ]

@@ -1,4 +1,15 @@
+/**
+ * External dependencies
+ */
+import randomItem from 'random-item';
+import { useMemo, useRef, useEffect } from 'react';
+import { shallowEqualObjects } from 'shallow-equal';
+
+/**
+ * Internal dependencies
+ */
 import { roll, rollAbilities } from '../../utils';
+import { generateName } from './utils';
 
 // Fixed descriptors.
 import {
@@ -16,53 +27,130 @@ import {
 } from '../constants';
 
 // Database descriptors.
-import { playerNames } from '../temp';
-import distinguishingMarks from '../distinguishing-marks';
-import ideals from '../ideals';
-import bonds from '../bonds';
-import flaws from '../flaws';
-import clothing from '../clothing';
-import plotHooks from '../plot-hooks';
-import personalityTraits from '../personality-traits';
-import voiceDescriptors from '../voice-descriptors';
+const playerData = require( './playerData.json' );
 
-/**
- * External dependencies
- */
-import randomItem from 'random-item';
+// race occupation gender
+const Generators = ( options = {} ) => {
+	const currentOptions = useRef( options );
+
+	useEffect( () => {
+		if ( ! shallowEqualObjects( currentOptions.current, options ) ) {
+			currentOptions.current = options;
+		}
+	}, [ options ] );
+
+	const returnGenerators = useMemo( () => {
+		const {
+			race: selectedRace,
+			gender: selectedGender,
+			occupation: selectedOccupation,
+			alignment: selectedAlignment,
+		} = currentOptions.current;
+
+		const race = selectedRace || randomItem( Object.keys( races ) );
+		const gender =
+			selectedGender ||
+			randomItem( [ 'male', 'female', 'male', 'female', 'nonbinary' ] );
+		const alignmentId = selectedAlignment || randomItem( alignments ).id;
+		const alignment = alignments.find( ( { id } ) => id === alignmentId );
+		const occupation =
+			selectedOccupation ||
+			randomItem(
+				randomMultipleAlignments( occupations, alignment ).occupations
+			);
+		const raceData = races[ race ];
+		return {
+			name: () => {
+				return generateName(
+					race,
+					gender === 'nonbinary'
+						? randomItem( [ 'male', 'female' ] )
+						: gender
+				);
+			},
+			gender: () => gender,
+			race: () => race,
+			occupation: () => occupation,
+			alignment: () => alignment,
+			age: () => randomItem( ageDescriptors ),
+			height: () => {
+				const base = raceData.baseHeight || 4.67;
+				const modifier = raceData.heightModifier || '2d10';
+				const heightInFeet = base + roll.roll( modifier ).result / 12;
+				const feet = Math.floor( heightInFeet );
+				const inches = Math.round( ( heightInFeet - feet ) * 12 );
+				return feet + "'" + inches + '"';
+			},
+			weight: () => randomItem( weightDescriptors ),
+			appearance: () => {
+				const eyeColor = randomItem( raceData.eyeColors || eyeColors );
+				const hairColor = randomItem(
+					raceData.hairColors || hairColors
+				);
+				const skinColor = randomItem(
+					raceData.skinColors || skinColors
+				);
+				const eyeDescriptor = randomItem( eyeDescriptors );
+				const skinDescriptor = randomItem( skinDescriptors );
+				const hairDescriptor = randomItem( hairDescriptors );
+				return `Their skin is ${ skinColor } and ${ skinDescriptor }, their eyes are ${ eyeColor } and ${ eyeDescriptor }, and they have ${ hairColor } hair that is ${ hairDescriptor }.`;
+			},
+			abilities: () => rollAbilities(),
+			clothing: () =>
+				randomItem(
+					matchingItems( playerData, 'clothing', alignment )
+				),
+			distinguishingMark: () =>
+				randomItem( matchingItems( playerData, 'mark', alignment ) ),
+			voice: () =>
+				randomItem( matchingItems( playerData, 'voice', alignment ) ),
+			plotHook: () =>
+				randomItem(
+					matchingItems( playerData, 'plotHook', alignment )
+				),
+			personality: () =>
+				randomItem( matchingItems( playerData, 'trait', alignment ) ),
+			ideal: () =>
+				randomItem( matchingItems( playerData, 'ideal', alignment ) ),
+			bond: () =>
+				randomItem( matchingItems( playerData, 'bond', alignment ) ),
+			flaw: () =>
+				randomItem( matchingItems( playerData, 'flaw', alignment ) ),
+		};
+	}, [ currentOptions.current ] );
+
+	return returnGenerators;
+};
+
+const matchingItems = ( items, type, alignment ) => {
+	const matches = playerData.filter( ( item ) => {
+		if ( item.type !== type ) {
+			return false;
+		}
+		return (
+			( item.moral === 'any' || item.moral === alignment.moral ) &&
+			( item.ethic === 'any' || item.ethic === alignment.ethic )
+		);
+	} );
+	return matches;
+};
 
 /**
  * Select a random item, but choose another if the alignment conflicts.
  *
  * @param {Array} items List of items.
- * @param {string} alignment Selected alignment, or empty if it doesn't matter.
+ * @param {Object} alignment Alignment data.
  * @return {Object|string} Random item.
  */
-const randomItemWithAlignment = ( items, alignment = '' ) => {
+const randomMultipleAlignments = ( items, alignment ) => {
 	if ( ! alignment ) {
 		return randomItem( items );
 	}
-
-	let moral = 'neutral';
-	let ethic = 'neutral';
-
-	if ( [ 'lg', 'ln', 'le' ].includes( alignment ) ) {
-		ethic = 'lawful';
-	} else if ( [ 'cg', 'cn', 'ce' ].includes( alignment ) ) {
-		ethic = 'chaotic';
-	}
-
-	if ( [ 'lg', 'ng', 'cg' ].includes( alignment ) ) {
-		moral = 'good';
-	} else if ( [ 'le', 'ne', 'ce' ].includes( alignment ) ) {
-		moral = 'evil';
-	}
-
 	const filteredItems = items.filter( ( group ) => {
-		if ( group.moral && ! group.moral.includes( moral ) ) {
+		if ( group.moral && ! group.moral.includes( alignment.moral ) ) {
 			return false;
 		}
-		if ( group.ethic && ! group.ethic.includes( ethic ) ) {
+		if ( group.ethic && ! group.ethic.includes( alignment.ethic ) ) {
 			return false;
 		}
 		return true;
@@ -71,63 +159,4 @@ const randomItemWithAlignment = ( items, alignment = '' ) => {
 	return randomItem( filteredItems );
 };
 
-// race occupation gender
-const generators = ( {
-	race: selectedRace,
-	gender: selectedGender,
-	occupation: selectedOccupation,
-	alignment: selectedAlignment,
-} ) => {
-	const race = selectedRace || randomItem( Object.keys( races ) );
-	const gender =
-		selectedGender ||
-		randomItem( [ 'male', 'female', 'male', 'female', 'nonbinary' ] );
-	const alignment = selectedAlignment || randomItem( alignments ).id;
-	const occupation =
-		selectedOccupation ||
-		randomItem(
-			randomItemWithAlignment( occupations, alignment ).occupations
-		);
-	const raceData = races[ race ];
-	return {
-		name: () => randomItem( playerNames ),
-		gender: () => gender,
-		race: () => race,
-		occupation: () => occupation,
-		alignment: () => alignments.find( ( { id } ) => alignment === id ),
-		age: () => randomItem( ageDescriptors ),
-		height: () => {
-			const base = raceData.baseHeight || 4.67;
-			const modifier = raceData.heightModifier || '2d10';
-			const heightInFeet = base + roll.roll( modifier ).result / 12;
-			const feet = Math.floor( heightInFeet );
-			const inches = Math.round( ( heightInFeet - feet ) * 12 );
-			return feet + "'" + inches + '"';
-		},
-		weight: () => randomItem( weightDescriptors ),
-		appearance: () => {
-			const eyeColor = randomItem( raceData.eyeColors || eyeColors );
-			const hairColor = randomItem( raceData.hairColors || hairColors );
-			const skinColor = randomItem( raceData.skinColors || skinColors );
-			const eyeDescriptor = randomItem( eyeDescriptors );
-			const skinDescriptor = randomItem( skinDescriptors );
-			const hairDescriptor = randomItem( hairDescriptors );
-			return `Their skin is ${ skinColor } and ${ skinDescriptor }, their eyes are ${ eyeColor } and ${ eyeDescriptor }, and they have ${ hairColor } hair that is ${ hairDescriptor }.`;
-		},
-		lifestyle: () => {
-			// maybe.. relationships etc
-		},
-		clothing: () => randomItem( clothing ),
-		distinguishingMark: () => randomItem( distinguishingMarks ),
-		abilities: () => rollAbilities(),
-		voice: () => randomItemWithAlignment( voiceDescriptors, alignment ),
-		plotHook: () => randomItemWithAlignment( plotHooks, alignment ),
-		personality: () =>
-			randomItemWithAlignment( personalityTraits, alignment ),
-		ideal: () => randomItemWithAlignment( ideals, alignment ),
-		bond: () => randomItemWithAlignment( bonds, alignment ),
-		flaw: () => randomItemWithAlignment( flaws, alignment ),
-	};
-};
-
-export default generators;
+export default Generators;
