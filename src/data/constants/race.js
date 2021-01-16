@@ -12,12 +12,23 @@ export const hairColors = [
 	'light red',
 	'brown',
 	'auburn',
+	'copper red',
+	'orange',
+	'pink',
+	'blue',
 ];
 
 // @see https://preview.redd.it/51fh9i4c9q721.png?width=1128&format=png&auto=webp&s=e3be83a5ab34fe60ca870f03161b3b3f99866cba
 // @see https://www.dandwiki.com/wiki/Random_Hair_and_Eye_Color_(DnD_Other)
 export const eyeColors = [ 'amber', 'brown', 'hazel', 'green', 'blue', 'gray' ];
-const exoticEyeColors = [ ...eyeColors, 'yellow', 'aqua', 'red', 'purple' ];
+const exoticEyeColors = [
+	...eyeColors,
+	'yellow',
+	'aqua',
+	'red',
+	'purple',
+	'emerald green',
+];
 export const skinColors = [
 	'pale',
 	'fair',
@@ -149,9 +160,16 @@ const halfOrc = {
 	adjective: 'Half-Orcs',
 	baseHeight: 4.833,
 	heightModifier: '2d10',
-	eyeColors,
-	hairColors,
-	skinColors,
+	eyeColors: [ 'green', 'yellow', 'black' ],
+	hairColors: [ 'black', 'grey' ],
+	skinColors: [
+		'greenish',
+		'green',
+		'pale green',
+		'grey',
+		'brown',
+		'purplish grey',
+	],
 };
 
 const halfling = {
@@ -173,9 +191,26 @@ const tiefling = {
 	adjective: 'Tiefling',
 	baseHeight: 4.75,
 	heightModifier: '2d8',
-	eyeColors,
-	hairColors,
-	skinColors,
+	eyeColors: exoticEyeColors,
+	hairColors: [
+		'red',
+		'blonde',
+		'brown',
+		'dark blue',
+		'blue',
+		'purple',
+		'pink',
+	],
+	skinColors: [
+		'brick red',
+		'pale brown',
+		'brown',
+		'dark brown',
+		'ruddy',
+		'red',
+		'crimson',
+		'purple',
+	],
 };
 
 export const races = {

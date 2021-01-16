@@ -23,6 +23,7 @@ import { races } from './data/constants';
  * Database integration
  * More data
  * Move CSS to components
+ * BALD!
  * Move data under each component, e.g. npc/data npc/generator
  * https://docs.netlify.com/visitor-access/identity/
  * https://community.netlify.com/t/support-guide-understanding-and-using-netlifys-api/160
