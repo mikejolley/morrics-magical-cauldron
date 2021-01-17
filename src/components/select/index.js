@@ -30,7 +30,10 @@ const Select = ( { label, value, options, onChange } ) => {
 						( { value: optionValue, label: optionLabel } ) => {
 							if ( typeof optionValue === 'object' ) {
 								return (
-									<optgroup label={ optionLabel }>
+									<optgroup
+										label={ optionLabel }
+										key={ `select-${ label }-${ optionLabel }` }
+									>
 										{ optionValue.map(
 											( {
 												value: subOptionValue,
@@ -38,7 +41,7 @@ const Select = ( { label, value, options, onChange } ) => {
 											} ) => {
 												return (
 													<option
-														key={ `race-select-${ subOptionValue }` }
+														key={ `select-${ label }--${ subOptionValue }` }
 														value={ subOptionValue }
 													>
 														{ subOptionLabel }
@@ -51,7 +54,7 @@ const Select = ( { label, value, options, onChange } ) => {
 							}
 							return (
 								<option
-									key={ `race-select-${ optionValue }` }
+									key={ `select-${ label }-${ optionValue }` }
 									value={ optionValue }
 								>
 									{ optionLabel }

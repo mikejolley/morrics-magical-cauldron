@@ -1,0 +1,36 @@
+@import '../../../variables.scss';
+
+ul.ability-list {
+	display: flex;
+	list-style: none outside;
+	margin: 0;
+	padding: 0;
+	justify-content: space-between;
+	li.ability {
+		padding: 0 0.7em;
+		text-transform: uppercase;
+		color: lighten( $base-color, 50% );
+		font-size: 0.7em;
+		line-height: 1;
+		vertical-align: middle;
+		.ability__modifier {
+			display: block;
+			color: #fff;
+			font-size: 2rem;
+			padding: 0.2em 0;
+			font-weight: 700;
+		}
+		.ability__score {
+			display: inline-block;
+			border: 1px solid lighten( $base-color, 20% );
+			border-radius: 1em;
+			padding: 0.25em;
+			line-height: 1;
+		}
+	}
+	.ability__reroll {
+		vertical-align: middle;
+		font-size: 1.5rem;
+		height: 100%;
+	}
+}

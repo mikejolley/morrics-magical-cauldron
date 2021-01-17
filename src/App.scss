@@ -1,10 +1,8 @@
-@import url( 'https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap' );
-
-$base-color: #282c34;
+@import './variables.scss';
 
 body {
 	background-color: $base-color;
-	font: 400 20px 'Bitter', serif;
+	font: 400 18px 'Bitter', serif;
 	text-align: center;
 	color: lighten( #282c34, 80% );
 	-webkit-font-smoothing: antialiased;
@@ -29,6 +27,12 @@ button {
 	font-weight: 700;
 	text-align: center;
 	font-size: 2em;
+}
+
+.site-content {
+	padding: 0 3vh;
+	max-width: 1000px;
+	margin: 0 auto;
 }
 
 h1,
@@ -76,19 +80,32 @@ hgroup {
 	}
 }
 
-.site-content {
-	padding: 3vh;
+a {
+	color: #61dafb;
 }
 
-.generator-wrapper {
-	max-width: 1000px;
-	margin: 0 auto;
+.blank-slate,
+.loading-state,
+.error-state {
+	background: rgba( 0, 0, 0, 0.2 );
+	padding: 3em;
+	margin: 1.5em 0;
+	svg {
+		font-size: 4em;
+
+		> path {
+			fill: lighten( $base-color, 20% );
+		}
+	}
+	p {
+		margin: 1.5em 0 0 0;
+	}
 }
 
 .section {
 	border-bottom: 2px solid rgba( 0, 0, 0, 0.2 );
 	border-top: 2px solid rgba( 255, 255, 255, 0.05 );
-	padding: 3vw 0;
+	padding: 1.5em 0;
 
 	&:first-of-type {
 		padding-top: 0;
@@ -109,20 +126,6 @@ hgroup {
 	p:last-child {
 		margin-bottom: 0;
 	}
-
-	&.section-flex {
-		display: flex;
-		justify-content: center;
-		padding: 3vh 5px;
-		flex-wrap: wrap;
-
-		.field,
-		.select-field {
-			min-width: 40%;
-			flex: 1 1 0px;
-			margin: 5px;
-		}
-	}
 }
 
 .select-field {
@@ -133,7 +136,7 @@ hgroup {
 	select {
 		width: 100%;
 		padding: 0.5em;
-		font-size: 1.5em;
+		font-size: 1em;
 		background-color: lighten( $base-color, 10% );
 		box-sizing: border-box;
 		border: 2px solid darken( $base-color, 10% );
@@ -169,12 +172,13 @@ button.button {
 	box-sizing: border-box;
 	padding: 0.5em;
 	margin: 7px 5px;
-	font-size: 1.5em;
+	font-size: 1em;
 	appearance: none;
 	box-sizing: border-box;
 	line-height: 1;
 	display: block;
 	vertical-align: middle;
+	cursor: pointer;
 	&:focus {
 		box-shadow: 0 0 2px 2px #61dafb;
 		outline: 0;
@@ -233,114 +237,4 @@ button.reroll-button {
 }
 .field + .field {
 	margin: 3vw 0;
-}
-
-a {
-	color: #61dafb;
-}
-
-.inline-data {
-	display: inline;
-	border: 0;
-	transition: 0.3s all;
-	outline: 0;
-	padding: 0;
-	background: transparent none;
-	cursor: pointer;
-	color: inherit;
-	font-size: inherit;
-	line-height: inherit;
-	appearance: none;
-	border-radius: 5px;
-	padding: 0 0.3em;
-	span.inline-data-value {
-		border-bottom: 2px solid lighten( $base-color, 30% );
-		padding: 0.2em 0;
-	}
-	span.inline-data-value--capitalize {
-		text-transform: capitalize;
-	}
-	cite {
-		display: block;
-		font-size: 0.7em;
-		text-transform: lowercase;
-		color: lighten( $base-color, 30% );
-	}
-	&:hover,
-	&:focus {
-		background-color: lighten( $base-color, 10% );
-		span.inline-data-value {
-			border: 0;
-		}
-	}
-}
-
-.character-appearance p {
-	max-width: 700px;
-}
-
-ul.character-traits {
-	margin: 0 auto;
-	padding: 0;
-	list-style: none;
-	text-align: left;
-	display: table;
-	width: auto;
-	li {
-		line-height: 2;
-		display: table-row;
-		> strong {
-			padding: 0 0 0.5em 0;
-			display: table-cell;
-			color: lighten( $base-color, 30% );
-			white-space: nowrap;
-			font-weight: 400;
-			text-align: right;
-			&:after {
-				content: ':';
-				padding-right: 0.5em;
-			}
-		}
-		> span {
-			padding: 0 0 0.5em 0;
-			display: table-cell;
-		}
-	}
-	button {
-		text-align: left;
-	}
-}
-
-ul.attributes {
-	display: flex;
-	list-style: none outside;
-	margin: 0;
-	padding: 0;
-	justify-content: center;
-	li {
-		padding: 0 1.42em;
-		text-transform: uppercase;
-		color: lighten( $base-color, 50% );
-		font-size: 0.7em;
-		line-height: 1;
-		vertical-align: middle;
-		strong {
-			display: block;
-			color: #fff;
-			font-size: 2rem;
-			padding: 0.2em 0;
-		}
-		> span {
-			display: inline-block;
-			border: 1px solid lighten( $base-color, 20% );
-			border-radius: 1em;
-			padding: 0.25em;
-			line-height: 1;
-		}
-		button {
-			vertical-align: middle;
-			font-size: 1.5rem;
-			height: 100%;
-		}
-	}
 }

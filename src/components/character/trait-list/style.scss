@@ -1,0 +1,33 @@
+@import '../../../variables.scss';
+
+ul.trait-list {
+	margin: 0 auto;
+	padding: 0;
+	list-style: none;
+	text-align: left;
+	display: table;
+	width: auto;
+	li {
+		line-height: 2;
+		display: table-row;
+		> strong {
+			padding: 0 0 0.75em 0;
+			display: table-cell;
+			color: lighten( $base-color, 30% );
+			white-space: nowrap;
+			font-weight: 400;
+			text-align: right;
+			&:after {
+				content: ':';
+				padding-right: 0.5em;
+			}
+		}
+		> span {
+			padding: 0 0 0.75em 0;
+			display: table-cell;
+		}
+	}
+	button {
+		text-align: left;
+	}
+}

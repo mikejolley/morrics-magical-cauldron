@@ -9,6 +9,8 @@ export const skinDescriptors = [
 	'rough',
 	'scarred',
 	'glittering',
+	'pimpled',
+	'dirty',
 ];
 
 export default skinDescriptors;

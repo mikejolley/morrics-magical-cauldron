@@ -2,53 +2,52 @@
  * External dependencies
  */
 import randomItem from 'random-item';
+import Roll from 'roll';
 
 /**
- * Internal dependencies
+ * Allows string based die rolls e.g. 2d6.
  */
-import { playerNames } from '../constants';
+export const roll = new Roll();
 
-/**
- * Generates all fields, and allows some values to be fixed/forced.
- *
- * @param {Object} generators Object containing generator callbacks.
- * @param {Object} fixedValues Object containing a list of values to force (do not generate randomly).
- * @return {Object} Generated data.
- */
-export const generateAll = ( generators, fixedValues = {} ) => {
-	const data = {};
-
-	Object.entries( generators ).forEach( ( [ key, value ] ) => {
-		data[ key ] = fixedValues[ key ] ? fixedValues[ key ] : value();
+export const matchingItems = (
+	items,
+	type,
+	alignment = { moral: 'neutral', ethic: 'neutral' }
+) => {
+	const matches = items.filter( ( item ) => {
+		if ( item.type !== type ) {
+			return false;
+		}
+		return (
+			( item.moral === 'any' || item.moral === alignment.moral ) &&
+			( item.ethic === 'any' || item.ethic === alignment.ethic )
+		);
 	} );
-
-	return data;
+	return matches;
 };
 
 /**
- * Generates a list of fields.
+ * Select a random item, but choose another if the alignment conflicts.
  *
- * @param {Object} generators Array of generator callbacks.
- * @param {Array|string} fields Array containing a list of fields to generate.
- * @return {Object} Generated data.
+ * @param {Array} items List of items.
+ * @param {Object} alignment Alignment data.
+ * @return {Object|string} Random item.
  */
-export const generateFields = ( generators, fields = [] ) => {
-	const data = {};
-
-	if ( ! fields ) {
-		return data;
+export const randomMultipleAlignments = ( items, alignment ) => {
+	if ( ! alignment ) {
+		return randomItem( items );
 	}
+	const filteredItems = items.filter( ( group ) => {
+		if ( group.moral && ! group.moral.includes( alignment.moral ) ) {
+			return false;
+		}
+		if ( group.ethic && ! group.ethic.includes( alignment.ethic ) ) {
+			return false;
+		}
+		return true;
+	} );
 
-	if ( Array.isArray( fields ) ) {
-		fields.map( ( field ) => {
-			data[ field ] = generators[ field ]();
-			return field;
-		} );
-	} else {
-		data[ fields ] = generators[ fields ]();
-	}
-
-	return data;
+	return randomItem( filteredItems );
 };
 
 /**
@@ -140,11 +139,12 @@ export const parseNameTemplate = ( string, content = {} ) => {
 /**
  * generate a name for a race and gender.
  *
+ * @param {Array} playerNames Array of player names and templates.
  * @param {string} race Race to generate a name for.
  * @param {string} gender Gender to generate a name for.
  * @return {string} A generated name.
  */
-export const generateName = ( race, gender ) => {
+export const generateName = ( playerNames, race, gender ) => {
 	const raceTemplates = playerNames[ race ].templates;
 
 	if ( ! raceTemplates ) {
@@ -189,4 +189,15 @@ export const generateName = ( race, gender ) => {
 				tieflingFirst: randomItem( playerNames.tiefling[ gender ] ),
 			} );
 	}
+};
+
+export const rollAbilities = () => {
+	return {
+		str: roll.roll( '4d6b3' ).result,
+		dex: roll.roll( '4d6b3' ).result,
+		con: roll.roll( '4d6b3' ).result,
+		int: roll.roll( '4d6b3' ).result,
+		wis: roll.roll( '4d6b3' ).result,
+		cha: roll.roll( '4d6b3' ).result,
+	};
 };

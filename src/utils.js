@@ -11,24 +11,19 @@ export const roll = new Roll();
 // roll 4 6-sided die and record the cumulative
 // total of the highest 3 dice 6 times
 export const rollAbilityScore = () => {
-	const rolls = [
-		rollDice( 6 ),
-		rollDice( 6 ),
-		rollDice( 6 ),
-		rollDice( 6 ),
-	];
+	const rolls = [rollDice(6), rollDice(6), rollDice(6), rollDice(6)];
 	// Sort ascending.
-	rolls.sort( ( a, b ) => a - b );
+	rolls.sort((a, b) => a - b);
 	// Remove lowest value.
 	rolls.shift();
 	// Return the sum.
-	return rolls.reduce( ( a, c ) => a + c, 0 );
+	return rolls.reduce((a, c) => a + c, 0);
 };
 
-export const rollDice = ( sides ) => {
+export const rollDice = (sides) => {
 	const min = 1;
 	const max = sides;
-	return min + Math.floor( Math.random() * ( max - min + 1 ) );
+	return min + Math.floor(Math.random() * (max - min + 1));
 };
 
 export const rollAbilities = () => {
@@ -41,11 +36,8 @@ export const rollAbilities = () => {
 	};
 };
 
-export const capitalizeFirstLetter = ( string ) =>
-	string.charAt( 0 ).toUpperCase() + string.slice( 1 );
-
-export const getAbiltyScore = ( name, abilities, age ) => {
-	const actual = abilities[ name ];
+export const getAbiltyScore = (name, abilities, age) => {
+	const actual = abilities[name];
 	const adjustments = {
 		int: {
 			'a middle aged': 1,
@@ -78,8 +70,8 @@ export const getAbiltyScore = ( name, abilities, age ) => {
 			'a venerable': -6,
 		},
 	};
-	if ( adjustments[ name ][ age ] !== undefined ) {
-		return Math.max( 1, actual + adjustments[ name ][ age ] );
+	if (adjustments[name][age] !== undefined) {
+		return Math.max(1, actual + adjustments[name][age]);
 	}
 	return actual;
 };

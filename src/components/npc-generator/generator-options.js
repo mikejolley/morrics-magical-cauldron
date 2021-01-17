@@ -1,12 +1,15 @@
+import { useState } from 'react';
+
 /**
  * Internal dependencies
  */
-import Select from '../select';
-import { races, occupations, alignments } from '../../data/constants';
+import Select from '@components/select';
+import { races, occupations, alignments, genders } from '@shared/data';
 
-const NpcOptions = ( { options, setOptions, onDone } ) => {
+const GeneratorOptions = ( { onChange } ) => {
+	const [ options, setOptions ] = useState( {} );
 	return (
-		<>
+		<div className="npc-generator__options">
 			<Select
 				label="Race"
 				value={ options.race }
@@ -32,9 +35,10 @@ const NpcOptions = ( { options, setOptions, onDone } ) => {
 				}
 				options={ [
 					{ value: '', label: 'Any Gender' },
-					{ value: 'male', label: 'Male' },
-					{ value: 'female', label: 'Female' },
-					{ value: 'nonbinary', label: 'Nonbinary' },
+					...Object.values( genders ).map( ( { id, name } ) => ( {
+						value: id,
+						label: name,
+					} ) ),
 				] }
 			/>
 			<Select
@@ -75,11 +79,16 @@ const NpcOptions = ( { options, setOptions, onDone } ) => {
 					),
 				] }
 			/>
-			<button className="button" onClick={ onDone }>
-				Generate NPC
+			<button
+				className="button"
+				onClick={ () => {
+					onChange( options );
+				} }
+			>
+				Generate
 			</button>
-		</>
+		</div>
 	);
 };
 
-export default NpcOptions;
+export default GeneratorOptions;

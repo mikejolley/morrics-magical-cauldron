@@ -7,6 +7,14 @@ export const eyeDescriptors = [
 	'glowing',
 	'cross',
 	'weird',
+	'odd',
+	'beautiful',
+	'alluring',
+	'gorgeous',
+	'attractive',
+	'cute',
+	'dull',
+	'foggy',
 ];
 
 export default eyeDescriptors;

@@ -1,0 +1,37 @@
+@import '../../variables.scss';
+
+.inline-data {
+	display: inline;
+	border: 0;
+	transition: 0.3s all;
+	outline: 0;
+	padding: 0;
+	background: transparent none;
+	cursor: pointer;
+	color: inherit;
+	font-size: inherit;
+	line-height: inherit;
+	appearance: none;
+	border-radius: 5px;
+	padding: 0 0.3em;
+	span.inline-data-value {
+		border-bottom: 2px solid lighten( $base-color, 30% );
+		padding: 0.2em 0;
+	}
+	span.inline-data-value--capitalize {
+		text-transform: capitalize;
+	}
+	cite {
+		display: block;
+		font-size: 0.75em;
+		text-transform: lowercase;
+		color: lighten( $base-color, 30% );
+	}
+	&:hover,
+	&:focus {
+		background-color: lighten( $base-color, 10% );
+		span.inline-data-value {
+			border: 0;
+		}
+	}
+}
