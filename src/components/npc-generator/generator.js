@@ -1,10 +1,11 @@
 /**
  * External dependencies
  */
-import { useState, useCallback } from 'react';
+import { useCallback } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faScroll } from '@fortawesome/free-solid-svg-icons';
+import { useLocalStorage } from '@hooks';
 
 /**
  * Internal dependencies
@@ -15,7 +16,10 @@ import { useGenerator } from './use-generator';
 import { generateFields } from '@shared/utils';
 
 const Generator = ( { data: sourceData } ) => {
-	const [ characters, setCharacters ] = useState( {} );
+	const [ characters, setCharacters ] = useLocalStorage(
+		'npc-generator',
+		{}
+	);
 	const callbacks = useGenerator( sourceData );
 
 	/**
@@ -29,6 +33,16 @@ const Generator = ( { data: sourceData } ) => {
 			[ uuidv4() ]: generateFields( callbacks( options ) ),
 		} );
 	};
+
+	const removeCharacter = useCallback(
+		( id ) => {
+			setCharacters( {
+				...characters,
+				[ id ]: undefined,
+			} );
+		},
+		[ setCharacters, characters ]
+	);
 
 	const rerollCharacterData = useCallback(
 		( id, fields ) => {
@@ -69,6 +83,9 @@ const Generator = ( { data: sourceData } ) => {
 									characterData={ characterData }
 									onClickData={ ( fields ) => {
 										rerollCharacterData( id, fields );
+									} }
+									onRemove={ () => {
+										removeCharacter( id );
 									} }
 								/>
 							);

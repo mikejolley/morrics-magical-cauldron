@@ -4,7 +4,7 @@ import AbilityList from './ability-list';
 import TraitList from './trait-list';
 import './style.scss';
 
-const Character = ( { characterData, onClickData } ) => {
+const Character = ( { characterData, onClickData, onRemove } ) => {
 	if ( ! characterData ) {
 		return null;
 	}
@@ -22,6 +22,11 @@ const Character = ( { characterData, onClickData } ) => {
 	} = characterData;
 	return (
 		<div className="character-card">
+			{ onRemove && (
+				<button className="character-card__delete" onClick={ onRemove }>
+					Delete
+				</button>
+			) }
 			<div className="section character-appearance">
 				<hgroup>
 					<h3>{ name }</h3>

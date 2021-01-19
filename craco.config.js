@@ -6,6 +6,7 @@ module.exports = {
 		alias: {
 			'@components': path.resolve( __dirname, 'src/components/' ),
 			'@shared': path.resolve( __dirname, 'src/shared/' ),
+			'@hooks': path.resolve( __dirname, 'src/hooks/' ),
 		},
 	},
 	plugins: [
