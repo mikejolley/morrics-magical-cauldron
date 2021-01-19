@@ -36,10 +36,9 @@ const Generator = ( { data: sourceData } ) => {
 
 	const removeCharacter = useCallback(
 		( id ) => {
-			setCharacters( {
-				...characters,
-				[ id ]: undefined,
-			} );
+			const newCharacters = { ...characters };
+			delete newCharacters[ id ];
+			setCharacters( newCharacters );
 		},
 		[ setCharacters, characters ]
 	);
