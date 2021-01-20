@@ -76,7 +76,7 @@ export const useGenerator = ( sourceData ) => {
 			race: () => race,
 			occupation: () =>
 				selectedOccupation || randomOccupation( alignment ),
-			alignment: () => alignmentData.description,
+			alignment: () => alignmentData.id,
 			age: () => randomItem( ageDescriptors ),
 			height: () => {
 				const base = raceData.baseHeight || 4.67;

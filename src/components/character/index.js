@@ -3,6 +3,7 @@ import InlineData from '../inline-data';
 import AbilityList from './ability-list';
 import TraitList from './trait-list';
 import './style.scss';
+import { alignments } from '@shared/data';
 
 const Character = ( { characterData, onClickData, onRemove } ) => {
 	if ( ! characterData ) {
@@ -20,6 +21,8 @@ const Character = ( { characterData, onClickData, onRemove } ) => {
 		appearance,
 		abilities,
 	} = characterData;
+	const alignmentData = alignments.find( ( { id } ) => id === alignment );
+
 	return (
 		<div className="character-card">
 			{ onRemove && (
@@ -31,10 +34,9 @@ const Character = ( { characterData, onClickData, onRemove } ) => {
 				<hgroup>
 					<h3>{ name }</h3>
 					<h4>
-						{ `${ alignment } :: ${ gender } ${ getRaceProp(
-							race,
-							'singular'
-						) }` }
+						{ `${
+							alignmentData?.description
+						} :: ${ gender } ${ getRaceProp( race, 'singular' ) }` }
 					</h4>
 				</hgroup>
 				<p>
