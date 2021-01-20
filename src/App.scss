@@ -237,6 +237,18 @@ button.button {
 	}
 }
 
+button.reroll-button {
+	border: 0;
+	outline: 0;
+	padding: 0;
+	background: transparent none;
+	cursor: pointer;
+	opacity: 0.5;
+	&:hover {
+		opacity: 1;
+	}
+}
+
 .field {
 	text-align: left;
 	margin: 0;
