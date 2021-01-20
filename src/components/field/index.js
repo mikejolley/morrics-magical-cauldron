@@ -1,21 +1,30 @@
 import TextareaAutosize from 'react-textarea-autosize';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 
 /**
  * Renders a form field.
  *
  * @param {Object} props Incoming props for the component.
  * @param {string} props.label Label for field.
+ * @param {string} props.placeholder Placeholder for field.
+ * @param {string} props.description Description of field.
  * @param {string} props.value Data to show.
  * @param {boolean} props.grow If true, the field will be a textarea that grows with input.
- * @param {Function} props.reroll Ran on reroll.
  * @param {Object} props.props Remaining props.
  */
-const Field = ( { label, value, grow, reroll, ...props } ) => {
+const Field = ( {
+	label,
+	placeholder,
+	description,
+	value,
+	grow,
+	...props
+} ) => {
 	const inputProps = {
 		...props,
 		id: `field-${ label }`,
-		placeholder: label,
-		readOnly: true,
+		placeholder,
 		value,
 	};
 	return (
@@ -27,13 +36,16 @@ const Field = ( { label, value, grow, reroll, ...props } ) => {
 				) : (
 					<input type="text" { ...inputProps } />
 				) }
-
-				<button className="reroll-button" onClick={ reroll }>
-					<span aria-label="Reroll" role="img">
-						🎲
-					</span>
-				</button>
 			</div>
+			{ description && (
+				<p className="field__description">
+					<FontAwesomeIcon
+						icon={ faInfoCircle }
+						aria-hidden={ true }
+					/>
+					{ description }
+				</p>
+			) }
 		</div>
 	);
 };

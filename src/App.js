@@ -3,45 +3,79 @@
 /**
  * External dependencies
  */
-import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
+import { Link, Router } from '@reach/router';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUserCircle, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 
 /**
  * Internal dependencies
  */
 import './App.scss';
-import NpcGenerator from './components/npc-generator';
-
-const client = new ApolloClient( {
-	uri: '/api/player-data',
-	cache: new InMemoryCache(),
-} );
-
+import NpcGenerator from '@components/npc-generator';
+import Submit from '@components/submit';
 /**
  * TODO:
  * Submissions
- * Split NPC component out
  * Database integration
  * More data
- * Move CSS to components
  * BALD!
- * Move data under each component, e.g. npc/data npc/generator
  * https://docs.netlify.com/visitor-access/identity/
  * https://community.netlify.com/t/support-guide-understanding-and-using-netlifys-api/160
  * https://open-api.netlify.com/#operation/listMembersForAccount
  * https://fill-fauna.now.sh/
  */
 
-// APP will become NPC component.
+const NotFound = () => <p>Sorry, nothing here</p>;
+
+const NavLink = ( props ) => (
+	<Link
+		{ ...props }
+		getProps={ ( { isCurrent } ) => {
+			return {
+				className: isCurrent ? 'page page--current' : 'page',
+			};
+		} }
+	/>
+);
+
 function App() {
 	return (
-		<ApolloProvider client={ client }>
-			<div className="app">
-				<header className="site-header">Dungeons &amp; Randoms</header>
-				<div className="site-content">
-					<NpcGenerator />
-				</div>
+		<div className="app">
+			<header className="site-header">
+				<h1>
+					Dungeons <em>&amp;</em> <span>Randoms</span>
+				</h1>
+				<nav>
+					<ul>
+						<li>
+							<NavLink to="/" aria-label="NPC Generator">
+								<FontAwesomeIcon
+									icon={ faUserCircle }
+									aria-hidden={ true }
+								/>
+								<span>NPCs</span>
+							</NavLink>
+						</li>
+						<li>
+							<NavLink to="submit" aria-label="Submit Content">
+								<FontAwesomeIcon
+									icon={ faPlusCircle }
+									aria-hidden={ true }
+								/>
+								<span>Submit</span>
+							</NavLink>
+						</li>
+					</ul>
+				</nav>
+			</header>
+			<div className="site-content">
+				<Router>
+					<NotFound default />
+					<NpcGenerator path="/" />
+					<Submit path="/submit" />
+				</Router>
 			</div>
-		</ApolloProvider>
+		</div>
 	);
 }
 

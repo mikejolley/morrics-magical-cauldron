@@ -33,6 +33,7 @@
 		top: 0;
 		line-height: 0;
 		margin: -1.25em -1.75em;
+		@include grow;
 		&:after {
 			visibility: visible;
 			content: 'x';
@@ -49,7 +50,7 @@
 			cursor: pointer;
 		}
 		&:hover:after {
-			background-color: red;
+			background-color: $accent-color;
 			color: white;
 		}
 	}

@@ -98,7 +98,7 @@ export const useGenerator = ( sourceData ) => {
 				const eyeDescriptor = randomItem( eyeDescriptors );
 				const skinDescriptor = randomItem( skinDescriptors );
 				const hairDescriptor = randomItem( hairDescriptors );
-				return `Their skin is ${ skinColor } and ${ skinDescriptor }, their eyes are ${ eyeColor } and ${ eyeDescriptor }, and they have ${ hairColor } hair that is ${ hairDescriptor }.`;
+				return `They have ${ skinDescriptor }, ${ skinColor } skin, ${ eyeDescriptor }, ${ eyeColor } eyes, and their hair is ${ hairColor } and ${ hairDescriptor }.`;
 			},
 			abilities: () => rollAbilities(),
 			clothing: () =>

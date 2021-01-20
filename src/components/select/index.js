@@ -2,6 +2,8 @@
  * External dependenices
  */
 import { useId } from 'react-id-generator';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 
 /**
  * Renders a form field.
@@ -10,15 +12,26 @@ import { useId } from 'react-id-generator';
  * @param {string} props.label Label element text.
  * @param {string} props.value Current value.
  * @param {Array} props.options Select options.
+ * @param {string} props.description Description of field.
+ * @param {Array} props.hiddenLabel Should label be hidden.
  * @param {Function} props.onChange Select onChange event.
  */
-const Select = ( { label, value, options, onChange } ) => {
+const Select = ( {
+	label,
+	value,
+	options,
+	description,
+	onChange,
+	hiddenLabel = true,
+} ) => {
 	const [ htmlId ] = useId();
 
 	return (
-		<div className="select-field">
-			<label htmlFor={ htmlId }>{ label }</label>
-			<div className="field-input">
+		<div className="field select-field">
+			<label className={ hiddenLabel ? 'hidden' : '' } htmlFor={ htmlId }>
+				{ label }
+			</label>
+			<div className="field__input">
 				<select
 					id={ htmlId }
 					options={ options }
@@ -64,6 +77,15 @@ const Select = ( { label, value, options, onChange } ) => {
 					) }
 				</select>
 			</div>
+			{ description && (
+				<p className="field__description">
+					<FontAwesomeIcon
+						icon={ faInfoCircle }
+						aria-hidden={ true }
+					/>
+					{ description }
+				</p>
+			) }
 		</div>
 	);
 };
