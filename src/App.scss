@@ -61,22 +61,46 @@ header {
 	h1 {
 		margin: 0;
 		text-transform: uppercase;
-		letter-spacing: -2px;
 		font-weight: 700;
-		background: linear-gradient( white, wheat );
-		background-size: 100%;
-		background-clip: text;
-		-webkit-text-fill-color: transparent;
-		-moz-text-fill-color: transparent;
-		font-size: 1.8rem;
+		font-size: 2rem;
+		flex-wrap: wrap;
+		letter-spacing: -2px;
+		align-items: flex-end;
+		line-height: 1;
+		> * {
+			display: block;
+		}
 		em {
 			color: $accent-color;
 			-webkit-text-fill-color: $accent-color;
 			-moz-text-fill-color: $accent-color;
+			font-size: 0.7em;
+			font-style: normal;
+			display: flex;
+			align-items: center;
+			justify-content: space-evenly;
+			margin: -0.1rem 0;
+			span {
+				flex: 0 1 auto;
+				margin: 0 10px;
+			}
+			&:before,
+			&:after {
+				background-color: $accent-color;
+				content: '';
+				height: 3px;
+				flex: 1 1 auto;
+			}
 		}
-		span {
-			display: block;
-			font-size: 1.25em;
+		> span {
+			background: linear-gradient( white, wheat );
+			background-size: 100%;
+			background-clip: text;
+			-webkit-text-fill-color: transparent;
+			-moz-text-fill-color: transparent;
+		}
+		> span:last-child {
+			letter-spacing: -1px;
 		}
 	}
 }

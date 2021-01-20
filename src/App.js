@@ -43,7 +43,11 @@ function App() {
 		<div className="app">
 			<header className="site-header">
 				<h1>
-					Dungeons <em>&amp;</em> <span>Randoms</span>
+					<span>Dungeons</span>
+					<em>
+						<span> &amp; </span>
+					</em>
+					<span>Randoms</span>
 				</h1>
 				<nav>
 					<ul>
