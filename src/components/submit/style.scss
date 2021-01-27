@@ -1,7 +1,16 @@
 @import '../../variables.scss';
 
-.submit-content {
-	max-width: 500px;
+p.content-description {
+	font-size: 1em;
+	margin: 1em 0 0 0;
+	em {
+		color: wheat;
+		font-style: italic;
+	}
+}
+
+.submit-content-form {
+	max-width: 400px;
 	margin: 0 auto;
 }
 

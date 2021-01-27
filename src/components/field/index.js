@@ -11,6 +11,7 @@ import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
  * @param {string} props.description Description of field.
  * @param {string} props.value Data to show.
  * @param {boolean} props.grow If true, the field will be a textarea that grows with input.
+ * @param {Function} props.onChange Input onChange event.
  * @param {Object} props.props Remaining props.
  */
 const Field = ( {
@@ -19,6 +20,7 @@ const Field = ( {
 	description,
 	value,
 	grow,
+	onChange,
 	...props
 } ) => {
 	const inputProps = {
@@ -32,9 +34,16 @@ const Field = ( {
 			<label htmlFor={ `field-${ label }` }>{ label }</label>
 			<div className="field-input">
 				{ grow === true ? (
-					<TextareaAutosize { ...inputProps } />
+					<TextareaAutosize
+						{ ...inputProps }
+						onChange={ ( event ) => onChange( event.target.value ) }
+					/>
 				) : (
-					<input type="text" { ...inputProps } />
+					<input
+						type="text"
+						{ ...inputProps }
+						onChange={ ( event ) => onChange( event.target.value ) }
+					/>
 				) }
 			</div>
 			{ description && (

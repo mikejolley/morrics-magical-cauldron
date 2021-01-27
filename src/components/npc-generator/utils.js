@@ -15,12 +15,14 @@ export const matchingItems = (
 	alignment = { moral: 'neutral', ethic: 'neutral' }
 ) => {
 	const matches = items.filter( ( item ) => {
-		if ( item.type !== type ) {
+		if ( ! item.characterDataType.includes( type ) ) {
 			return false;
 		}
 		return (
-			( item.moral === 'any' || item.moral === alignment.moral ) &&
-			( item.ethic === 'any' || item.ethic === alignment.ethic )
+			( item.moral.includes( 'any' ) ||
+				item.moral.includes( alignment.moral ) ) &&
+			( item.ethic.includes( 'any' ) ||
+				item.ethic.includes( alignment.ethic ) )
 		);
 	} );
 	return matches;

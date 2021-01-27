@@ -69,7 +69,12 @@ const Generator = ( { data: sourceData } ) => {
 
 	return (
 		<div className="npc-generator">
-			<GeneratorOptions onChange={ generate } />
+			<hgroup>
+				<h2>NPC Generator</h2>
+				<div>
+					<GeneratorOptions onChange={ generate } />
+				</div>
+			</hgroup>
 			{ Object.keys( characters ).length ? (
 				<div className="character-cards">
 					{ Object.entries( characters )

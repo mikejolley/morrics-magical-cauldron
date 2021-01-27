@@ -1,3 +1,4 @@
+import { autop } from '@wordpress/autop';
 import InlineData from '@components/inline-data';
 
 const TraitItem = ( { name, onReroll, data = {} } ) => {
@@ -6,8 +7,8 @@ const TraitItem = ( { name, onReroll, data = {} } ) => {
 			<strong>{ name }</strong>
 			<span>
 				<InlineData
-					value={ data.description || 'None' }
-					author={ data.author || '' }
+					value={ autop( data.content || 'None' ) }
+					author={ data?.author?.node?.name || '' }
 					onClick={ onReroll }
 				/>
 			</span>

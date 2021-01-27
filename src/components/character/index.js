@@ -35,7 +35,7 @@ const Character = ( { characterData, onClickData, onRemove } ) => {
 					<h3>{ name }</h3>
 					<h4>
 						{ `${
-							alignmentData?.description
+							alignmentData?.content
 						} :: ${ gender } ${ getRaceProp( race, 'singular' ) }` }
 					</h4>
 				</hgroup>
@@ -74,15 +74,17 @@ const Character = ( { characterData, onClickData, onRemove } ) => {
 				</p>
 				<p>
 					<InlineData
-						value={ characterData.clothing?.description }
-						author={ characterData.clothing?.author }
+						value={ characterData.clothing?.content }
+						author={ characterData.clothing?.author?.node?.name }
 						onClick={ () => onClickData( 'clothing' ) }
 					/>
 				</p>
 				<p>
 					<InlineData
-						value={ characterData.distinguishingMark?.description }
-						author={ characterData.distinguishingMark?.author }
+						value={ characterData.distinguishingMark?.content }
+						author={
+							characterData.distinguishingMark?.author?.node?.name
+						}
 						onClick={ () => onClickData( 'distinguishingMark' ) }
 					/>
 				</p>

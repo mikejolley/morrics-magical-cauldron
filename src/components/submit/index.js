@@ -2,8 +2,7 @@
  * External dependencies
  */
 import { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faQuoteLeft } from '@fortawesome/free-solid-svg-icons';
+import { Redirect } from '@reach/router';
 
 /**
  * Internal dependencies
@@ -11,84 +10,63 @@ import { faQuoteLeft } from '@fortawesome/free-solid-svg-icons';
 import Select from '@components/select';
 import Field from '@components/field';
 import './style.scss';
-
-// List of content types users can submit to the site.
-const contentTypes = {
-	clothing: {
-		name: 'Character: Clothing',
-		example: 'They are wearing a long, purple robe.',
-	},
-	distinguishingMarks: {
-		name: 'Character: Distinguishing Marks',
-		example: 'They have a wooden leg.',
-	},
-	personality: {
-		name: 'Character: Personality traits',
-		example: 'Cheerful, but annoyingly so.',
-	},
-	ideal: {
-		name: 'Character: Ideal',
-		example: 'Believes everyone deserves a second chance.',
-	},
-	bond: {
-		name: 'Character: Bond',
-		example: 'Their lifelong friend, Dave.',
-	},
-	flaw: {
-		name: 'Character: Flaw',
-		example: 'Cannot be trusted.',
-	},
-	voice: {
-		name: 'Character: Voice/accent',
-		example: 'Speaks with a Northern accent.',
-	},
-	plotHook: {
-		name: 'Character: Plot hook',
-		example: 'They need someone to fetch an important item.',
-	},
-};
+import { contentTypes } from './constants';
+import { useAuth } from '@hooks';
 
 const Submit = () => {
+	const { isLoggedIn } = useAuth();
 	const [ contentType, setContentType ] = useState( 'clothing' );
 	const [ moral, setMoral ] = useState( 'any' );
 	const [ ethic, setEthic ] = useState( 'any' );
+	const [ content, setContent ] = useState( '' );
+	//const { submit } = useSubmitMutation();
 	const currentContentType = contentTypes[ contentType ];
+
+	if ( ! isLoggedIn ) {
+		return <Redirect to="/account" noThrow />;
+	}
+
+	const onSubmit = () => {
+		// add status to this hook.
+		//submit( content, moral, ethic, contentType );
+	};
+
 	return (
 		<div className="section submit-content">
 			<hgroup>
 				<h2>Submit Content</h2>
-			</hgroup>
-			<p>
-				Submit content to the random content generators below. Please
-				keep it clean and be mindful of others :)
-			</p>
-			<div className="submit-content-form">
-				<Select
-					label="Type of content"
-					value={ contentType }
-					onChange={ ( value ) => {
-						setContentType( value );
-					} }
-					options={ Object.entries( contentTypes ).map(
-						( [ id, { name } ] ) => ( {
-							value: id,
-							label: name,
-						} )
-					) }
-				/>
-				<blockquote>
-					<FontAwesomeIcon
-						icon={ faQuoteLeft }
-						aria-hidden={ true }
+				<div>
+					<Select
+						label="Content Type"
+						value={ contentType }
+						onChange={ ( value ) => {
+							setContentType( value );
+						} }
+						hiddenLabel={ true }
+						options={ Object.entries( contentTypes ).map(
+							( [ id, { name } ] ) => ( {
+								value: id,
+								label: name,
+							} )
+						) }
 					/>
-					<p>{ currentContentType.example }</p>
-				</blockquote>
+					<p className="content-description">
+						{ currentContentType.description } Example:{ ' ' }
+						<em>{ currentContentType.example }</em>
+					</p>
+				</div>
+			</hgroup>
+			<div className="submit-content-form">
 				<div className="submit-content-form__group">
 					<Field
 						label="Content"
 						placeholder="Enter some text"
 						description="Please use third-person language and they/them/their pronouns."
 						grow={ true }
+						onChange={ ( value ) => {
+							setContent( value );
+						} }
+						value={ content }
 					/>
 					<div className="submit-content-form__alignment">
 						<Select
@@ -145,7 +123,10 @@ const Submit = () => {
 						/>
 					</div>
 				</div>
-				<button className="button button--center button--large">
+				<button
+					className="button button--center button--large"
+					onClick={ onSubmit }
+				>
 					Submit
 				</button>
 			</div>

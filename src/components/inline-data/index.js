@@ -19,9 +19,12 @@ const InlineField = ( {
 } ) => {
 	return (
 		<button className={ `inline-data` } onClick={ onClick }>
-			<span className={ `inline-data-value` }>
-				{ prefix } { value } { suffix }
-			</span>
+			<span
+				className={ `inline-data-value` }
+				dangerouslySetInnerHTML={ {
+					__html: `${ prefix } ${ value } ${ suffix }`,
+				} }
+			/>
 			{ author && <cite>{ `Submitted by ${ author }` }</cite> }
 		</button>
 	);

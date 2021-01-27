@@ -1,14 +1,18 @@
 import { gql } from '@apollo/client';
 
 export const GET_PLAYER_DATA = gql`
-	query allPlayerData {
-		allPlayerData {
-			data {
-				type
-				description
+	query allCharacterData {
+		characterData {
+			nodes {
 				moral
 				ethic
-				author
+				characterDataType
+				content
+				author {
+					node {
+						name
+					}
+				}
 			}
 		}
 	}
