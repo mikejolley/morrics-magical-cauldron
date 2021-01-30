@@ -4,7 +4,7 @@
 import { gql, useMutation } from '@apollo/client';
 
 const SUBMIT = gql`
-	mutation Login(
+	mutation SubmitCharacterData(
 		$content: String!
 		$moral: [MoralField]!
 		$ethic: [EthicField]!
