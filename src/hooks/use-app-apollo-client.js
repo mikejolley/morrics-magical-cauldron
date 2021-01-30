@@ -11,7 +11,7 @@ import { BatchHttpLink } from '@apollo/client/link/batch-http';
 
 const cache = new InMemoryCache( {} );
 const httpLink = new BatchHttpLink( {
-	uri: 'https://dungeonsandrandoms.local/index.php?graphql',
+	uri: 'https://morricsmagicalcauldron.wpcomstaging.com/index.php?graphql',
 	credentials: 'include',
 } );
 
