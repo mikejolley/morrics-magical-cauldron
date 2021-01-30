@@ -11,7 +11,8 @@ export const Homepage = () => {
 		<>
 			<div className="section feature">
 				<p>
-					<mark>Morric's Magical Cauldron</mark> is a collection of
+					<mark>Morric&#x27;s Magical Cauldron</mark> is a collection
+					of
 					<mark>random content generators</mark> intended to be used
 					in casual games of <mark>Dungeons of Dragons</mark>.
 				</p>

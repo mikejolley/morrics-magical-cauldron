@@ -10,7 +10,7 @@ import Loading from '../loading';
  * @param {Function} props.onClick Ran on click.
  * @param {string} props.prefix Prepended to the value.
  * @param {string} props.suffix Appended to the value.
- * @param props.loading
+ * @param {boolean} props.loading True when loading content.
  */
 const InlineField = ( {
 	value = '-',
