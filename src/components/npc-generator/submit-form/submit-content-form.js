@@ -57,18 +57,12 @@ export const SubmitContentForm = () => {
 		} ).then( ( data ) => {
 			if ( isSubscribed.current && data ) {
 				setContent( '' );
-				if (
-					data?.submitCharacterData?.characterDatum?.status ===
-					'publish'
-				) {
+				if ( data?.submitCharacterData?.status === 'publish' ) {
 					setSuccess(
 						'Thanks! Your content was successfully submitted!'
 					);
 				}
-				if (
-					data?.submitCharacterData?.characterDatum?.status ===
-					'pending'
-				) {
+				if ( data?.submitCharacterData?.status === 'pending' ) {
 					setSuccess(
 						'Thanks! Your content is in the moderation queue and will be approved by an admin.'
 					);

@@ -26,6 +26,7 @@ const SUBMIT = gql`
 				guid
 				status
 			}
+			status
 		}
 	}
 `;
