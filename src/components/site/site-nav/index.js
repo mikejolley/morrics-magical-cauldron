@@ -5,7 +5,6 @@ import { Link } from '@reach/router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
 	faUserCircle,
-	faPlusCircle,
 	faSignInAlt,
 	faPortrait,
 } from '@fortawesome/free-solid-svg-icons';
@@ -18,9 +17,12 @@ import { useAuth } from '@hooks';
 const NavLink = ( props ) => (
 	<Link
 		{ ...props }
-		getProps={ ( { isCurrent } ) => {
+		getProps={ ( { isCurrent, isPartiallyCurrent } ) => {
 			return {
-				className: isCurrent ? 'page page--current' : 'page',
+				className:
+					isCurrent || isPartiallyCurrent
+						? 'page page--current'
+						: 'page',
 			};
 		} }
 	/>
@@ -33,7 +35,7 @@ export const SiteNav = () => {
 		<nav>
 			<ul>
 				<li>
-					<NavLink to="/" aria-label="NPC Generator">
+					<NavLink to="/npc-generator" aria-label="NPC Generator">
 						<FontAwesomeIcon
 							icon={ faPortrait }
 							aria-hidden={ true }
@@ -41,20 +43,8 @@ export const SiteNav = () => {
 						<span>NPCs</span>
 					</NavLink>
 				</li>
-				{ isLoggedIn && (
-					<li>
-						<NavLink to="submit" aria-label="Submit Content">
-							<FontAwesomeIcon
-								icon={ faPlusCircle }
-								aria-hidden={ true }
-							/>
-							<span>Submit</span>
-						</NavLink>
-					</li>
-				) }
-
 				<li>
-					<NavLink to="account" aria-label="Account">
+					<NavLink to="/account" aria-label="Account">
 						<FontAwesomeIcon
 							icon={ isLoggedIn ? faUserCircle : faSignInAlt }
 							aria-hidden={ true }

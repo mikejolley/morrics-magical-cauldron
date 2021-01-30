@@ -6,15 +6,19 @@ import { gql, useMutation } from '@apollo/client';
 const SUBMIT = gql`
 	mutation Login(
 		$content: String!
-		$moral: String!
-		$ethic: String!
-		$type: String!
+		$moral: [MoralField]!
+		$ethic: [EthicField]!
+		$race: [RaceField]!
+		$gender: [GenderField]!
+		$type: CharacterDataTypeField!
 	) {
 		submitCharacterData(
 			input: {
 				content: $content
 				ethic: $ethic
 				moral: $moral
+				race: $race
+				gender: $gender
 				type: $type
 			}
 		) {
@@ -26,19 +30,28 @@ const SUBMIT = gql`
 	}
 `;
 
-export const useSubmitMutation = () => {
+export const useSubmitContentMutation = () => {
 	const [ mutation, mutationResults ] = useMutation( SUBMIT );
 
-	const submit = ( content, moral, ethic, type ) => {
+	const submitContentMutation = ( {
+		content,
+		moral,
+		ethic,
+		type,
+		race,
+		gender,
+	} ) => {
 		return mutation( {
 			variables: {
 				content,
 				moral,
 				ethic,
 				type,
+				race,
+				gender,
 			},
 		} );
 	};
 
-	return { submit, results: mutationResults };
+	return { submitContentMutation, results: mutationResults };
 };

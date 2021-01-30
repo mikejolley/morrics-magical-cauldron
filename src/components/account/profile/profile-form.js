@@ -37,7 +37,7 @@ export const ProfileForm = ( { viewer } ) => {
 	};
 
 	return (
-		<form onSubmit={ onSubmit } className="profile__form">
+		<form onSubmit={ onSubmit } className="profile-form">
 			{ hasError && (
 				<div className="error-notice">
 					<FontAwesomeIcon

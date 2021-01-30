@@ -1,110 +1,151 @@
 /**
  * External dependencies
  */
-import { useCallback } from 'react';
+import { useReducer, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faScroll } from '@fortawesome/free-solid-svg-icons';
-import { useLocalStorage } from '@hooks';
 
 /**
  * Internal dependencies
  */
-import GeneratorOptions from './generator-options';
-import Character from '@components/character';
+import CharacterCards from './character-cards';
+import OptionsForm from './options-form';
 import { useGenerator } from './use-generator';
-import { generateFields } from '@shared/utils';
+import { validateCharacters } from './utils';
 
-const Generator = ( { data: sourceData } ) => {
-	const [ characters, setCharacters ] = useLocalStorage(
-		'npc-generator',
-		{}
-	);
-	const callbacks = useGenerator( sourceData );
+const reducer = ( state, { type, data, status, characterId } ) => {
+	switch ( type ) {
+		case 'SET_STATUS':
+			state = {
+				...state,
+				[ characterId ]: {
+					...( state[ characterId ] || {} ),
+					status,
+				},
+			};
+			break;
+		case 'DELETE':
+			const newState = { ...state };
+			delete newState[ characterId ];
+			state = {
+				...newState,
+			};
+			break;
+		case 'SET_STATUS_WITH_DATA':
+			state = {
+				...state,
+				[ characterId ]: {
+					status,
+					data,
+				},
+			};
+			break;
+		case 'RESOLVE_WITH_DATA':
+			state = {
+				...state,
+				[ characterId ]: {
+					status: 'resolved',
+					data: {
+						...( state[ characterId ]?.data || {} ),
+						...data,
+					},
+				},
+			};
+			break;
+	}
+	return state;
+};
+
+const Generator = () => {
+	const [ characters, dispatch ] = useReducer( reducer, {}, () => {
+		const valueInLocalStorage = window.localStorage.getItem(
+			'npc-generator'
+		);
+
+		return valueInLocalStorage
+			? validateCharacters( JSON.parse( valueInLocalStorage ) )
+			: {};
+	} );
+
+	useEffect( () => {
+		window.localStorage.setItem(
+			'npc-generator',
+			JSON.stringify( characters )
+		);
+	}, [ characters ] );
+
+	const getCallbacks = useGenerator();
 
 	/**
-	 * Used by the options form.
+	 * Returns a promise for querying and generating character data.
 	 *
-	 * @param {Array} options Array of options.
+	 * @param {Object} options Options used to create character.
 	 */
-	const generate = ( options ) => {
-		setCharacters( {
-			...characters,
-			[ uuidv4() ]: generateFields( callbacks( options ) ),
+	const generateCharacter = ( options ) => {
+		const { resolveCallbacks } = getCallbacks( options );
+		const characterId = uuidv4();
+
+		dispatch( { type: 'SET_STATUS', characterId, status: 'resolving' } );
+		resolveCallbacks().then( ( data ) => {
+			if ( ! data ) {
+				removeCharacter( characterId );
+				return;
+			}
+			dispatch( { type: 'RESOLVE_WITH_DATA', characterId, data } );
 		} );
 	};
 
-	const removeCharacter = useCallback(
-		( id ) => {
-			const newCharacters = { ...characters };
-			delete newCharacters[ id ];
-			setCharacters( newCharacters );
-		},
-		[ setCharacters, characters ]
-	);
+	const removeCharacter = ( id ) =>
+		dispatch( { type: 'DELETE', characterId: id } );
 
-	const rerollCharacterData = useCallback(
-		( id, fields ) => {
-			const currentData = characters[ id ];
-			// Uses currentData instead of options so race etc is preserved.
-			setCharacters( {
-				...characters,
-				[ id ]: {
-					...currentData,
-					...generateFields(
-						callbacks(
-							( ( { race, alignment, gender } ) => ( {
-								race,
-								alignment,
-								gender,
-							} ) )( currentData )
-						),
-						fields
-					),
-				},
+	/**
+	 * Rerolls fields by using the current character data instead of options so race etc is preserved.
+	 *
+	 * @param {string} characterId Character ID.
+	 * @param {Array} fieldNames Fields to reroll.
+	 */
+	const rerollFields = ( characterId, fieldNames ) => {
+		const currentData = characters[ characterId ];
+		const fields = Array.isArray( fieldNames )
+			? fieldNames
+			: [ fieldNames ];
+
+		const currentDataWithoutRerolled = Object.fromEntries(
+			Object.entries( currentData.data ).filter(
+				( dataItem ) => ! fields.includes( dataItem[ 0 ] )
+			)
+		);
+
+		dispatch( {
+			type: 'SET_STATUS_WITH_DATA',
+			characterId,
+			data: currentDataWithoutRerolled,
+			status: 'resolving',
+		} );
+
+		const { resolveCallbacks } = getCallbacks( currentDataWithoutRerolled );
+
+		resolveCallbacks( fields )
+			.then( ( data ) => {
+				dispatch( { type: 'RESOLVE_WITH_DATA', characterId, data } );
+			} )
+			.catch( () => {
+				dispatch( {
+					type: 'SET_STATUS',
+					characterId,
+					status: 'resolved',
+				} );
 			} );
-		},
-		[ setCharacters, characters ]
-	);
+	};
 
 	return (
-		<div className="npc-generator">
-			<hgroup>
-				<h2>NPC Generator</h2>
-				<div>
-					<GeneratorOptions onChange={ generate } />
-				</div>
-			</hgroup>
-			{ Object.keys( characters ).length ? (
-				<div className="character-cards">
-					{ Object.entries( characters )
-						.slice( 0 )
-						.reverse()
-						.map( ( [ id, characterData ] ) => {
-							return (
-								<Character
-									key={ `${ id }` }
-									characterData={ characterData }
-									onClickData={ ( fields ) => {
-										rerollCharacterData( id, fields );
-									} }
-									onRemove={ () => {
-										removeCharacter( id );
-									} }
-								/>
-							);
-						} ) }
-				</div>
-			) : (
-				<div className="npc-generator--blank blank-slate">
-					<FontAwesomeIcon icon={ faScroll } />
-					<p>
-						It seems no one is around...use the form above to
-						generate some NPCs.
-					</p>
-				</div>
-			) }
-		</div>
+		<>
+			<OptionsForm onChange={ generateCharacter } />
+			<CharacterCards
+				characters={ characters }
+				onRemove={ removeCharacter }
+				onReroll={ rerollFields }
+			/>
+		</>
 	);
 };
 

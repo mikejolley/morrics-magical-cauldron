@@ -12,7 +12,7 @@ import PasswordStrengthBar from 'react-password-strength-bar';
  */
 import Field from '@components/field';
 import { useResetPassword } from '@hooks';
-import Success from './success';
+import Success from '@components/success';
 
 export const ResetPasswordForm = ( { resetLogin, resetKey } ) => {
 	const [ password, setPassword ] = useState( '' );
@@ -53,7 +53,7 @@ export const ResetPasswordForm = ( { resetLogin, resetKey } ) => {
 	}
 
 	return (
-		<form onSubmit={ onReset } className="reset__form">
+		<form onSubmit={ onReset } className="reset-form">
 			{ ( error || passwordError ) && (
 				<div className="error-notice">
 					<FontAwesomeIcon

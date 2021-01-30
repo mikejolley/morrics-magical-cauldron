@@ -1,4 +1,4 @@
-@import '../../variables.scss';
+@import '@styles/variables.scss';
 
 .inline-data {
 	display: inline;
@@ -14,11 +14,12 @@
 	appearance: none;
 	border-radius: 5px;
 	padding: 0 0.3em;
-	span.inline-data-value {
+	.inline-data-value {
+		display: inline;
 		border-bottom: 2px solid lighten( $base-color, 30% );
 		padding: 0.2em 0;
 	}
-	span.inline-data-value--capitalize {
+	.inline-data-value--capitalize {
 		text-transform: capitalize;
 	}
 	cite {
@@ -30,7 +31,7 @@
 	&:hover,
 	&:focus {
 		background-color: lighten( $base-color, 10% );
-		span.inline-data-value {
+		.inline-data-value {
 			border: 0;
 		}
 	}

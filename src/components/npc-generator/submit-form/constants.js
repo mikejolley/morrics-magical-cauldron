@@ -1,17 +1,12 @@
 // List of content types users can submit to the site.
 export const contentTypes = {
-	clothing: {
-		name: 'Character: Clothing',
-		example: 'They are wearing a long, purple robe.',
-		description: 'What the character is currently wearing.',
-	},
-	distinguishingMarks: {
-		name: 'Character: Distinguishing Marks',
+	feature: {
+		name: 'Character: Distinguishing Features',
 		example: 'They have a wooden leg.',
 		description:
-			'Something about the characters appearance that stands out.',
+			'A distinguishing feature of the character that is not the norm and sets them apart from others.',
 	},
-	personality: {
+	trait: {
 		name: 'Character: Personality traits',
 		example: 'Cheerful, but annoyingly so.',
 		description:

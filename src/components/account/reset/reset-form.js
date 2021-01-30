@@ -10,9 +10,9 @@ import { faSkullCrossbones } from '@fortawesome/free-solid-svg-icons';
  */
 import Field from '@components/field';
 import { useResetPassword } from '@hooks';
-import Success from './success';
+import Success from '@components/success';
 
-export const ResetForm = ( e ) => {
+export const ResetForm = () => {
 	const [ username, setUsername ] = useState( '' );
 	const { sendResetPasswordEmail, error, status } = useResetPassword();
 
@@ -30,7 +30,7 @@ export const ResetForm = ( e ) => {
 	}
 
 	return (
-		<form onSubmit={ onReset } className="reset__form">
+		<form onSubmit={ onReset } className="reset-form">
 			{ error && (
 				<div className="error-notice">
 					<FontAwesomeIcon

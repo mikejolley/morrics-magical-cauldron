@@ -1,4 +1,4 @@
-@import '../../variables.scss';
+@import '@styles/variables.scss';
 
 .character-cards {
 	display: flex;
@@ -7,12 +7,16 @@
 	flex-wrap: wrap;
 	justify-content: center;
 }
+.character-card.loading-state {
+	align-items: stretch;
+}
 .character-card {
 	flex: 1 1 0px;
-	min-width: 400px;
+	min-width: 500px;
+	max-width: 800px;
 	box-sizing: border-box;
 	padding: 2em;
-	margin: 0 1em 1em;
+	margin: 0 1em 2em;
 	background-color: lighten( $base-color, 5% );
 	border: 2px solid darken( $base-color, 1% );
 	border-radius: 10px;

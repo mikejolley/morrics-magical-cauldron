@@ -151,6 +151,7 @@ const halfElf = {
 	eyeColors,
 	hairColors,
 	skinColors,
+	inherit: [ 'human', 'elf' ],
 };
 
 const halfOrc = {
@@ -170,6 +171,7 @@ const halfOrc = {
 		'brown',
 		'purplish grey',
 	],
+	inherit: [ 'human', 'orc' ],
 };
 
 const halfling = {
@@ -213,14 +215,34 @@ const tiefling = {
 	],
 };
 
+const orc = {
+	id: 'orc',
+	singular: 'Orc',
+	plural: 'Orcs',
+	adjective: 'Orcish',
+	baseHeight: 5.333,
+	heightModifier: '2d8',
+	eyeColors: [ 'red', 'black' ],
+	hairColors: [ 'black', 'grey' ],
+	skinColors: [
+		'greenish',
+		'green',
+		'pale green',
+		'grey',
+		'brown',
+		'purplish grey',
+	],
+};
+
 export const races = {
-	dwarf,
 	human,
-	dragonborn,
+	dwarf,
 	elf,
 	gnome,
+	halfling,
 	halfElf,
 	halfOrc,
-	halfling,
+	orc,
 	tiefling,
+	dragonborn,
 };

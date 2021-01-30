@@ -8,6 +8,7 @@ module.exports = {
 			'@shared': path.resolve( __dirname, 'src/shared/' ),
 			'@hooks': path.resolve( __dirname, 'src/hooks/' ),
 			'@context': path.resolve( __dirname, 'src/context/' ),
+			'@styles': path.resolve( __dirname, 'src/css/' ),
 		},
 	},
 	plugins: [

@@ -1,8 +1,7 @@
 /**
  * External dependencies
  */
-import { useState } from 'react';
-import { Link } from '@reach/router';
+import { Link, Router } from '@reach/router';
 
 /**
  * Internal dependencies
@@ -11,8 +10,6 @@ import LoginForm from './login-form';
 import RegisterForm from './register-form';
 
 const Login = () => {
-	const [ section, setSection ] = useState( 'login' );
-
 	return (
 		<div className="section login">
 			<hgroup>
@@ -30,30 +27,13 @@ const Login = () => {
 				</div>
 			</hgroup>
 			<nav className="tab-nav">
-				<ul>
-					<li className={ section === 'login' ? 'active' : '' }>
-						<button
-							className="link-button"
-							onClick={ () => setSection( 'login' ) }
-						>
-							Sign in
-						</button>
-					</li>
-					<li
-						className={
-							section === 'create-account' ? 'active' : ''
-						}
-					>
-						<button
-							className="link-button"
-							onClick={ () => setSection( 'create-account' ) }
-						>
-							Create Account
-						</button>
-					</li>
-				</ul>
+				<Link to="">Sign in</Link>
+				<Link to="create-account">Create Account</Link>
 			</nav>
-			{ section === 'login' ? <LoginForm /> : <RegisterForm /> }
+			<Router primary={ false }>
+				<LoginForm path="/" />
+				<RegisterForm path="/create-account" />
+			</Router>
 		</div>
 	);
 };

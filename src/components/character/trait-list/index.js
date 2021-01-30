@@ -10,6 +10,7 @@ const TraitList = ( { traits } ) => {
 					name={ trait.name }
 					data={ trait.data }
 					onReroll={ trait.onReroll }
+					loading={ trait.loading }
 				/>
 			) ) }
 		</ul>

@@ -3,12 +3,13 @@
  */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import classnames from 'classnames';
 
-const Loading = ( { message = 'Reticulating Splines...' } ) => {
+const Loading = ( { className = '', message = 'Reticulating Splines...' } ) => {
 	return (
-		<div className="loading-state">
+		<div className={ classnames( 'loading-state', className ) }>
 			<FontAwesomeIcon icon={ faSpinner } pulse />
-			<p>{ message }</p>
+			{ message && <p>{ message }</p> }
 		</div>
 	);
 };

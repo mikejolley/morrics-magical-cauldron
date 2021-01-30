@@ -1,9 +1,10 @@
-@import './variables.scss';
+@import '@styles/variables.scss';
 
 html {
 	font: 400 18px 'Bitter', serif;
 	margin: 0;
 	padding: 0;
+	background-color: darken( $base-color, 2% );
 }
 body {
 	background-color: $base-color;
@@ -34,16 +35,41 @@ button {
 
 .site-header,
 .site-content,
-.site-footer {
+.site-footer ul {
 	padding: 0 1.5em;
-	max-width: 800px;
+	max-width: 1200px;
 	margin: 0 auto;
 }
-.header-wrapper {
+.site-footer {
+	background-color: darken( $base-color, 2% );
+	ul {
+		margin: 3em auto 0 auto;
+		font-size: 1rem;
+		line-height: 1.5em;
+		padding: 1.5em;
+		list-style: none;
+		display: flex;
+		justify-items: stretch;
+
+		li {
+			margin: 0;
+			padding: 0;
+			flex: 1 1 auto;
+			text-align: center;
+			&:first-child {
+				text-align: left;
+			}
+			&:last-child {
+				text-align: right;
+			}
+		}
+	}
+}
+.site-header-wrapper {
 	border-bottom: 5px solid rgba( 0, 0, 0, 0.2 );
 	font-weight: 700;
 	text-align: center;
-	margin-bottom: 1.5em;
+	margin-bottom: 3em;
 }
 
 a {
@@ -72,7 +98,7 @@ header {
 	flex-wrap: wrap;
 	h1,
 	nav {
-		margin: 0.5em 0;
+		margin: 0.75em 0;
 	}
 	h1 {
 		text-transform: uppercase;
@@ -124,6 +150,11 @@ header {
 		}
 	}
 }
+@media only screen and ( max-width: 600px ) {
+	header {
+		justify-content: space-around;
+	}
+}
 nav {
 	ul {
 		display: flex;
@@ -170,20 +201,32 @@ nav {
 		}
 	}
 }
+.content-box,
+hgroup > div {
+	background: darken( $base-color, 5% );
+	border: 1px solid lighten( $base-color, 5% );
+	border-left: 0;
+	border-right: 0;
+	padding: 1.5em;
+	margin: 1.5em 0;
+	display: block;
+}
 hgroup {
 	display: inline-block;
-	margin: 1.5em 0;
+	margin: 0 0 1.5em 0;
 	width: 100%;
 	h2,
 	h3,
 	h4 {
-		border-bottom: 5px solid lighten( $base-color, 30% );
 		margin: 0;
 		font-size: 2em;
 		font-weight: 700;
 		letter-spacing: 0.1em;
 		line-height: 1.5;
 		display: inline-block;
+	}
+	h3 {
+		border-bottom: 5px solid lighten( $base-color, 30% );
 	}
 	h3 + h4 {
 		font-size: 0.7em;
@@ -196,10 +239,7 @@ hgroup {
 		display: block;
 	}
 	> div {
-		background: rgba( 0, 0, 0, 0.2 );
-		padding: 1.5em;
-		margin: 1.5em 0 0 0;
-		border-radius: 1px;
+		margin: 1.5em 0 0;
 		svg + p {
 			margin-top: 1.5em !important;
 		}
@@ -212,32 +252,35 @@ hgroup {
 	}
 }
 .tab-nav {
-	margin: 0 0 1em;
+	margin: 0 0 1.5em;
 	padding: 0;
 	font-size: 1rem;
-	ul {
+	display: flex;
+	position: relative;
+	width: auto;
+	a {
 		margin: 0;
-		padding: 0;
-		display: flex;
-		width: 100%;
-		position: relative;
-		li {
-			margin: 0.5em;
-			padding: 1em;
-			border-bottom: 5px solid lighten( $base-color, 20% );
-			flex: 1 1 auto;
-			width: 50%;
-		}
-		li.active {
-			border-bottom-color: $accent-color;
-		}
+		padding: 1em;
+		border-bottom: 5px solid lighten( $base-color, 20% );
+		flex: 1 1 auto;
+		width: 50%;
+		color: lighten( $base-color, 80% );
+		text-decoration: none;
+		font-size: 0.7em;
+		letter-spacing: 0.3em;
+		line-height: 2;
+		text-transform: uppercase;
+	}
+	a[aria-current='page'] {
+		border-bottom-color: $accent-color;
 	}
 }
-.register__form,
-.reset__form,
-.login__form,
-.profile__form {
-	max-width: 500px;
+.submit-content-form,
+.register-form,
+.reset-form,
+.login-form,
+.profile-form {
+	max-width: 800px;
 	margin: 0 auto;
 }
 
@@ -262,7 +305,7 @@ hgroup {
 		color: inherit;
 		font-weight: bold;
 	}
-	&.hero {
+	&.success-notice--hero {
 		display: block;
 		padding: 3em;
 		svg {
@@ -319,6 +362,37 @@ hgroup {
 
 	p:last-child {
 		margin-bottom: 0;
+	}
+
+	&.feature {
+		border: 2px solid lighten( $base-color, 5% );
+		background: lighten( $base-color, 1% );
+		max-width: 600px;
+		margin: 0 auto;
+		padding: 3em;
+		border-radius: 10px;
+		box-shadow: 0 4px 8px 0 rgba( 0, 0, 0, 0.2 );
+		p {
+			font-size: 1.2em;
+		}
+		p:last-child {
+			margin-bottom: 0;
+		}
+		> svg.svg-inline--fa {
+			display: block;
+			margin: 0.75em auto;
+			font-size: 3em;
+			path {
+				fill: wheat;
+			}
+		}
+		mark,
+		a {
+			background: darken( $base-color, 3% );
+			color: wheat;
+			padding: 5px;
+			margin: 0 5px;
+		}
 	}
 }
 

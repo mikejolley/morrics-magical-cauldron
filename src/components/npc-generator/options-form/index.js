@@ -1,3 +1,6 @@
+/**
+ * External dependencies
+ */
 import { useState } from 'react';
 
 /**
@@ -6,10 +9,10 @@ import { useState } from 'react';
 import Select from '@components/select';
 import { races, occupations, alignments, genders } from '@shared/data';
 
-const GeneratorOptions = ( { onChange } ) => {
+const OptionsForm = ( { onChange } ) => {
 	const [ options, setOptions ] = useState( {} );
 	return (
-		<div className="npc-generator__options">
+		<div className="npc-generator__options content-box">
 			<Select
 				label="Race"
 				value={ options.race }
@@ -91,4 +94,4 @@ const GeneratorOptions = ( { onChange } ) => {
 	);
 };
 
-export default GeneratorOptions;
+export default OptionsForm;

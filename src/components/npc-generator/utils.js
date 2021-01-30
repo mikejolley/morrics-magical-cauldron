@@ -5,27 +5,73 @@ import randomItem from 'random-item';
 import Roll from 'roll';
 
 /**
+ * Internal dependencies
+ */
+import { races, alignments, occupations, genders } from '@shared/data';
+
+/**
+ * Get a random race.
+ *
+ * @return {Object} Race Object.
+ */
+export const randomRace = () => randomItem( Object.keys( races ) );
+
+/**
+ * Get a random alignment.
+ *
+ * @return {string} Alignment id.
+ */
+export const randomAlignment = () =>
+	randomItem( alignments.map( ( { id } ) => id ) );
+
+/**
+ * Get a random gender, weighted.
+ *
+ * @return {string} Alignment id.
+ */
+export const randomGender = () => {
+	const ids = genders.map( ( { id } ) => id );
+	const initial = roll.roll( 'd2' ).result;
+	const index = roll.roll( initial === 1 ? 'd3' : 'd2' ).result;
+	return ids[ index - 1 ];
+};
+
+/**
+ * Get a random occupation.
+ *
+ * @param {string} alignment Alignment ID to limit results.
+ * @return {string} Occupation name.
+ */
+export const randomOccupation = ( alignment ) =>
+	randomItem(
+		randomMultipleAlignments( occupations, alignment ).occupations
+	);
+
+/**
  * Allows string based die rolls e.g. 2d6.
  */
 export const roll = new Roll();
 
-export const matchingItems = (
-	items,
-	type,
-	alignment = { moral: 'neutral', ethic: 'neutral' }
-) => {
-	const matches = items.filter( ( item ) => {
-		if ( ! item.characterDataType.includes( type ) ) {
-			return false;
-		}
-		return (
-			( item.moral.includes( 'any' ) ||
-				item.moral.includes( alignment.moral ) ) &&
-			( item.ethic.includes( 'any' ) ||
-				item.ethic.includes( alignment.ethic ) )
-		);
-	} );
-	return matches;
+/**
+ * Used to validate data in state/localStorage.
+ *
+ * @param {Object} characters Contains character data.
+ * @return {Object} Validated characters.
+ */
+export const validateCharacters = ( characters ) => {
+	return Object.fromEntries(
+		Object.entries( characters )
+			.map( ( [ id, character ] ) => {
+				if (
+					! character?.data ||
+					! character?.status === 'resolving'
+				) {
+					return false;
+				}
+				return [ id, character ];
+			} )
+			.filter( Boolean )
+	);
 };
 
 /**
@@ -165,6 +211,12 @@ export const generateName = ( playerNames, race, gender ) => {
 				first: randomItem( playerNames[ race ][ gender ] ),
 				last: randomItem( playerNames[ race ].last ),
 			} );
+		case 'orc':
+			return parseNameTemplate( template, {
+				first: randomItem( playerNames[ race ][ gender ] ),
+				last: randomItem( playerNames[ race ].last ),
+				middle: randomItem( playerNames[ race ].middle ),
+			} );
 		case 'dwarf':
 			return parseNameTemplate( template, {
 				first: randomItem( playerNames[ race ][ gender ] ),
@@ -175,7 +227,7 @@ export const generateName = ( playerNames, race, gender ) => {
 			return parseNameTemplate( template, {
 				humanFirst: randomItem( playerNames.human[ gender ] ),
 				humanLast: randomItem( playerNames.human.last ),
-				orcFirst: randomItem( playerNames.halfOrc[ gender ] ),
+				orcFirst: randomItem( playerNames.orc[ gender ] ),
 			} );
 		case 'halfElf':
 			return parseNameTemplate( template, {

@@ -5,9 +5,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDiceD20 } from '@fortawesome/free-solid-svg-icons';
 
 const AbilityList = ( { abilities, characterAge, onReroll } ) => {
-	const ageModifier = Object.keys(
-		abilityScoreAgeModifiers
-	).find( ( ageGroup ) => characterAge.includes( ageGroup ) );
+	const ageModifier = Object.keys( abilityScoreAgeModifiers ).find(
+		( ageGroup ) => characterAge === ageGroup
+	);
+
+	if ( ! abilities ) {
+		return null;
+	}
 
 	return (
 		<ul className="ability-list">

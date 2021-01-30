@@ -1,6 +1,6 @@
 /**
  * @see https://www.reddit.com/r/DnDBehindTheScreen/comments/bjkejj/i_made_a_list_of_every_profession_i_could_think/
- **/
+ */
 export const occupations = [
 	{
 		group: 'Agriculture, animal husbandry, and forestry',
@@ -54,7 +54,6 @@ export const occupations = [
 		occupations: [
 			'Acrobat',
 			'Actor',
-			'Chef',
 			'Dancer',
 			'Gladiator',
 			'Glasspainter',
@@ -208,7 +207,6 @@ export const occupations = [
 			'Student',
 			'Teacher',
 			'Theologian',
-			'Tutor',
 		],
 		ethic: [ 'lawful', 'neutral' ],
 	},
@@ -272,8 +270,6 @@ export const occupations = [
 			'Barber',
 			'Barkeep/Barmaid',
 			'Butcher',
-			'Charcoal Maker',
-			'Chatelaine/ Majordomo',
 			'Chimney Sweeper',
 			'Clerk',
 			'Cook',
@@ -284,7 +280,6 @@ export const occupations = [
 			'Gardener',
 			'Gravedigger',
 			'Housekeeper',
-			'Kitchen Drudge',
 			'Laborer',
 			'Lamplighter',
 			'Landscaper',
@@ -294,16 +289,13 @@ export const occupations = [
 			'Miner',
 			'Orphanage Caretaker',
 			'Page',
-			'Pastry Chef',
 			'Plumer',
 			'Porter',
 			'Prostitute',
-			'Rag-and-Bone Man',
 			'Slave',
 			'Street Sweeper',
 			'Tavern Worker',
 			'Vermin Catcher',
-			'Water Bearer',
 		],
 		ethic: [ 'lawful', 'neutral' ],
 	},
@@ -353,7 +345,7 @@ export const occupations = [
 			'Detective/Investigator',
 			'Duelist',
 			'Executioner',
-			'Fireman',
+			'Firefighter',
 			'Guard',
 			'General',
 			'Jailer',
@@ -422,7 +414,6 @@ export const occupations = [
 			'Sailor',
 			'Sea Captain',
 			'Shipwright',
-			'Swab',
 		],
 		ethic: [ 'lawful', 'neutral' ],
 	},

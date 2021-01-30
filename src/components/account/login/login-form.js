@@ -22,7 +22,7 @@ export const LoginForm = () => {
 	};
 
 	return (
-		<form onSubmit={ onLogin } className="login__form">
+		<form onSubmit={ onLogin } className="login-form">
 			{ error && (
 				<div className="error-notice">
 					<FontAwesomeIcon

@@ -1,5 +1,5 @@
 export const abilityScoreAgeModifiers = {
-	prepubescent: {
+	child: {
 		str: -3,
 		dex: -3,
 		con: -3,
@@ -7,7 +7,15 @@ export const abilityScoreAgeModifiers = {
 		wis: -3,
 		cha: -3,
 	},
-	'middle-aged': {
+	adolescent: {
+		str: -1,
+		dex: -1,
+		con: -1,
+		int: -1,
+		wis: -1,
+		cha: -1,
+	},
+	middleAge: {
 		str: -1,
 		dex: -1,
 		con: -1,

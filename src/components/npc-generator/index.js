@@ -1,28 +1,31 @@
 /**
  * External dependencies
  */
-import { useQuery } from '@apollo/client';
+import { Link, Router } from '@reach/router';
 
 /**
  * Internal dependencies
  */
-import { GET_PLAYER_DATA } from './queries';
 import Generator from './generator';
-import Loading from '../loading';
-import Error from '../error';
+import SubmitForm from './submit-form';
 import './style.scss';
 
 const NpcGenerator = () => {
-	const { loading, error, data } = useQuery( GET_PLAYER_DATA );
-
-	if ( loading ) {
-		return <Loading />;
-	}
-
-	if ( error || ! data.characterData ) {
-		return <Error />;
-	}
-	return <Generator data={ data.characterData.nodes } />;
+	return (
+		<div className="npc-generator">
+			<hgroup>
+				<h2>NPC Generator</h2>
+			</hgroup>
+			<nav className="tab-nav">
+				<Link to="">Generate</Link>
+				<Link to="submit">Submit Content</Link>
+			</nav>
+			<Router primary={ false }>
+				<Generator path="/" />
+				<SubmitForm path="/submit" />
+			</Router>
+		</div>
+	);
 };
 
 export default NpcGenerator;

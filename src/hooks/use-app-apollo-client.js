@@ -1,7 +1,8 @@
 /**
  * External dependencies
  */
-import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
+import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { BatchHttpLink } from '@apollo/client/link/batch-http';
 
 /**
  * Internal dependencies
@@ -9,7 +10,7 @@ import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
 //import { useAuthToken } from './___use-auth-token';
 
 const cache = new InMemoryCache( {} );
-const httpLink = new createHttpLink( {
+const httpLink = new BatchHttpLink( {
 	uri: 'https://dungeonsandrandoms.local/index.php?graphql',
 	credentials: 'include',
 } );

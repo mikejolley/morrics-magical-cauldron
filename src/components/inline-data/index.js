@@ -1,4 +1,5 @@
 import './style.scss';
+import Loading from '../loading';
 
 /**
  * Renders a form field.
@@ -9,6 +10,7 @@ import './style.scss';
  * @param {Function} props.onClick Ran on click.
  * @param {string} props.prefix Prepended to the value.
  * @param {string} props.suffix Appended to the value.
+ * @param props.loading
  */
 const InlineField = ( {
 	value = '-',
@@ -16,10 +18,14 @@ const InlineField = ( {
 	onClick,
 	prefix = '',
 	suffix = '',
+	loading = false,
 } ) => {
+	if ( loading ) {
+		return <Loading className={ `inline-data` } message={ false } />;
+	}
 	return (
 		<button className={ `inline-data` } onClick={ onClick }>
-			<span
+			<div
 				className={ `inline-data-value` }
 				dangerouslySetInnerHTML={ {
 					__html: `${ prefix } ${ value } ${ suffix }`,

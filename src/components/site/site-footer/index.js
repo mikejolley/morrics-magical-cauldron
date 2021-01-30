@@ -4,11 +4,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faReact, faWordpressSimple } from '@fortawesome/free-brands-svg-icons';
 
-/**
- * Internal dependencies
- */
-import './style.scss';
-
 export const SiteFooter = () => {
 	return (
 		<footer className="site-footer">

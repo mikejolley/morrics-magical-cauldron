@@ -38,7 +38,7 @@ export const RegisterForm = () => {
 	};
 
 	return (
-		<form onSubmit={ onRegister } className="register__form">
+		<form onSubmit={ onRegister } className="register-form">
 			{ ( error || passwordError ) && (
 				<div className="error-notice">
 					<FontAwesomeIcon
