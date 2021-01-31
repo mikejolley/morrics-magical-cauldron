@@ -38,7 +38,11 @@ export const RegisterForm = () => {
 	};
 
 	return (
-		<form onSubmit={ onRegister } className="register-form">
+		<form
+			onSubmit={ onRegister }
+			className="register-form"
+			autoComplete="on"
+		>
 			{ ( error || passwordError ) && (
 				<div className="error-notice">
 					<FontAwesomeIcon
@@ -51,6 +55,7 @@ export const RegisterForm = () => {
 			<Field
 				label="Username"
 				value={ username }
+				autocomplete="username"
 				onChange={ ( value ) => setUsername( value ) }
 				placeholder="Enter a username"
 				disabled={ status === 'resolving' }
@@ -61,6 +66,7 @@ export const RegisterForm = () => {
 			<Field
 				label="Email"
 				value={ email }
+				autocomplete="email"
 				onChange={ ( value ) => setEmail( value ) }
 				placeholder="Enter your email address"
 				disabled={ status === 'resolving' }
@@ -68,6 +74,7 @@ export const RegisterForm = () => {
 			<Field
 				label="Password"
 				type="password"
+				autocomplete="new-password"
 				value={ password }
 				placeholder="Choose a password"
 				onChange={ ( value ) => setPassword( value ) }

@@ -63,3 +63,8 @@
 		}
 	}
 }
+@media only screen and ( max-width: 600px ) {
+	.character-card {
+		min-width: 200px;
+	}
+}

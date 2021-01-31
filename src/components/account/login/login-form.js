@@ -22,7 +22,7 @@ export const LoginForm = () => {
 	};
 
 	return (
-		<form onSubmit={ onLogin } className="login-form">
+		<form onSubmit={ onLogin } className="login-form" autoComplete="on">
 			{ error && (
 				<div className="error-notice">
 					<FontAwesomeIcon
@@ -35,12 +35,14 @@ export const LoginForm = () => {
 			<Field
 				label="Username or Email Address"
 				value={ username }
+				autocomplete="username"
 				onChange={ ( value ) => setUsername( value ) }
 				disabled={ status === 'resolving' }
 			/>
 			<Field
 				label="Password"
 				type="password"
+				autocomplete="current-password"
 				value={ password }
 				onChange={ ( value ) => setPassword( value ) }
 				disabled={ status === 'resolving' }
