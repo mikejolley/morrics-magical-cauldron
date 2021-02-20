@@ -30,6 +30,28 @@
 
 	hgroup {
 		margin: 0 0 1.5em;
+
+		h3 {
+			.loading-state {
+				font-size: 1.5em;
+				padding: 0;
+				margin: 0 auto;
+				background: none;
+				text-align: center;
+				svg {
+					font-size: 1em;
+				}
+			}
+		}
+
+		h4 {
+			button {
+				font-size: 1.1rem;
+				margin-left: 0.75rem;
+				line-height: 1;
+				vertical-align: middle;
+			}
+		}
 	}
 
 	.character-card__delete {

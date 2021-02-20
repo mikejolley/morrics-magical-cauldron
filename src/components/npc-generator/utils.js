@@ -7,7 +7,19 @@ import Roll from 'roll';
 /**
  * Internal dependencies
  */
-import { races, alignments, occupations, genders } from '@shared/data';
+import {
+	races,
+	alignments,
+	occupations,
+	genders,
+	playerNames,
+	hairColors,
+	eyeColors,
+	skinColors,
+	skinDescriptors,
+	eyeDescriptors,
+	hairDescriptors,
+} from '@shared/data';
 
 /**
  * Get a random race.
@@ -111,8 +123,19 @@ export const rand = ( min, max ) => {
 	return Math.floor( Math.random() * ( max - min + 1 ) ) + min;
 };
 
+export const rollAbilities = () => {
+	return {
+		str: roll.roll( '4d6b3' ).result,
+		dex: roll.roll( '4d6b3' ).result,
+		con: roll.roll( '4d6b3' ).result,
+		int: roll.roll( '4d6b3' ).result,
+		wis: roll.roll( '4d6b3' ).result,
+		cha: roll.roll( '4d6b3' ).result,
+	};
+};
+
 /**
- * Parse Names template syntax.
+ * Parse template syntax.
  *
  * handles multiple "kinds" of template syntax
  *
@@ -121,7 +144,7 @@ export const rand = ( min, max ) => {
  * a string starting with a $ symbol is a reference for any passed content
  * so '{$colour}' becomes 'blue' if `content` was passed as { colour: 'blue' }
  *
- * a string container using the linked format (symbol, double colon) e.g {X::aplha/beta}
+ * a string container using the linked format (symbol, double colon) e.g {X::alpha/beta}
  * will ensure that any other placeholder in the string that uses the same linked symbol
  * returns the same index of random that the first placeholder with that symbol did
  *
@@ -130,7 +153,7 @@ export const rand = ( min, max ) => {
  * @param {string} string Template string.
  * @param {Object} content Object containing content to insert.
  */
-export const parseNameTemplate = ( string, content = {} ) => {
+export const parseContentTemplate = ( string, content = {} ) => {
 	const regex = /{(.+?)}/gm;
 
 	const matches = string.match( regex );
@@ -187,12 +210,11 @@ export const parseNameTemplate = ( string, content = {} ) => {
 /**
  * generate a name for a race and gender.
  *
- * @param {Array} playerNames Array of player names and templates.
  * @param {string} race Race to generate a name for.
  * @param {string} gender Gender to generate a name for.
  * @return {string} A generated name.
  */
-export const generateName = ( playerNames, race, gender ) => {
+export const generateName = ( race, gender ) => {
 	const raceTemplates = playerNames[ race ].templates;
 
 	if ( ! raceTemplates ) {
@@ -207,37 +229,37 @@ export const generateName = ( playerNames, race, gender ) => {
 		case 'gnome':
 		case 'halfling':
 		case 'human':
-			return parseNameTemplate( template, {
+			return parseContentTemplate( template, {
 				first: randomItem( playerNames[ race ][ gender ] ),
 				last: randomItem( playerNames[ race ].last ),
 			} );
 		case 'orc':
-			return parseNameTemplate( template, {
+			return parseContentTemplate( template, {
 				first: randomItem( playerNames[ race ][ gender ] ),
 				last: randomItem( playerNames[ race ].last ),
 				middle: randomItem( playerNames[ race ].middle ),
 			} );
 		case 'dwarf':
-			return parseNameTemplate( template, {
+			return parseContentTemplate( template, {
 				first: randomItem( playerNames[ race ][ gender ] ),
 				lastPrefix: randomItem( playerNames[ race ].lastPrefix ),
 				lastSuffix: randomItem( playerNames[ race ].lastSuffix ),
 			} );
 		case 'halfOrc':
-			return parseNameTemplate( template, {
+			return parseContentTemplate( template, {
 				humanFirst: randomItem( playerNames.human[ gender ] ),
 				humanLast: randomItem( playerNames.human.last ),
 				orcFirst: randomItem( playerNames.orc[ gender ] ),
 			} );
 		case 'halfElf':
-			return parseNameTemplate( template, {
+			return parseContentTemplate( template, {
 				humanFirst: randomItem( playerNames.human[ gender ] ),
 				humanLast: randomItem( playerNames.human.last ),
 				elfFirst: randomItem( playerNames.elf[ gender ] ),
 				elfLast: randomItem( playerNames.elf.last ),
 			} );
 		case 'tiefling':
-			return parseNameTemplate( template, {
+			return parseContentTemplate( template, {
 				humanFirst: randomItem( playerNames.human[ gender ] ),
 				humanLast: randomItem( playerNames.human.last ),
 				tieflingFirst: randomItem( playerNames.tiefling[ gender ] ),
@@ -245,13 +267,39 @@ export const generateName = ( playerNames, race, gender ) => {
 	}
 };
 
-export const rollAbilities = () => {
-	return {
-		str: roll.roll( '4d6b3' ).result,
-		dex: roll.roll( '4d6b3' ).result,
-		con: roll.roll( '4d6b3' ).result,
-		int: roll.roll( '4d6b3' ).result,
-		wis: roll.roll( '4d6b3' ).result,
-		cha: roll.roll( '4d6b3' ).result,
-	};
+export const generateHeight = ( { raceData } ) => {
+	const base = raceData.baseHeight || 4.67;
+	const modifier = raceData.heightModifier || '2d10';
+	const heightInFeet = base + roll.roll( modifier ).result / 12;
+	const feet = Math.floor( heightInFeet );
+	const inches = Math.round( ( heightInFeet - feet ) * 12 );
+	return feet + "'" + inches + '"';
+};
+
+export const generateAppearance = ( { gender, age, raceData } ) => {
+	let baldRoll = roll.roll( 'd100' ).result;
+
+	if ( gender === 'female' ) {
+		baldRoll += 10;
+	}
+	if ( age === 'middleAge' ) {
+		baldRoll -= 10;
+	} else if ( age === 'old' ) {
+		baldRoll -= 20;
+	} else if ( age === 'venerable' ) {
+		baldRoll -= 40;
+	}
+
+	const isBald = baldRoll <= 10;
+	const hairDescription = isBald
+		? `they are bald`
+		: `their hair is ${ randomItem(
+				raceData.hairColors || hairColors
+		  ) } and ${ randomItem( hairDescriptors ) }`;
+	const eyeDescriptor = randomItem( eyeDescriptors );
+	const eyeColor = randomItem( raceData.eyeColors || eyeColors );
+	const skinDescriptor = randomItem( skinDescriptors );
+	const skinColor = randomItem( raceData.skinColors || skinColors );
+
+	return `They have ${ skinDescriptor }, ${ skinColor } skin, ${ eyeDescriptor }, ${ eyeColor } eyes, and ${ hairDescription }.`;
 };

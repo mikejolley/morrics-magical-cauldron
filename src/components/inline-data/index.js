@@ -24,15 +24,20 @@ const InlineField = ( {
 		return <Loading className={ `inline-data` } message={ false } />;
 	}
 	return (
-		<button className={ `inline-data` } onClick={ onClick }>
-			<div
-				className={ `inline-data-value` }
-				dangerouslySetInnerHTML={ {
-					__html: `${ prefix } ${ value } ${ suffix }`,
-				} }
-			/>
-			{ author && <cite>{ `Submitted by ${ author }` }</cite> }
-		</button>
+		<>
+			<button
+				className={ `inline-data` }
+				onClick={ onClick }
+				data-tip={ author ? `Submitted by ${ author }` : '' }
+			>
+				<div
+					className={ `inline-data-value` }
+					dangerouslySetInnerHTML={ {
+						__html: `${ prefix } ${ value } ${ suffix }`,
+					} }
+				/>
+			</button>
+		</>
 	);
 };
 

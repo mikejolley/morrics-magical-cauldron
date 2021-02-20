@@ -102,8 +102,9 @@ const Generator = () => {
 	 *
 	 * @param {string} characterId Character ID.
 	 * @param {Array} fieldNames Fields to reroll.
+	 * @param {Object} options Additional options.
 	 */
-	const rerollFields = ( characterId, fieldNames ) => {
+	const reroll = ( characterId, fieldNames, options = {} ) => {
 		const currentData = characters[ characterId ];
 		const fields = Array.isArray( fieldNames )
 			? fieldNames
@@ -124,7 +125,7 @@ const Generator = () => {
 
 		const { resolveCallbacks } = getCallbacks( currentDataWithoutRerolled );
 
-		resolveCallbacks( fields )
+		resolveCallbacks( fields, options )
 			.then( ( data ) => {
 				dispatch( { type: 'RESOLVE_WITH_DATA', characterId, data } );
 			} )
@@ -143,7 +144,7 @@ const Generator = () => {
 			<CharacterCards
 				characters={ characters }
 				onRemove={ removeCharacter }
-				onReroll={ rerollFields }
+				reroll={ reroll }
 			/>
 		</>
 	);

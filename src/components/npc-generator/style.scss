@@ -44,11 +44,12 @@ p.content-description {
 	display: flex;
 	justify-content: center;
 	padding: 0;
+	margin: 0 -0.75em;
 	flex-wrap: wrap;
 
 	.field {
-		min-width: 300px;
+		min-width: 200px;
 		flex: 1 1 0px;
-		margin: 5px;
+		margin: 0.75em;
 	}
 }

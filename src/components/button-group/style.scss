@@ -1,0 +1,70 @@
+@import '@styles/variables.scss';
+
+.button-group {
+
+	.button-group__clear {
+		float: right;
+		font-weight: 400;
+		text-transform: uppercase;
+		font-size: 0.7em;
+		line-height: 2;
+		margin: 2px 2px 0;
+	}
+
+	ul {
+		margin: 0;
+		padding: 0;
+		list-style: none outside;
+		display: flex;
+		box-shadow: 0 1px 0 1px rgba( 0, 0, 0, 0.04 );
+		width: 100%;
+		flex-wrap: wrap;
+		align-items: stretch;
+		justify-content:stretch;
+
+		li {
+			flex: 1;
+		}
+
+		button {
+			background-color: lighten( $base-color, 10% );
+			box-sizing: border-box;
+			border: 2px solid darken( $base-color, 3% );
+			border-right-width: 0;
+			border-left-width: 1px;
+			padding: 0.5em;
+			font-size: 1em;
+			width: 100%;
+			border-radius: 0;
+			cursor: pointer;
+			outline: 0;
+			height: 100%;
+
+			span {
+				display: block;
+				font-size: 0.75em;
+			}
+
+			svg {
+				margin-bottom: 0.5em
+			}
+		}
+
+		li.selected button {
+			background: $base-color;
+			color: wheat
+		}
+
+		li:first-child button {
+			border-top-left-radius: 5px;
+			border-bottom-left-radius: 5px;
+			border-left-width: 2px;
+		}
+
+		li:last-child button {
+			border-top-right-radius: 5px;
+			border-bottom-right-radius: 5px;
+			border-right-width: 2px;
+		}
+	}
+}

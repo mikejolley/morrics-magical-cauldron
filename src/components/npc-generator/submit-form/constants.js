@@ -1,5 +1,10 @@
 // List of content types users can submit to the site.
 export const contentTypes = {
+	name: {
+		name: 'Character: Name',
+		example: 'Morric Copperhammer',
+		description: 'Full name for a character.',
+	},
 	feature: {
 		name: 'Character: Distinguishing Features',
 		example: 'They have a wooden leg.',

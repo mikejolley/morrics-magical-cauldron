@@ -25,11 +25,11 @@ export const useSubmitContent = () => {
 		setStatus( 'resolving' );
 		return submitContentMutation( {
 			content,
-			moral,
-			ethic,
 			type,
-			race,
-			gender,
+			moral: moral ? moral : 'any',
+			ethic: ethic ? ethic : 'any',
+			race: race ? race : 'any',
+			gender: gender ? gender : 'any',
 		} )
 			.then( ( result ) => {
 				setStatus( 'resolved' );

@@ -9,7 +9,7 @@ import { faScroll } from '@fortawesome/free-solid-svg-icons';
  */
 import Character from '@components/character';
 
-export const CharacterCards = ( { characters, onRemove, onReroll } ) => {
+export const CharacterCards = ( { characters, onRemove, reroll } ) => {
 	if ( Object.keys( characters ).length === 0 ) {
 		return (
 			<div className="npc-generator--blank blank-slate">
@@ -32,8 +32,8 @@ export const CharacterCards = ( { characters, onRemove, onReroll } ) => {
 							key={ `${ id }` }
 							status={ characterData?.status }
 							characterData={ characterData?.data }
-							reroll={ ( fields ) => {
-								onReroll( id, fields );
+							reroll={ ( fields, options ) => {
+								reroll( id, fields, options );
 							} }
 							onRemove={ () => {
 								onRemove( id );

@@ -11,24 +11,18 @@ import { useCharacterDataQuery } from '@hooks/queries/use-character-data-query';
 import {
 	generateName,
 	rollAbilities,
-	roll,
 	randomRace,
 	randomAlignment,
 	randomGender,
 	randomOccupation,
+	generateAppearance,
+	generateHeight,
 } from './utils';
 import {
 	races,
-	hairColors,
-	eyeColors,
-	skinColors,
 	ageDescriptors,
-	skinDescriptors,
-	eyeDescriptors,
 	weightDescriptors,
-	hairDescriptors,
 	alignments,
-	playerNames,
 } from '@shared/data';
 
 export const useGenerator = () => {
@@ -61,41 +55,70 @@ export const useGenerator = () => {
 				( { id } ) => id === alignment
 			);
 
-			const getCharacterDataPromise = async ( type ) => {
-				return await getCharacterData( {
-					moral: [ alignmentData.moral, 'any' ],
-					ethic: [ alignmentData.ethic, 'any' ],
-					race: raceData?.inherit
-						? raceData.inherit.concat( [ race, 'any' ] )
-						: [ race, 'any' ],
-					gender:
-						gender !== 'nonbinary' ? [ gender, 'any' ] : [ 'any' ],
-					type,
-				} )
-					.then( ( { data: sourceData } ) => {
-						return Promise.resolve(
-							randomItem( sourceData?.characterData?.nodes || [] )
-						);
+			const getCharacterDataPromise = async ( type, fallback = '' ) => {
+				try {
+					return await getCharacterData( {
+						moral: [ alignmentData.moral, 'any' ],
+						ethic: [ alignmentData.ethic, 'any' ],
+						race: raceData?.inherit
+							? raceData.inherit.concat( [ race, 'any' ] )
+							: [ race, 'any' ],
+						gender:
+							gender !== 'nonbinary'
+								? [ gender, 'any' ]
+								: [ 'any' ],
+						type,
 					} )
-					.catch( () => {
-						return Promise.resolve( '' );
-					} );
+						.then( ( { data: sourceData } ) => {
+							const randomItemFromSource = randomItem(
+								sourceData?.characterData?.nodes || []
+							);
+
+							const returnItem = {
+								content:
+									randomItemFromSource.content || fallback,
+								author: randomItemFromSource?.author,
+							};
+
+							return Promise.resolve( returnItem );
+						} )
+						.catch( () => {
+							return Promise.resolve( { content: fallback } );
+						} );
+				} catch {
+					return Promise.resolve( { content: fallback } );
+				}
 			};
 
 			/**
 			 * Returns an array of promises which resolve with data. Some use the API, some come from the client.
 			 */
 			const callbacks = {
-				name: () =>
-					Promise.resolve(
-						generateName(
-							playerNames,
-							race,
-							gender === 'nonbinary'
-								? randomItem( [ 'male', 'female' ] )
-								: gender
-						)
-					),
+				name: ( { source = 'user' } ) => {
+					const generatedName = generateName(
+						race,
+						gender === 'nonbinary'
+							? randomItem( [ 'male', 'female' ] )
+							: gender
+					);
+
+					if ( source === 'user' ) {
+						return getCharacterDataPromise(
+							'name',
+							generatedName
+						).then( ( data ) => {
+							data.content = data.content.replace(
+								/(<([^>]+)>)/gi,
+								''
+							);
+							return data;
+						} );
+					}
+
+					return {
+						content: generatedName,
+					};
+				},
 				gender: () => Promise.resolve( gender ),
 				race: () => Promise.resolve( race ),
 				occupation: () =>
@@ -104,51 +127,13 @@ export const useGenerator = () => {
 					),
 				alignment: () => Promise.resolve( alignment ),
 				age: () => Promise.resolve( age ),
-				height: () => {
-					const base = raceData.baseHeight || 4.67;
-					const modifier = raceData.heightModifier || '2d10';
-					const heightInFeet =
-						base + roll.roll( modifier ).result / 12;
-					const feet = Math.floor( heightInFeet );
-					const inches = Math.round( ( heightInFeet - feet ) * 12 );
-					return Promise.resolve( feet + "'" + inches + '"' );
-				},
+				height: () => Promise.resolve( generateHeight( { raceData } ) ),
 				weight: () =>
 					Promise.resolve( randomItem( weightDescriptors ) ),
-				appearance: () => {
-					// Baldness generation.
-					let baldRoll = roll.roll( 'd100' ).result;
-
-					if ( gender === 'female' ) {
-						baldRoll += 10;
-					}
-					if ( age === 'middleAge' ) {
-						baldRoll -= 10;
-					} else if ( age === 'old' ) {
-						baldRoll -= 20;
-					} else if ( age === 'venerable' ) {
-						baldRoll -= 40;
-					}
-
-					const isBald = baldRoll <= 10;
-					const hairDescription = isBald
-						? `they are bald`
-						: `their hair is ${ randomItem(
-								raceData.hairColors || hairColors
-						  ) } and ${ randomItem( hairDescriptors ) }`;
-					const eyeDescriptor = randomItem( eyeDescriptors );
-					const eyeColor = randomItem(
-						raceData.eyeColors || eyeColors
-					);
-					const skinDescriptor = randomItem( skinDescriptors );
-					const skinColor = randomItem(
-						raceData.skinColors || skinColors
-					);
-
-					return Promise.resolve(
-						`They have ${ skinDescriptor }, ${ skinColor } skin, ${ eyeDescriptor }, ${ eyeColor } eyes, and ${ hairDescription }.`
-					);
-				},
+				appearance: () =>
+					Promise.resolve(
+						generateAppearance( { gender, age, raceData } )
+					),
 				abilities: () => Promise.resolve( rollAbilities() ),
 				feature: () => getCharacterDataPromise( 'feature' ),
 				voice: () => getCharacterDataPromise( 'voice' ),
@@ -159,7 +144,7 @@ export const useGenerator = () => {
 				flaw: () => getCharacterDataPromise( 'flaw' ),
 			};
 
-			const resolveCallbacks = ( fields = null ) => {
+			const resolveCallbacks = ( fields = null, options = {} ) => {
 				const filteredCallbacks = fields
 					? Object.keys( callbacks )
 							.filter( ( key ) => fields.includes( key ) )
@@ -171,7 +156,7 @@ export const useGenerator = () => {
 
 				return Promise.all(
 					Object.keys( filteredCallbacks ).map( ( key ) =>
-						filteredCallbacks[ key ]()
+						filteredCallbacks[ key ]( options )
 					)
 				).then( ( results ) => {
 					const data = {};

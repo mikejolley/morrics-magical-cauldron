@@ -1,10 +1,37 @@
+import { useEffect } from 'react';
 import { getRaceProp } from '@shared/utils';
 import InlineData from '../inline-data';
 import AbilityList from './ability-list';
 import TraitList from './trait-list';
+import TraitListItem from './trait-list/item';
 import './style.scss';
 import { alignments, ageDescriptors } from '@shared/data';
 import Loading from '../loading';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faDiceD20, faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import ReactTooltip from 'react-tooltip';
+
+const CharacterName = ( { data, status } ) => {
+	useEffect( () => {
+		ReactTooltip.rebuild();
+	}, [] );
+
+	if ( status === 'resolving' && data === undefined ) {
+		return <Loading message={ false } />;
+	}
+
+	return (
+		<strong
+			data-tip={
+				data?.author?.node.name
+					? `Submitted by ${ data.author.node.name }`
+					: ''
+			}
+		>
+			{ data.content }
+		</strong>
+	);
+};
 
 const Character = ( { characterData, status, reroll, onRemove } ) => {
 	if ( status === 'resolving' && ! characterData ) {
@@ -35,18 +62,33 @@ const Character = ( { characterData, status, reroll, onRemove } ) => {
 			) }
 			<div className="section character-appearance">
 				<hgroup>
-					<h3>{ name }</h3>
+					<h3>
+						<CharacterName data={ name } status={ status } />
+					</h3>
 					<h4>
 						{ `${
 							alignmentData?.description
 						} :: ${ gender } ${ getRaceProp( race, 'singular' ) }` }
+						<button
+							onClick={ () =>
+								reroll( 'name', { source: 'generate' } )
+							}
+							className="reroll-button"
+							data-tip="Reroll Name"
+						>
+							<FontAwesomeIcon icon={ faDiceD20 } />
+						</button>
+						<button
+							onClick={ () => reroll( 'name' ) }
+							className="reroll-button"
+							data-tip="Reroll User Submitted Name"
+						>
+							<FontAwesomeIcon icon={ faUserCircle } />
+						</button>
 					</h4>
 				</hgroup>
 				<p>
-					<InlineData
-						value={ name }
-						onClick={ () => reroll( 'name' ) }
-					/>
+					{ name?.content }
 					{ ` is ` }
 					<InlineData
 						value={ ageDescriptors[ age ] || 'an adult' }
@@ -80,70 +122,75 @@ const Character = ( { characterData, status, reroll, onRemove } ) => {
 				<AbilityList
 					abilities={ abilities }
 					characterAge={ age || 'adult' }
-					onReroll={ () => reroll( 'abilities' ) }
+					onClick={ () => reroll( 'abilities' ) }
 				/>
 			</div>
 			<div className="section">
-				<TraitList
-					traits={ [
-						{
-							name: 'Features',
-							data: characterData.feature,
-							onReroll: () => reroll( 'feature' ),
-							loading:
-								status === 'resolving' &&
-								characterData.feature === undefined,
-						},
-						{
-							name: 'Plot Hook',
-							data: characterData.plotHook,
-							onReroll: () => reroll( 'plotHook' ),
-							loading:
-								status === 'resolving' &&
-								characterData.plotHook === undefined,
-						},
-						{
-							name: 'Personality',
-							data: characterData.personality,
-							onReroll: () => reroll( 'personality' ),
-							loading:
-								status === 'resolving' &&
-								characterData.personality === undefined,
-						},
-						{
-							name: 'Ideal',
-							data: characterData.ideal,
-							onReroll: () => reroll( 'ideal' ),
-							loading:
-								status === 'resolving' &&
-								characterData.ideal === undefined,
-						},
-						{
-							name: 'Bond',
-							data: characterData.bond,
-							onReroll: () => reroll( 'bond' ),
-							loading:
-								status === 'resolving' &&
-								characterData.bond === undefined,
-						},
-						{
-							name: 'Flaw',
-							data: characterData.flaw,
-							onReroll: () => reroll( 'flaw' ),
-							loading:
-								status === 'resolving' &&
-								characterData.flaw === undefined,
-						},
-						{
-							name: 'Voice',
-							data: characterData.voice,
-							onReroll: () => reroll( 'voice' ),
-							loading:
-								status === 'resolving' &&
-								characterData.voice === undefined,
-						},
-					] }
-				/>
+				<TraitList>
+					<TraitListItem
+						name="Plot Hook"
+						data={ characterData.plotHook }
+						onReroll={ () => reroll( 'plotHook' ) }
+						loading={
+							status === 'resolving' &&
+							characterData.plotHook === undefined
+						}
+					/>
+					<TraitListItem
+						name="Features"
+						data={ characterData.feature }
+						onReroll={ () => reroll( 'feature' ) }
+						loading={
+							status === 'resolving' &&
+							characterData.feature === undefined
+						}
+					/>
+					<TraitListItem
+						name="Personality"
+						data={ characterData.personality }
+						onReroll={ () => reroll( 'personality' ) }
+						loading={
+							status === 'resolving' &&
+							characterData.personality === undefined
+						}
+					/>
+					<TraitListItem
+						name="Ideal"
+						data={ characterData.ideal }
+						onReroll={ () => reroll( 'ideal' ) }
+						loading={
+							status === 'resolving' &&
+							characterData.ideal === undefined
+						}
+					/>
+					<TraitListItem
+						name="Bond"
+						data={ characterData.bond }
+						onReroll={ () => reroll( 'bond' ) }
+						loading={
+							status === 'resolving' &&
+							characterData.bond === undefined
+						}
+					/>
+					<TraitListItem
+						name="Flaw"
+						data={ characterData.flaw }
+						onReroll={ () => reroll( 'flaw' ) }
+						loading={
+							status === 'resolving' &&
+							characterData.flaw === undefined
+						}
+					/>
+					<TraitListItem
+						name="Voice"
+						data={ characterData.voice }
+						onReroll={ () => reroll( 'voice' ) }
+						loading={
+							status === 'resolving' &&
+							characterData.voice === undefined
+						}
+					/>
+				</TraitList>
 			</div>
 		</div>
 	);

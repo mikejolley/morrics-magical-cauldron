@@ -2,6 +2,8 @@
  * External dependencies
  */
 import { Link } from '@reach/router';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlusSquare } from '@fortawesome/free-solid-svg-icons';
 
 /**
  * Internal dependencies
@@ -22,8 +24,8 @@ const SubmitForm = () => {
 			<div className="npc-generator__submit content-box">
 				{ isLoggedIn ? (
 					<p>
-						Approved content will be used randomly when a new NPC is
-						generated.{ ' ' }
+						Submit content for the NPC generator using the form
+						below!{ ' ' }
 						{ viewer && (
 							<>
 								You are currently submitting content as{ ' ' }
@@ -32,15 +34,18 @@ const SubmitForm = () => {
 						) }
 					</p>
 				) : (
-					<>
-						Only signed in users can submit content. You can{ ' ' }
+					<p>
+						Submit content for the NPC generator using the form
+						below! To have your name associated with submitted
+						content, you can optionally{ ' ' }
 						<Link to="/account" className="link-button">
-							sign in or create an account here.
+							sign in or create an account here
 						</Link>
-					</>
+						. Guest submissions will be moderated.
+					</p>
 				) }
 			</div>
-			{ isLoggedIn && <SubmitContentForm /> }
+			<SubmitContentForm />
 		</>
 	);
 };

@@ -3,6 +3,7 @@
  */
 import { Router } from '@reach/router';
 import { ApolloProvider } from '@apollo/client';
+import ReactTooltip from 'react-tooltip';
 
 /**
  * Internal dependencies
@@ -36,6 +37,11 @@ function App() {
 							</Router>
 						</div>
 					</div>
+					<ReactTooltip
+						effect="solid"
+						type="info"
+						backgroundColor="#da635c"
+					/>
 					<SiteFooter />
 				</div>
 			</ApolloProvider>

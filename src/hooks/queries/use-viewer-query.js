@@ -2,12 +2,13 @@
  * External dependencies
  */
 import { gql, useLazyQuery } from '@apollo/client';
-import { useRef, useEffect } from 'react';
+import { useEffect } from 'react';
 
 /**
  * Internal dependencies
  */
 import { useAuthContext } from '@context';
+import { useSafeDispatch } from '@hooks';
 
 const VIEWER = gql`
 	query viewer {
@@ -23,30 +24,29 @@ const VIEWER = gql`
  * Hook which gets details about the logged in user.
  */
 export const useViewerQuery = () => {
-	const isSubscribed = useRef( true );
-	const { isLoggedIn, setIsLoggedIn } = useAuthContext();
-
-	const [ getViewer, { loading, error, data } ] = useLazyQuery( VIEWER, {
-		fetchPolicy: 'network-only',
-		onError: () => {
-			if ( isSubscribed.current ) {
-				setIsLoggedIn( false );
-			}
-		},
-		onCompleted: ( theData ) => {
-			if ( isSubscribed.current && ! theData?.viewer ) {
-				setIsLoggedIn( false );
-			}
-		},
-	} );
+	const { setIsLoggedIn, isLoggedIn } = useAuthContext();
 
 	useEffect( () => {
-		isSubscribed.current = true;
 		if ( isLoggedIn ) {
 			getViewer();
 		}
-		return () => ( isSubscribed.current = false );
 	}, [ isLoggedIn ] );
+
+	const onError = useSafeDispatch( () => {
+		setIsLoggedIn( false );
+	} );
+
+	const onCompleted = useSafeDispatch( ( theData ) => {
+		if ( ! theData?.viewer ) {
+			setIsLoggedIn( false );
+		}
+	} );
+
+	const [ getViewer, { loading, error, data } ] = useLazyQuery( VIEWER, {
+		fetchPolicy: 'network-only',
+		onError,
+		onCompleted,
+	} );
 
 	return {
 		loading,

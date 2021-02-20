@@ -1,0 +1,15 @@
+@import '@styles/variables.scss';
+
+.icon-button-group {
+	ul {
+		li {
+			flex: 1 1 0;
+		}
+
+		button {
+			svg {
+				margin-bottom: 0.5em
+			}
+		}
+	}
+}

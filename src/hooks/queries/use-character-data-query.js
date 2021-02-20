@@ -36,7 +36,9 @@ const GET_CHARACTER_DATUM_BY_TYPE = gql`
 `;
 
 export const useCharacterDataQuery = () => {
-	const { refetch } = useQuery( GET_CHARACTER_DATUM_BY_TYPE, { skip: true } );
+	const query = useQuery( GET_CHARACTER_DATUM_BY_TYPE, {
+		skip: true,
+	} );
 
-	return ( variables ) => refetch( variables );
+	return ( variables ) => query.refetch( variables );
 };

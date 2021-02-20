@@ -4,7 +4,7 @@ import { abilityScoreAgeModifiers } from './utils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDiceD20 } from '@fortawesome/free-solid-svg-icons';
 
-const AbilityList = ( { abilities, characterAge, onReroll } ) => {
+const AbilityList = ( { abilities, characterAge, onClick } ) => {
 	if ( ! abilities ) {
 		return null;
 	}
@@ -35,7 +35,7 @@ const AbilityList = ( { abilities, characterAge, onReroll } ) => {
 			) ) }
 			<li>
 				<button
-					onClick={ onReroll }
+					onClick={ onClick }
 					className="ability__reroll reroll-button"
 				>
 					<FontAwesomeIcon icon={ faDiceD20 } />

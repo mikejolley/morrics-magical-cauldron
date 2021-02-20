@@ -13,7 +13,7 @@ export const Profile = () => {
 	}
 
 	return (
-		<div className="section profile">
+		<div className="profile">
 			<hgroup>
 				<h2>Account</h2>
 				<div>

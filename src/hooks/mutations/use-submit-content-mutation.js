@@ -34,23 +34,9 @@ const SUBMIT = gql`
 export const useSubmitContentMutation = () => {
 	const [ mutation, mutationResults ] = useMutation( SUBMIT );
 
-	const submitContentMutation = ( {
-		content,
-		moral,
-		ethic,
-		type,
-		race,
-		gender,
-	} ) => {
+	const submitContentMutation = ( variables ) => {
 		return mutation( {
-			variables: {
-				content,
-				moral,
-				ethic,
-				type,
-				race,
-				gender,
-			},
+			variables,
 		} );
 	};
 

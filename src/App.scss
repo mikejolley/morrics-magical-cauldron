@@ -80,6 +80,10 @@ a {
 	color: $accent-color;
 }
 
+p {
+	line-height: 2;
+	margin: 0 0 1.5em;
+}
 h1,
 h2,
 h3,
@@ -215,6 +219,12 @@ hgroup > div {
 	margin: 1.5em 0;
 	display: block;
 }
+hgroup > div,
+.content-box {
+	> p:last-child {
+		margin-bottom: 0;
+	}
+}
 hgroup {
 	display: inline-block;
 	margin: 0 0 1.5em 0;
@@ -322,6 +332,9 @@ hgroup {
 			margin-top: 1.5em !important;
 		}
 	}
+	p:last-child {
+		margin-bottom: 0;
+	}
 }
 .success-notice {
 	background-color: #5d9451;
@@ -364,7 +377,7 @@ hgroup {
 		margin: 0 auto 1.5em;
 	}
 
-	p:last-child {
+	> p:last-child {
 		margin-bottom: 0;
 	}
 
@@ -422,6 +435,9 @@ button.button {
 	&.button--center {
 		margin: 7px auto;
 	}
+	&.button--right {
+		margin: 7px 0 7px auto;
+	}
 	&.button--large {
 		margin-top: 1em;
 		margin-bottom: 1em;
@@ -459,7 +475,7 @@ button.reroll-button {
 	padding: 0;
 	background: transparent none;
 	cursor: pointer;
-	opacity: 0.5;
+	opacity: 0.2;
 	&:hover {
 		opacity: 1;
 	}
@@ -508,7 +524,7 @@ button.reroll-button {
 		box-sizing: border-box;
 		padding: 0.5em;
 		border-radius: 5px;
-		border: 2px solid darken( $base-color, 10% );
+		border: 2px solid darken( $base-color, 3% );
 		background-color: lighten( $base-color, 10% );
 		font-size: 1em;
 		line-height: inherit;
@@ -529,7 +545,7 @@ button.reroll-button {
 		font-size: 1em;
 		background-color: lighten( $base-color, 10% );
 		box-sizing: border-box;
-		border: 2px solid darken( $base-color, 10% );
+		border: 2px solid darken( $base-color, 3% );
 		border-radius: 5px;
 		appearance: none;
 		box-shadow: 0 1px 0 1px rgba( 0, 0, 0, 0.04 );

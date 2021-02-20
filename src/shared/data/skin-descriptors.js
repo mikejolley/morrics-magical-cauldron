@@ -11,6 +11,8 @@ export const skinDescriptors = [
 	'glittering',
 	'pimpled',
 	'dirty',
+	'glowing',
+	'soft',
 ];
 
 export default skinDescriptors;
