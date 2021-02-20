@@ -2,8 +2,6 @@
  * External dependencies
  */
 import { Link } from '@reach/router';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlusSquare } from '@fortawesome/free-solid-svg-icons';
 
 /**
  * Internal dependencies
