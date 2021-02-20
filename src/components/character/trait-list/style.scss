@@ -50,6 +50,7 @@ ul.trait-list {
 		.trait__actions {
 			padding: 0;
 			white-space: nowrap;
+			display: table-cell;
 			button {
 				vertical-align: middle;
 				font-size: 1.1rem;
@@ -57,6 +58,46 @@ ul.trait-list {
 				display: inline-block;
 				width: auto;
 				margin: 0 0 0 0.75em;
+			}
+		}
+	}
+}
+
+@media only screen and ( max-width: 600px ) {
+	ul.trait-list {
+		display: flex;
+		flex-direction: column;
+		margin: -1em 0 0;
+		li {
+			display: block;
+			position: relative;
+			border-bottom: 2px solid rgba( 0, 0, 0, 0.2 );
+			border-top: 2px solid rgba( 255, 255, 255, 0.05 );
+			padding: 1em 0;
+
+			&:first-child {
+				border-top: 0;
+				margin-top: 0;
+			}
+			&:last-child {
+				border-bottom: 0;
+			}
+
+			> strong,
+			> div {
+				display: block;
+				text-align: left;
+			}
+
+			> div {
+				padding: 0;
+			}
+
+			.trait__actions {
+				display: block;
+				position: absolute;
+				top: 1em;
+				right: 0;
 			}
 		}
 	}
