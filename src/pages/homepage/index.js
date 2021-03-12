@@ -1,9 +1,7 @@
 /**
  * External dependencies
  */
-import { Link } from '@reach/router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHatWizard } from '@fortawesome/free-solid-svg-icons';
 import { faDAndD } from '@fortawesome/free-brands-svg-icons';
 
 const Homepage = () => {
