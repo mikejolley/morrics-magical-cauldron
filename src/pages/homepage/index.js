@@ -14,20 +14,12 @@ const Homepage = () => {
 					<mark>Morric&#x27;s Magical Cauldron</mark> is a collection
 					of
 					<mark>random content generators</mark> for casual games of{ ' ' }
-					<mark>Dungeons of Dragons</mark>.
+					<mark>Dungeons of Dragons</mark>. It uses a mixture of
+					pre-defined and <mark>user submitted content</mark>,
+					including Plot Hooks, Distinguishing Features, and other
+					traits.
 				</p>
 				<FontAwesomeIcon icon={ faDAndD } />
-				<p>
-					This app uses pre-defined tables of content, but can also
-					randomize
-					<mark>user submitted content</mark>, including Plot Hooks,
-					Distinguishing Features, and other traits. To submit
-					content,{ ' ' }
-					<Link to="/account" className="link-button">
-						sign in or create an account here.
-					</Link>
-				</p>
-				<FontAwesomeIcon icon={ faHatWizard } />
 				<p>
 					This project was built by{ ' ' }
 					<a href="https://mikejolley.com">Mike Jolley</a>, a.k.a.{ ' ' }
