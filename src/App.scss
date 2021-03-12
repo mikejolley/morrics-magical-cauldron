@@ -1,4 +1,4 @@
-@import '@styles/variables.scss';
+@import 'css/variables.scss';
 
 html {
 	font: 400 18px 'Bitter', serif;
@@ -476,7 +476,7 @@ button.reroll-button {
 	background: transparent none;
 	cursor: pointer;
 	opacity: 0.2;
-	&:hover {
+	&:focus, &:hover {
 		opacity: 1;
 	}
 }

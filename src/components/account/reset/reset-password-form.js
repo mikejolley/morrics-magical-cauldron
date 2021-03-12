@@ -10,9 +10,9 @@ import PasswordStrengthBar from 'react-password-strength-bar';
 /**
  * Internal dependencies
  */
-import Field from '@components/field';
-import { useResetPassword } from '@hooks';
-import Success from '@components/success';
+import Field from 'components/field';
+import { useResetPassword } from 'hooks';
+import Success from 'components/success';
 
 export const ResetPasswordForm = ( { resetLogin, resetKey } ) => {
 	const [ password, setPassword ] = useState( '' );

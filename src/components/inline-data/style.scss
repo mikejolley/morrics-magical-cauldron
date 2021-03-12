@@ -1,38 +1,47 @@
-@import '@styles/variables.scss';
+@import 'css/variables.scss';
 
 .inline-data {
 	display: inline;
 	border: 0;
-	transition: 0.3s all;
 	outline: 0;
 	padding: 0;
-	background: transparent none;
 	cursor: pointer;
 	color: inherit;
 	font-size: inherit;
 	line-height: inherit;
-	appearance: none;
-	border-radius: 5px;
-	padding: 0 0.3em;
-	.inline-data-value {
-		display: inline;
-		border-bottom: 2px solid lighten( $base-color, 30% );
-		padding: 0.2em 0;
+
+	&:not(:first-child) {
+		margin-right: 0.3em;
 	}
+
+	&:not(:last-child) {
+		margin-left: 0.3em;
+	}
+
+	.inline-data__button {
+		appearance: none;
+		outline: 0;
+		width: 0;
+		height: 0;
+		border: 0;
+		outline: 0;
+		padding: 0;
+		background: transparent none;
+	}
+
+	.inline-data__value {
+		display: inline;
+		transition: 0.3s all;
+		padding: 0.2em 0;
+		border-bottom: 2px solid lighten( $base-color, 30% );
+	}
+
+	&:hover .inline-data__value,
+	.inline-data__button:focus + .inline-data__value {
+		border-color: $accent-color;
+	}
+
 	.inline-data-value--capitalize {
 		text-transform: capitalize;
-	}
-	cite {
-		display: block;
-		font-size: 0.75em;
-		text-transform: lowercase;
-		color: lighten( $base-color, 30% );
-	}
-	&:hover,
-	&:focus {
-		background-color: lighten( $base-color, 10% );
-		.inline-data-value {
-			border: 0;
-		}
 	}
 }

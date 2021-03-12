@@ -1,10 +1,10 @@
 export const ageDescriptors = {
-	child: 'a prepubescent',
-	adolescent: 'a young',
-	adult: 'an adult',
-	middleAge: 'a middle aged',
-	old: 'an old',
-	venerable: 'a venerable',
+	child: 'Prepubescent',
+	adolescent: 'Young',
+	adult: 'Adult',
+	middleAge: 'Middle aged',
+	old: 'Old',
+	venerable: 'Venerable',
 };
 
 export default ageDescriptors;

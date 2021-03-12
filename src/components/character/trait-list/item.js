@@ -21,7 +21,7 @@ const TraitItemContent = ( { author, content, loading } ) => {
 };
 
 const TraitItem = ( { name, onReroll, loading, data = {} } ) => {
-	const author = data?.author?.node.name || '';
+	const author = data?.author || '';
 	const content = autop( data?.content || 'None' );
 
 	return (

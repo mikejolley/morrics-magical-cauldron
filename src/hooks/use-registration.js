@@ -9,7 +9,7 @@ import { stripHtml } from 'string-strip-html';
  * Internal dependencies
  */
 import { useRegisterMutation } from './mutations/use-register-mutation';
-import { useAuthContext } from '@context';
+import { useAuthContext } from 'context';
 
 const errorCodes = {
 	invalid_username:

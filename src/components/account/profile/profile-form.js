@@ -11,8 +11,8 @@ import {
 /**
  * Internal dependencies
  */
-import Field from '@components/field';
-import { useUpdateUser } from '@hooks';
+import Field from 'components/field';
+import { useUpdateUser } from 'hooks';
 
 export const ProfileForm = ( { viewer } ) => {
 	const [ email, setEmail ] = useState( viewer.email );

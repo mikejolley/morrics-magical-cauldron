@@ -1,4 +1,4 @@
-import { races } from '@shared/data';
+import { races } from 'shared/data';
 
 export const getRace = ( raceId ) => {
 	return races[ raceId ] ? races[ raceId ] : {};

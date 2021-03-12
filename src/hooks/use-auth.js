@@ -11,8 +11,8 @@ import { stripHtml } from 'string-strip-html';
 import { useLogoutMutation } from './mutations/use-logout-mutation';
 import { useLoginMutation } from './mutations/use-login-mutation';
 import { useViewerQuery } from './queries/use-viewer-query';
-import { useAuthContext } from '@context';
-import { useSafeDispatch } from '@hooks';
+import { useAuthContext } from 'context';
+import { useSafeDispatch } from 'hooks';
 
 const errorCodes = {
 	invalid_username:

@@ -1,8 +1,8 @@
 /**
  * Internal dependencies
  */
-import { useAuth } from '@hooks';
-import Loading from '@components/loading';
+import { useAuth } from 'hooks';
+import Loading from 'components/loading';
 import ProfileForm from './profile-form';
 
 export const Profile = () => {

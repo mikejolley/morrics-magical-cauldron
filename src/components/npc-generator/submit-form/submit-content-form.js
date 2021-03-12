@@ -18,13 +18,13 @@ import {
 /**
  * Internal dependencies
  */
-import Select from '@components/select';
-import IconButtonGroup from '@components/icon-button-group';
-import ButtonGroup from '@components/button-group';
-import Field from '@components/field';
-import { useSubmitContent, useSafeDispatch } from '@hooks';
-import Success from '@components/success';
-import { races } from '@shared/data';
+import Select from 'components/select';
+import IconButtonGroup from 'components/icon-button-group';
+import ButtonGroup from 'components/button-group';
+import Field from 'components/field';
+import { useSubmitContent, useSafeDispatch } from 'hooks';
+import Success from 'components/success';
+import { races } from 'shared/data';
 import { contentTypes } from './constants';
 
 export const SubmitContentForm = () => {

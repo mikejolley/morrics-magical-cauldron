@@ -7,8 +7,8 @@ import { useEffect } from 'react';
 /**
  * Internal dependencies
  */
-import { useAuthContext } from '@context';
-import { useSafeDispatch } from '@hooks';
+import { useAuthContext } from 'context';
+import { useSafeDispatch } from 'hooks';
 
 const VIEWER = gql`
 	query viewer {

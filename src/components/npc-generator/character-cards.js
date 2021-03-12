@@ -7,7 +7,9 @@ import { faScroll } from '@fortawesome/free-solid-svg-icons';
 /**
  * Internal dependencies
  */
-import Character from '@components/character';
+import Character from 'components/character';
+import { alignments, ageDescriptors } from 'shared/data';
+import { getRaceProp } from 'shared/utils';
 
 export const CharacterCards = ( { characters, onRemove, reroll } ) => {
 	if ( Object.keys( characters ).length === 0 ) {
@@ -30,8 +32,44 @@ export const CharacterCards = ( { characters, onRemove, reroll } ) => {
 					return (
 						<Character
 							key={ `${ id }` }
+							characterName={ characterData?.data?.name }
+							characterAge={
+								ageDescriptors[
+									characterData?.data?.age || 'adult'
+								]
+							}
+							characterRace={ getRaceProp(
+								characterData?.data?.race || 'human',
+								'singular'
+							) }
+							characterAlignment={
+								alignments.find(
+									( { id: alignmentId } ) =>
+										alignmentId ===
+										characterData?.data?.alignment
+								)?.description
+							}
+							characterGender={
+								characterData?.data?.gender || 'male'
+							}
+							characterAppearance={
+								characterData?.data?.appearance
+							}
+							characterOccupation={
+								characterData?.data?.occupation
+							}
+							characterWeight={ characterData?.data?.weight }
+							characterHeight={ characterData?.data?.height }
+							abilities={ characterData?.data?.abilities }
+							plotHook={ characterData?.data?.plotHook }
+							feature={ characterData?.data?.feature }
+							personality={ characterData?.data?.personality }
+							ideal={ characterData?.data?.ideal }
+							bond={ characterData?.data?.bond }
+							flaw={ characterData?.data?.flaw }
+							voice={ characterData?.data?.voice }
 							status={ characterData?.status }
-							characterData={ characterData?.data }
+							hasData={ Boolean( characterData?.data ) }
 							reroll={ ( fields, options ) => {
 								reroll( id, fields, options );
 							} }

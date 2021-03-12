@@ -9,8 +9,8 @@ import PasswordStrengthBar from 'react-password-strength-bar';
 /**
  * Internal dependencies
  */
-import Field from '@components/field';
-import { useRegistration } from '@hooks';
+import Field from 'components/field';
+import { useRegistration } from 'hooks';
 
 export const RegisterForm = () => {
 	const [ username, setUsername ] = useState( '' );

@@ -8,9 +8,9 @@ import { faSkullCrossbones } from '@fortawesome/free-solid-svg-icons';
 /**
  * Internal dependencies
  */
-import Field from '@components/field';
-import { useResetPassword } from '@hooks';
-import Success from '@components/success';
+import Field from 'components/field';
+import { useResetPassword } from 'hooks';
+import Success from 'components/success';
 
 export const ResetForm = () => {
 	const [ username, setUsername ] = useState( '' );

@@ -1,5 +1,6 @@
 import './style.scss';
 import Loading from '../loading';
+import { useId } from 'react-id-generator';
 
 /**
  * Renders a form field.
@@ -20,24 +21,29 @@ const InlineField = ( {
 	suffix = '',
 	loading = false,
 } ) => {
+	const [ htmlId ] = useId();
+
 	if ( loading ) {
 		return <Loading className={ `inline-data` } message={ false } />;
 	}
 	return (
-		<>
+		<label
+			htmlFor={ htmlId }
+			data-tip={ author ? `Submitted by ${ author }` : '' }
+			className={ `inline-data` }
+		>
 			<button
-				className={ `inline-data` }
+				id={ htmlId }
+				className={ `inline-data__button` }
 				onClick={ onClick }
-				data-tip={ author ? `Submitted by ${ author }` : '' }
-			>
-				<div
-					className={ `inline-data-value` }
-					dangerouslySetInnerHTML={ {
-						__html: `${ prefix } ${ value } ${ suffix }`,
-					} }
-				/>
-			</button>
-		</>
+			/>
+			<span
+				className={ `inline-data__value` }
+				dangerouslySetInnerHTML={ {
+					__html: `${ prefix } ${ value } ${ suffix }`.trim(),
+				} }
+			/>
+		</label>
 	);
 };
 

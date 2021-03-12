@@ -6,7 +6,7 @@ import { createContext, useContext } from 'react';
 /**
  * Internal dependencies
  */
-import { useLocalStorage } from '@hooks';
+import { useLocalStorage } from 'hooks';
 
 const AuthContext = createContext( {
 	isLoggedIn: false,

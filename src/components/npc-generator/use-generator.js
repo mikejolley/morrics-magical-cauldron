@@ -3,11 +3,12 @@
  */
 import { useCallback } from 'react';
 import randomItem from 'random-item';
+import { stripHtml } from 'string-strip-html';
 
 /**
  * Internal dependencies
  */
-import { useCharacterDataQuery } from '@hooks/queries/use-character-data-query';
+import { useCharacterDataQuery } from 'hooks/queries/use-character-data-query';
 import {
 	generateName,
 	rollAbilities,
@@ -23,7 +24,8 @@ import {
 	ageDescriptors,
 	weightDescriptors,
 	alignments,
-} from '@shared/data';
+} from 'shared/data';
+import { filterCallbacks, resolveAllCallbacks } from 'shared/utils';
 
 export const useGenerator = () => {
 	const getCharacterData = useCharacterDataQuery();
@@ -36,16 +38,14 @@ export const useGenerator = () => {
 			...currentData
 		} ) => {
 			/**
-			 * Randomizes the incoming options if missing or blank -- these options
-			 * are generated first since other data may require them.
-			 *
-			 * Because other generators rely on these, they cannot be rerolled individually.
+			 * Randomizes the incoming options if missing or blank -- these options are generated first since other data
+			 * may require them. Because other generators rely on these, they cannot be rerolled individually.
 			 */
 			const race = selectedRace || randomRace();
 			const alignment = selectedAlignment || randomAlignment();
 			const gender = selectedGender || randomGender();
 			const age =
-				currentData?.age || randomItem( Object.keys( ageDescriptors ) );
+				currentData.age || randomItem( Object.keys( ageDescriptors ) );
 
 			/**
 			 * Lookup data objects from the selected or random ID.
@@ -55,29 +55,26 @@ export const useGenerator = () => {
 				( { id } ) => id === alignment
 			);
 
-			const getCharacterDataPromise = async ( type, fallback = '' ) => {
+			const characterDataPromise = async ( type, fallback = '' ) => {
 				try {
 					return await getCharacterData( {
-						moral: [ alignmentData.moral, 'any' ],
-						ethic: [ alignmentData.ethic, 'any' ],
+						moral: alignmentData.moral,
+						ethic: alignmentData.ethic,
 						race: raceData?.inherit
-							? raceData.inherit.concat( [ race, 'any' ] )
-							: [ race, 'any' ],
-						gender:
-							gender !== 'nonbinary'
-								? [ gender, 'any' ]
-								: [ 'any' ],
+							? raceData.inherit.concat( [ race ] )
+							: race,
+						gender: gender !== 'nonbinary' ? gender : 'any',
 						type,
 					} )
 						.then( ( { data: sourceData } ) => {
-							const randomItemFromSource = randomItem(
+							const randomSourceData = randomItem(
 								sourceData?.characterData?.nodes || []
 							);
 
 							const returnItem = {
-								content:
-									randomItemFromSource.content || fallback,
-								author: randomItemFromSource?.author,
+								content: randomSourceData.content || fallback,
+								author:
+									randomSourceData?.author?.node?.name || '',
 							};
 
 							return Promise.resolve( returnItem );
@@ -91,81 +88,63 @@ export const useGenerator = () => {
 			};
 
 			/**
+			 * Return a resolved promise.
+			 *
+			 * @param {string} data Data to resolve.
+			 * @return {Promise} Resolved promise.
+			 */
+			const resolve = ( data ) => {
+				return Promise.resolve( data );
+			};
+
+			/**
 			 * Returns an array of promises which resolve with data. Some use the API, some come from the client.
 			 */
 			const callbacks = {
 				name: ( { source = 'user' } ) => {
-					const generatedName = generateName(
-						race,
-						gender === 'nonbinary'
-							? randomItem( [ 'male', 'female' ] )
-							: gender
-					);
+					const generatedName = generateName( race, gender );
 
-					if ( source === 'user' ) {
-						return getCharacterDataPromise(
-							'name',
-							generatedName
-						).then( ( data ) => {
-							data.content = data.content.replace(
-								/(<([^>]+)>)/gi,
-								''
-							);
-							return data;
-						} );
-					}
-
-					return {
-						content: generatedName,
-					};
+					return source === 'user'
+						? characterDataPromise( 'name', generatedName ).then(
+								( data ) => {
+									data.content = stripHtml(
+										data.content
+									).result;
+									return data;
+								}
+						  )
+						: {
+								content: generatedName,
+								author: '',
+						  };
 				},
-				gender: () => Promise.resolve( gender ),
-				race: () => Promise.resolve( race ),
+				gender: () => resolve( gender ),
+				race: () => resolve( race ),
 				occupation: () =>
-					Promise.resolve(
+					resolve(
 						selectedOccupation || randomOccupation( alignment )
 					),
-				alignment: () => Promise.resolve( alignment ),
-				age: () => Promise.resolve( age ),
-				height: () => Promise.resolve( generateHeight( { raceData } ) ),
-				weight: () =>
-					Promise.resolve( randomItem( weightDescriptors ) ),
+				alignment: () => resolve( alignment ),
+				age: () => resolve( age ),
+				height: () => resolve( generateHeight( { raceData } ) ),
+				weight: () => resolve( randomItem( weightDescriptors ) ),
 				appearance: () =>
-					Promise.resolve(
-						generateAppearance( { gender, age, raceData } )
-					),
-				abilities: () => Promise.resolve( rollAbilities() ),
-				feature: () => getCharacterDataPromise( 'feature' ),
-				voice: () => getCharacterDataPromise( 'voice' ),
-				plotHook: () => getCharacterDataPromise( 'plotHook' ),
-				personality: () => getCharacterDataPromise( 'trait' ),
-				ideal: () => getCharacterDataPromise( 'ideal' ),
-				bond: () => getCharacterDataPromise( 'bond' ),
-				flaw: () => getCharacterDataPromise( 'flaw' ),
+					resolve( generateAppearance( { gender, age, raceData } ) ),
+				abilities: () => resolve( rollAbilities( { age } ) ),
+				feature: () => characterDataPromise( 'feature' ),
+				voice: () => characterDataPromise( 'voice' ),
+				plotHook: () => characterDataPromise( 'plotHook' ),
+				personality: () => characterDataPromise( 'trait' ),
+				ideal: () => characterDataPromise( 'ideal' ),
+				bond: () => characterDataPromise( 'bond' ),
+				flaw: () => characterDataPromise( 'flaw' ),
 			};
 
-			const resolveCallbacks = ( fields = null, options = {} ) => {
-				const filteredCallbacks = fields
-					? Object.keys( callbacks )
-							.filter( ( key ) => fields.includes( key ) )
-							.reduce( ( obj, key ) => {
-								obj[ key ] = callbacks[ key ];
-								return obj;
-							}, {} )
-					: callbacks;
-
-				return Promise.all(
-					Object.keys( filteredCallbacks ).map( ( key ) =>
-						filteredCallbacks[ key ]( options )
-					)
-				).then( ( results ) => {
-					const data = {};
-					Object.keys( filteredCallbacks ).forEach( ( key, i ) => {
-						data[ key ] = results[ i ];
-					} );
-					return data;
-				} );
-			};
+			const resolveCallbacks = ( fields = null, options = {} ) =>
+				resolveAllCallbacks(
+					filterCallbacks( callbacks, fields ),
+					options
+				);
 
 			return {
 				callbacks,

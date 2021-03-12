@@ -6,7 +6,7 @@ import { Link } from '@reach/router';
 /**
  * Internal dependencies
  */
-import { SiteNav } from '@components/site';
+import { SiteNav } from 'components/site';
 
 export const SiteHeader = () => {
 	return (

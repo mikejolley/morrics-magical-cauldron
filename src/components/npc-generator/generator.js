@@ -11,51 +11,10 @@ import CharacterCards from './character-cards';
 import OptionsForm from './options-form';
 import { useGenerator } from './use-generator';
 import { validateCharacters } from './utils';
-
-const reducer = ( state, { type, data, status, characterId } ) => {
-	switch ( type ) {
-		case 'SET_STATUS':
-			state = {
-				...state,
-				[ characterId ]: {
-					...( state[ characterId ] || {} ),
-					status,
-				},
-			};
-			break;
-		case 'DELETE':
-			const newState = { ...state };
-			delete newState[ characterId ];
-			state = {
-				...newState,
-			};
-			break;
-		case 'SET_STATUS_WITH_DATA':
-			state = {
-				...state,
-				[ characterId ]: {
-					status,
-					data,
-				},
-			};
-			break;
-		case 'RESOLVE_WITH_DATA':
-			state = {
-				...state,
-				[ characterId ]: {
-					status: 'resolved',
-					data: {
-						...( state[ characterId ]?.data || {} ),
-						...data,
-					},
-				},
-			};
-			break;
-	}
-	return state;
-};
+import reducer from './reducer';
 
 const Generator = () => {
+	const getCallbacks = useGenerator();
 	const [ characters, dispatch ] = useReducer( reducer, {}, () => {
 		const valueInLocalStorage = window.localStorage.getItem(
 			'npc-generator'
@@ -72,8 +31,6 @@ const Generator = () => {
 			JSON.stringify( characters )
 		);
 	}, [ characters ] );
-
-	const getCallbacks = useGenerator();
 
 	/**
 	 * Returns a promise for querying and generating character data.
@@ -110,11 +67,12 @@ const Generator = () => {
 			? fieldNames
 			: [ fieldNames ];
 
-		const currentDataWithoutRerolled = Object.fromEntries(
-			Object.entries( currentData.data ).filter(
-				( dataItem ) => ! fields.includes( dataItem[ 0 ] )
-			)
-		);
+		const currentDataWithoutRerolled = Object.entries( currentData.data )
+			.filter( ( dataItem ) => ! fields.includes( dataItem[ 0 ] ) )
+			.reduce( function ( a, v ) {
+				a[ v[ 0 ] ] = v[ 1 ];
+				return a;
+			}, {} );
 
 		dispatch( {
 			type: 'SET_STATUS_WITH_DATA',

@@ -6,11 +6,11 @@ import { Router } from '@reach/router';
 /**
  * Internal dependencies
  */
-import { useAuth } from '@hooks';
+import { useAuth } from 'hooks';
 import Profile from './profile';
 import Login from './login';
 import { ResetPasswordEmail, ResetPassword } from './reset';
-import { SiteNotFound } from '@components/site';
+import { SiteNotFound } from 'components/site';
 
 export const Account = () => {
 	const { isLoggedIn } = useAuth();

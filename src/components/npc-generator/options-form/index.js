@@ -6,8 +6,8 @@ import { useState } from 'react';
 /**
  * Internal dependencies
  */
-import Select from '@components/select';
-import { races, occupations, alignments, genders } from '@shared/data';
+import Select from 'components/select';
+import { races, occupations, alignments, genders } from 'shared/data';
 
 const OptionsForm = ( { onChange } ) => {
 	const [ options, setOptions ] = useState( {} );

@@ -9,16 +9,16 @@ import ReactTooltip from 'react-tooltip';
  * Internal dependencies
  */
 import './App.scss';
-import NpcGenerator from '@components/npc-generator';
-import Account from '@components/account';
+import NpcGenerator from 'components/npc-generator';
+import Account from 'components/account';
 import {
 	SiteHeader,
 	SiteFooter,
 	SiteNotFound,
 	Homepage,
-} from '@components/site';
-import { useAppApolloClient } from '@hooks';
-import { AuthContextProvider } from '@context';
+} from 'components/site';
+import { useAppApolloClient } from 'hooks';
+import { AuthContextProvider } from 'context';
 
 function App() {
 	const client = useAppApolloClient();

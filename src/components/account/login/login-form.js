@@ -8,8 +8,8 @@ import { faSkullCrossbones } from '@fortawesome/free-solid-svg-icons';
 /**
  * Internal dependencies
  */
-import Field from '@components/field';
-import { useAuth } from '@hooks';
+import Field from 'components/field';
+import { useAuth } from 'hooks';
 
 export const LoginForm = () => {
 	const [ username, setUsername ] = useState( '' );

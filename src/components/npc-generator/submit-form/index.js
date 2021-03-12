@@ -6,8 +6,8 @@ import { Link } from '@reach/router';
 /**
  * Internal dependencies
  */
-import Loading from '@components/loading';
-import { useAuth } from '@hooks';
+import Loading from 'components/loading';
+import { useAuth } from 'hooks';
 import SubmitContentForm from './submit-content-form';
 
 const SubmitForm = () => {

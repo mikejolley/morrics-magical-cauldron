@@ -12,7 +12,7 @@ import {
 /**
  * Internal dependencies
  */
-import { useAuth } from '@hooks';
+import { useAuth } from 'hooks';
 
 const NavLink = ( props ) => (
 	<Link

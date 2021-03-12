@@ -19,7 +19,7 @@ import {
 	skinDescriptors,
 	eyeDescriptors,
 	hairDescriptors,
-} from '@shared/data';
+} from 'shared/data';
 
 /**
  * Get a random race.
@@ -123,14 +123,69 @@ export const rand = ( min, max ) => {
 	return Math.floor( Math.random() * ( max - min + 1 ) ) + min;
 };
 
-export const rollAbilities = () => {
+const abilityScoreAgeModifiers = {
+	child: {
+		str: -3,
+		dex: -3,
+		con: -3,
+		int: -3,
+		wis: -3,
+		cha: -3,
+	},
+	adolescent: {
+		str: -1,
+		dex: -1,
+		con: -1,
+		int: -1,
+		wis: -1,
+		cha: -1,
+	},
+	middleAge: {
+		str: -1,
+		dex: -1,
+		con: -1,
+		int: 1,
+		wis: 1,
+		cha: 1,
+	},
+	old: {
+		str: -3,
+		dex: -3,
+		con: -3,
+		int: 2,
+		wis: 2,
+		cha: 2,
+	},
+	venerable: {
+		str: -6,
+		dex: -6,
+		con: -6,
+		int: 3,
+		wis: 3,
+		cha: 3,
+	},
+};
+
+export const rollAbilities = ( { age } ) => {
+	const ageModifier =
+		abilityScoreAgeModifiers[
+			Object.keys( abilityScoreAgeModifiers ).find(
+				( ageGroup ) => age === ageGroup
+			)
+		];
+	const strMod = ageModifier?.str || 0;
+	const dexMod = ageModifier?.dex || 0;
+	const conMod = ageModifier?.con || 0;
+	const intMod = ageModifier?.int || 0;
+	const wisMod = ageModifier?.wis || 0;
+	const chaMod = ageModifier?.cha || 0;
 	return {
-		str: roll.roll( '4d6b3' ).result,
-		dex: roll.roll( '4d6b3' ).result,
-		con: roll.roll( '4d6b3' ).result,
-		int: roll.roll( '4d6b3' ).result,
-		wis: roll.roll( '4d6b3' ).result,
-		cha: roll.roll( '4d6b3' ).result,
+		str: Math.max( roll.roll( '4d6b3' ).result + strMod, 1 ),
+		dex: Math.max( roll.roll( '4d6b3' ).result + dexMod, 1 ),
+		con: Math.max( roll.roll( '4d6b3' ).result + conMod, 1 ),
+		int: Math.max( roll.roll( '4d6b3' ).result + intMod, 1 ),
+		wis: Math.max( roll.roll( '4d6b3' ).result + wisMod, 1 ),
+		cha: Math.max( roll.roll( '4d6b3' ).result + chaMod, 1 ),
 	};
 };
 
@@ -219,6 +274,10 @@ export const generateName = ( race, gender ) => {
 
 	if ( ! raceTemplates ) {
 		return '';
+	}
+
+	if ( ! gender || gender === 'nonbinary' ) {
+		gender = randomItem( [ 'male', 'female' ] );
 	}
 
 	const template = randomItem( raceTemplates );
