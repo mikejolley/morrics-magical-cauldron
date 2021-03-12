@@ -55,7 +55,7 @@ export const RegisterForm = () => {
 			<Field
 				label="Username"
 				value={ username }
-				autocomplete="username"
+				autoComplete="username"
 				onChange={ ( value ) => setUsername( value ) }
 				placeholder="Enter a username"
 				disabled={ status === 'resolving' }
@@ -66,7 +66,7 @@ export const RegisterForm = () => {
 			<Field
 				label="Email"
 				value={ email }
-				autocomplete="email"
+				autoComplete="email"
 				onChange={ ( value ) => setEmail( value ) }
 				placeholder="Enter your email address"
 				disabled={ status === 'resolving' }
@@ -74,7 +74,7 @@ export const RegisterForm = () => {
 			<Field
 				label="Password"
 				type="password"
-				autocomplete="new-password"
+				autoComplete="new-password"
 				value={ password }
 				placeholder="Choose a password"
 				onChange={ ( value ) => setPassword( value ) }

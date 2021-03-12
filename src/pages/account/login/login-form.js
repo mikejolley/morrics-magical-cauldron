@@ -35,14 +35,14 @@ export const LoginForm = () => {
 			<Field
 				label="Username or Email Address"
 				value={ username }
-				autocomplete="username"
+				autoComplete="username"
 				onChange={ ( value ) => setUsername( value ) }
 				disabled={ status === 'resolving' }
 			/>
 			<Field
 				label="Password"
 				type="password"
-				autocomplete="current-password"
+				autoComplete="current-password"
 				value={ password }
 				onChange={ ( value ) => setPassword( value ) }
 				disabled={ status === 'resolving' }

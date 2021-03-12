@@ -360,9 +360,15 @@ hgroup {
 	border-bottom: 2px solid rgba( 0, 0, 0, 0.2 );
 	border-top: 2px solid rgba( 255, 255, 255, 0.05 );
 	padding: 1.5em 0;
+	max-width: 60ch;
+	margin: 0 auto;
 
 	&:first-of-type {
 		padding-top: 0;
+		border-top: 0;
+	}
+
+	&.feature + .section {
 		border-top: 0;
 	}
 
@@ -381,11 +387,22 @@ hgroup {
 		margin-bottom: 0;
 	}
 
+	ul.changelog {
+		background: rgba( 0, 0, 0, 0.2 );
+		padding: 2.5em;
+		margin: 1.5em 0;
+		line-height: 2;
+		list-style: none;
+		ul {
+			list-style: inside;
+			margin: .5em 0;
+			padding: 0;
+		}
+	}
+
 	&.feature {
 		border: 2px solid lighten( $base-color, 5% );
 		background: lighten( $base-color, 1% );
-		max-width: 600px;
-		margin: 0 auto;
 		padding: 3em;
 		border-radius: 10px;
 		box-shadow: 0 4px 8px 0 rgba( 0, 0, 0, 0.2 );
