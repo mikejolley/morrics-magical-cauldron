@@ -65,6 +65,16 @@ button {
 			a {
 				color: #fff;
 				padding: 0 5px;
+
+				svg {
+					fill: #fff;
+					height: 1em;
+					margin-top: 3px;
+				}
+
+				&:hover svg {
+					fill: $accent-color;
+				}
 			}
 		}
 	}

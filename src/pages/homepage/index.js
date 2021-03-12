@@ -38,7 +38,7 @@ const Homepage = () => {
 				</p>
 			</div>
 			<div className="section">
-				<h2>Whats New</h2>
+				<h2>What&#x27;s New</h2>
 				<ul className="changelog">
 					<li>
 						<strong>12th March 2021</strong>
