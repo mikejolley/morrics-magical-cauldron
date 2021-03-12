@@ -10,14 +10,14 @@ import { useAuth } from 'hooks';
 import Profile from './profile';
 import Login from './login';
 import { ResetPasswordEmail, ResetPassword } from './reset';
-import { SiteNotFound } from 'components/site';
+import { NotFound } from 'pages';
 
-export const Account = () => {
+const Account = () => {
 	const { isLoggedIn } = useAuth();
 	const ViewComponent = isLoggedIn ? Profile : Login;
 	return (
 		<Router>
-			<SiteNotFound default />
+			<NotFound default />
 			<ViewComponent path="/*" />
 			<ResetPasswordEmail path="/reset" />
 			<ResetPassword path="/reset/:resetLogin/:resetKey" />

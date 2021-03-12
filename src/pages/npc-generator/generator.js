@@ -9,12 +9,33 @@ import { v4 as uuidv4 } from 'uuid';
  */
 import CharacterCards from './character-cards';
 import OptionsForm from './options-form';
-import { useGenerator } from './use-generator';
-import { validateCharacters } from './utils';
+import { useNpcGenerator } from 'hooks';
 import reducer from './reducer';
 
+/**
+ * Used to validate data in state/localStorage.
+ *
+ * @param {Object} characters Contains character data.
+ * @return {Object} Validated characters.
+ */
+const validateCharacters = ( characters ) => {
+	return Object.fromEntries(
+		Object.entries( characters )
+			.map( ( [ id, character ] ) => {
+				if (
+					! character?.data ||
+					! character?.status === 'resolving'
+				) {
+					return false;
+				}
+				return [ id, character ];
+			} )
+			.filter( Boolean )
+	);
+};
+
 const Generator = () => {
-	const getCallbacks = useGenerator();
+	const getCallbacks = useNpcGenerator();
 	const [ characters, dispatch ] = useReducer( reducer, {}, () => {
 		const valueInLocalStorage = window.localStorage.getItem(
 			'npc-generator'

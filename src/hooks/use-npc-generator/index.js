@@ -27,7 +27,7 @@ import {
 } from 'shared/data';
 import { filterCallbacks, resolveAllCallbacks } from 'shared/utils';
 
-export const useGenerator = () => {
+export const useNpcGenerator = () => {
 	const getCharacterData = useCharacterDataQuery();
 	const getCallbacks = useCallback(
 		( {

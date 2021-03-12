@@ -4,6 +4,7 @@ const CracoAlias = require( 'craco-alias' );
 module.exports = {
 	webpack: {
 		alias: {
+			pages: path.resolve( __dirname, 'src/pages/' ),
 			components: path.resolve( __dirname, 'src/components/' ),
 			shared: path.resolve( __dirname, 'src/shared/' ),
 			hooks: path.resolve( __dirname, 'src/hooks/' ),

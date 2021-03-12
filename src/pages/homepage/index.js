@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHatWizard } from '@fortawesome/free-solid-svg-icons';
 import { faDAndD } from '@fortawesome/free-brands-svg-icons';
 
-export const Homepage = () => {
+const Homepage = () => {
 	return (
 		<>
 			<div className="section feature">

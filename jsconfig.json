@@ -4,6 +4,7 @@
 		"baseUrl": "./src",
 		"jsx": "react",
 		"paths": {
+			"pages/*": [ "./pages/*" ],
 			"components/*": [ "./components/*" ],
 			"shared/*": [ "./shared/*" ],
 			"hooks/*": [ "./hooks/*" ]

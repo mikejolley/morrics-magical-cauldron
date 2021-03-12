@@ -65,28 +65,6 @@ export const randomOccupation = ( alignment ) =>
 export const roll = new Roll();
 
 /**
- * Used to validate data in state/localStorage.
- *
- * @param {Object} characters Contains character data.
- * @return {Object} Validated characters.
- */
-export const validateCharacters = ( characters ) => {
-	return Object.fromEntries(
-		Object.entries( characters )
-			.map( ( [ id, character ] ) => {
-				if (
-					! character?.data ||
-					! character?.status === 'resolving'
-				) {
-					return false;
-				}
-				return [ id, character ];
-			} )
-			.filter( Boolean )
-	);
-};
-
-/**
  * Select a random item, but choose another if the alignment conflicts.
  *
  * @param {Array} items List of items.

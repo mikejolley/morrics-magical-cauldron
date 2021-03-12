@@ -9,16 +9,11 @@ import ReactTooltip from 'react-tooltip';
  * Internal dependencies
  */
 import './App.scss';
-import NpcGenerator from 'components/npc-generator';
-import Account from 'components/account';
-import {
-	SiteHeader,
-	SiteFooter,
-	SiteNotFound,
-	Homepage,
-} from 'components/site';
+import SiteHeader from 'components/site-header';
+import SiteFooter from 'components/site-footer';
 import { useAppApolloClient } from 'hooks';
 import { AuthContextProvider } from 'context';
+import { Homepage, NotFound, NpcGenerator, Account } from 'pages';
 
 function App() {
 	const client = useAppApolloClient();
@@ -30,7 +25,7 @@ function App() {
 						<SiteHeader />
 						<div className="site-content">
 							<Router primary={ false }>
-								<SiteNotFound default />
+								<NotFound default />
 								<Homepage path="/" />
 								<NpcGenerator path="/npc-generator/*" />
 								<Account path="/account/*" />
