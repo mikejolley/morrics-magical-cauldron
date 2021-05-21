@@ -24,7 +24,7 @@ export const CharacterCards = ( { characters, onRemove, onReroll } ) => {
 		);
 	}
 	return (
-		<div className="character-cards">
+		<div className="card-list">
 			{ Object.entries( characters )
 				.slice( 0 )
 				.reverse()

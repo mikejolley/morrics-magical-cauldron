@@ -3,7 +3,6 @@ import InlineData from '../inline-data';
 import AbilityList from './ability-list';
 import TraitList from './trait-list';
 import TraitListItem from './trait-list/item';
-import './style.scss';
 import Loading from '../loading';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDiceD20, faUserCircle } from '@fortawesome/free-solid-svg-icons';
@@ -56,15 +55,15 @@ const Character = ( {
 } ) => {
 	const isResolving = status === 'resolving';
 	if ( isResolving && ! hasData ) {
-		return <Loading className="character-card" />;
+		return <Loading className="card" />;
 	}
 	if ( ! hasData ) {
 		return null;
 	}
 	return (
-		<div className="character-card">
+		<div className="card card--character">
 			{ onRemove && (
-				<button className="character-card__delete" onClick={ onRemove }>
+				<button className="card__delete" onClick={ onRemove }>
 					Delete
 				</button>
 			) }

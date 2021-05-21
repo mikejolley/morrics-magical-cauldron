@@ -13,7 +13,13 @@ import SiteHeader from 'components/site-header';
 import SiteFooter from 'components/site-footer';
 import { useAppApolloClient } from 'hooks';
 import { AuthContextProvider } from 'context';
-import { Homepage, NotFound, NpcGenerator, Account } from 'pages';
+import {
+	Homepage,
+	NotFound,
+	NpcGenerator,
+	Account,
+	TavernGenerator,
+} from 'pages';
 
 function App() {
 	const client = useAppApolloClient();
@@ -28,6 +34,7 @@ function App() {
 								<NotFound default />
 								<Homepage path="/" />
 								<NpcGenerator path="/npc-generator/*" />
+								<TavernGenerator path="/tavern-generator/*" />
 								<Account path="/account/*" />
 							</Router>
 						</div>

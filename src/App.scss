@@ -603,3 +603,94 @@ button.reroll-button {
 .field + .field {
 	margin: 1.5vh 0;
 }
+
+.card-list {
+	display: flex;
+	margin: 0 -1em;
+	position: relative;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+.card.loading-state {
+	align-items: stretch;
+}
+.card {
+	flex: 1 1 0px;
+	min-width: 500px;
+	max-width: 800px;
+	box-sizing: border-box;
+	padding: 2em;
+	margin: 0 1em 2em;
+	background-color: lighten( $base-color, 5% );
+	border: 2px solid darken( $base-color, 1% );
+	border-radius: 10px;
+	box-shadow: 0 4px 8px 0 rgba( 0, 0, 0, 0.2 );
+	transition: 0.3s;
+	position: relative;
+
+	&:hover {
+		box-shadow: 0 8px 16px 0 rgba( 0, 0, 0, 0.2 );
+	}
+
+	hgroup {
+		margin: 0 0 1.5em;
+
+		h3 {
+			.loading-state {
+				font-size: 1.5em;
+				padding: 0;
+				margin: 0 auto;
+				background: none;
+				text-align: center;
+				svg {
+					font-size: 1em;
+				}
+			}
+		}
+
+		h4 {
+			button {
+				font-size: 1.1rem;
+				margin-left: 0.75rem;
+				line-height: 1;
+				vertical-align: middle;
+			}
+		}
+	}
+
+	.card__delete {
+		appearance: none;
+		background: transparent;
+		visibility: hidden;
+		position: absolute;
+		right: 0;
+		top: 0;
+		line-height: 0;
+		margin: -1.25em -1.75em;
+		@include grow;
+		&:after {
+			visibility: visible;
+			content: 'x';
+			display: inline-block;
+			box-shadow: 0 4px 8px 0 rgba( 0, 0, 0, 0.2 );
+			background: lighten( $base-color, 30% );
+			color: $base-color;
+			font-size: 1.2em;
+			box-sizing: border-box;
+			border-radius: 5em;
+			line-height: 1ch;
+			padding: 1.5ch;
+			font-weight: bold;
+			cursor: pointer;
+		}
+		&:hover:after {
+			background-color: $accent-color;
+			color: white;
+		}
+	}
+}
+@media only screen and ( max-width: 600px ) {
+	.card {
+		min-width: 200px;
+	}
+}

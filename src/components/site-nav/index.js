@@ -7,6 +7,7 @@ import {
 	faUserCircle,
 	faSignInAlt,
 	faPortrait,
+	faBeer,
 } from '@fortawesome/free-solid-svg-icons';
 
 /**
@@ -41,6 +42,15 @@ export const SiteNav = () => {
 							aria-hidden={ true }
 						/>
 						<span>NPCs</span>
+					</NavLink>
+				</li>
+				<li>
+					<NavLink
+						to="/tavern-generator"
+						aria-label="Tavern Generator"
+					>
+						<FontAwesomeIcon icon={ faBeer } aria-hidden={ true } />
+						<span>Taverns</span>
 					</NavLink>
 				</li>
 				<li>

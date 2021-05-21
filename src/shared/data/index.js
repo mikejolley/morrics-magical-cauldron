@@ -8,3 +8,4 @@ export * from './genders';
 export * from './occupations';
 export * from './alignments';
 export * from './playerNames';
+export * from './tavernNames';

@@ -7,4 +7,5 @@ export * from './use-update-user';
 export * from './use-submit-content';
 export * from './use-safe-dispatch';
 export * from './use-npc-generator';
+export * from './use-tavern-generator';
 export * from './use-generator-data';
