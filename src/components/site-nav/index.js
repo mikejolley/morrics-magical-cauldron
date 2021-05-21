@@ -8,6 +8,7 @@ import {
 	faSignInAlt,
 	faPortrait,
 	faBeer,
+	faPlusSquare,
 } from '@fortawesome/free-solid-svg-icons';
 
 /**
@@ -51,6 +52,15 @@ export const SiteNav = () => {
 					>
 						<FontAwesomeIcon icon={ faBeer } aria-hidden={ true } />
 						<span>Taverns</span>
+					</NavLink>
+				</li>
+				<li>
+					<NavLink to="/submit" aria-label="Submit Content">
+						<FontAwesomeIcon
+							icon={ faPlusSquare }
+							aria-hidden={ true }
+						/>
+						<span>Submit</span>
 					</NavLink>
 				</li>
 				<li>

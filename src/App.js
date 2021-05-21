@@ -19,6 +19,7 @@ import {
 	NpcGenerator,
 	Account,
 	TavernGenerator,
+	Submit,
 } from 'pages';
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
 								<Homepage path="/" />
 								<NpcGenerator path="/npc-generator/*" />
 								<TavernGenerator path="/tavern-generator/*" />
+								<Submit path="/submit/*" />
 								<Account path="/account/*" />
 							</Router>
 						</div>

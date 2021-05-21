@@ -19,7 +19,7 @@ const SubmitForm = () => {
 
 	return (
 		<>
-			<div className="npc-generator__submit content-box">
+			<div className="generator__submit content-box">
 				{ isLoggedIn ? (
 					<p>
 						Submit content for the NPC generator using the form
