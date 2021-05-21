@@ -11,7 +11,7 @@ import Character from 'components/character';
 import { alignments, ageDescriptors } from 'shared/data';
 import { getRaceProp } from 'shared/utils';
 
-export const CharacterCards = ( { characters, onRemove, reroll } ) => {
+export const CharacterCards = ( { characters, onRemove, onReroll } ) => {
 	if ( Object.keys( characters ).length === 0 ) {
 		return (
 			<div className="npc-generator--blank blank-slate">
@@ -71,7 +71,7 @@ export const CharacterCards = ( { characters, onRemove, reroll } ) => {
 							status={ characterData?.status }
 							hasData={ Boolean( characterData?.data ) }
 							reroll={ ( fields, options ) => {
-								reroll( id, fields, options );
+								onReroll( id, fields, options );
 							} }
 							onRemove={ () => {
 								onRemove( id );

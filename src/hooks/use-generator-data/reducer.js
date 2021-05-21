@@ -1,17 +1,17 @@
-export default ( state, { type, data, status, characterId } ) => {
+export default ( state, { type, data, status, id } ) => {
 	switch ( type ) {
 		case 'SET_STATUS':
 			state = {
 				...state,
-				[ characterId ]: {
-					...( state[ characterId ] || {} ),
+				[ id ]: {
+					...( state[ id ] || {} ),
 					status,
 				},
 			};
 			break;
 		case 'DELETE':
 			const newState = { ...state };
-			delete newState[ characterId ];
+			delete newState[ id ];
 			state = {
 				...newState,
 			};
@@ -19,7 +19,7 @@ export default ( state, { type, data, status, characterId } ) => {
 		case 'SET_STATUS_WITH_DATA':
 			state = {
 				...state,
-				[ characterId ]: {
+				[ id ]: {
 					status,
 					data,
 				},
@@ -28,10 +28,10 @@ export default ( state, { type, data, status, characterId } ) => {
 		case 'RESOLVE_WITH_DATA':
 			state = {
 				...state,
-				[ characterId ]: {
+				[ id ]: {
 					status: 'resolved',
 					data: {
-						...( state[ characterId ]?.data || {} ),
+						...( state[ id ]?.data || {} ),
 						...data,
 					},
 				},

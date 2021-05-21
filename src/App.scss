@@ -3,8 +3,8 @@
 html {
 	font: 400 18px 'Bitter', serif;
 	margin: 0;
-	padding: 0;
-	background-color: darken( $base-color, 2% );
+	padding: 0 0 3rem;
+	background-color: $base-color;
 }
 body {
 	background-color: $base-color;
@@ -41,12 +41,15 @@ button {
 	margin: 0 auto;
 }
 .site-footer {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
 	background-color: darken( $base-color, 2% );
 	ul {
-		margin: 3em auto 0 auto;
+		margin: 0 auto;
 		font-size: 1rem;
-		line-height: 1.5em;
-		padding: 1.5em;
+		line-height: 1em;
+		padding: 1em;
 		list-style: none;
 		display: flex;
 		justify-items: stretch;

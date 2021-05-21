@@ -1,129 +1,63 @@
 /**
- * External dependencies
- */
-import { useReducer, useEffect } from 'react';
-import { v4 as uuidv4 } from 'uuid';
-
-/**
  * Internal dependencies
  */
 import CharacterCards from './character-cards';
 import OptionsForm from './options-form';
-import { useNpcGenerator } from 'hooks';
-import reducer from './reducer';
-
-/**
- * Used to validate data in state/localStorage.
- *
- * @param {Object} characters Contains character data.
- * @return {Object} Validated characters.
- */
-const validateCharacters = ( characters ) => {
-	return Object.fromEntries(
-		Object.entries( characters )
-			.map( ( [ id, character ] ) => {
-				if (
-					! character?.data ||
-					! character?.status === 'resolving'
-				) {
-					return false;
-				}
-				return [ id, character ];
-			} )
-			.filter( Boolean )
-	);
-};
+import { useNpcGenerator, useGeneratorData } from 'hooks';
+import { fromEntriesPolyfill } from 'shared/utils';
 
 const Generator = () => {
+	const {
+		data: characters,
+		dispatch,
+		generateId,
+		resolvingData,
+		removeData,
+		resolveData,
+	} = useGeneratorData( 'npc-generator' );
 	const getCallbacks = useNpcGenerator();
-	const [ characters, dispatch ] = useReducer( reducer, {}, () => {
-		const valueInLocalStorage = window.localStorage.getItem(
-			'npc-generator'
+
+	const generate = ( {
+		id = generateId(),
+		existingData,
+		generateOptions,
+		fields = null,
+		callbackOptions,
+	} ) => {
+		const { resolveCallbacks } = getCallbacks(
+			generateOptions || existingData
 		);
-
-		return valueInLocalStorage
-			? validateCharacters( JSON.parse( valueInLocalStorage ) )
-			: {};
-	} );
-
-	useEffect( () => {
-		window.localStorage.setItem(
-			'npc-generator',
-			JSON.stringify( characters )
-		);
-	}, [ characters ] );
-
-	/**
-	 * Returns a promise for querying and generating character data.
-	 *
-	 * @param {Object} options Options used to create character.
-	 */
-	const generateCharacter = ( options ) => {
-		const { resolveCallbacks } = getCallbacks( options );
-		const characterId = uuidv4();
-
-		dispatch( { type: 'SET_STATUS', characterId, status: 'resolving' } );
-		resolveCallbacks().then( ( data ) => {
+		resolvingData( dispatch, id, existingData );
+		resolveCallbacks( fields, callbackOptions ).then( ( data ) => {
 			if ( ! data ) {
-				removeCharacter( characterId );
-				return;
+				removeData( dispatch, id );
+			} else {
+				resolveData( dispatch, id, data );
 			}
-			dispatch( { type: 'RESOLVE_WITH_DATA', characterId, data } );
 		} );
-	};
-
-	const removeCharacter = ( id ) =>
-		dispatch( { type: 'DELETE', characterId: id } );
-
-	/**
-	 * Rerolls fields by using the current character data instead of options so race etc is preserved.
-	 *
-	 * @param {string} characterId Character ID.
-	 * @param {Array} fieldNames Fields to reroll.
-	 * @param {Object} options Additional options.
-	 */
-	const reroll = ( characterId, fieldNames, options = {} ) => {
-		const currentData = characters[ characterId ];
-		const fields = Array.isArray( fieldNames )
-			? fieldNames
-			: [ fieldNames ];
-
-		const currentDataWithoutRerolled = Object.entries( currentData.data )
-			.filter( ( dataItem ) => ! fields.includes( dataItem[ 0 ] ) )
-			.reduce( function ( a, v ) {
-				a[ v[ 0 ] ] = v[ 1 ];
-				return a;
-			}, {} );
-
-		dispatch( {
-			type: 'SET_STATUS_WITH_DATA',
-			characterId,
-			data: currentDataWithoutRerolled,
-			status: 'resolving',
-		} );
-
-		const { resolveCallbacks } = getCallbacks( currentDataWithoutRerolled );
-
-		resolveCallbacks( fields, options )
-			.then( ( data ) => {
-				dispatch( { type: 'RESOLVE_WITH_DATA', characterId, data } );
-			} )
-			.catch( () => {
-				dispatch( {
-					type: 'SET_STATUS',
-					characterId,
-					status: 'resolved',
-				} );
-			} );
 	};
 
 	return (
 		<>
-			<OptionsForm onChange={ generateCharacter } />
+			<OptionsForm
+				onChange={ ( formOptions ) =>
+					generate( { generateOptions: formOptions } )
+				}
+			/>
 			<CharacterCards
 				characters={ characters }
-				onRemove={ removeCharacter }
-				reroll={ reroll }
+				onRemove={ ( id ) => removeData( dispatch, id ) }
+				onReroll={ ( id, fieldNames, callbackOptions = {} ) => {
+					const fields = Array.isArray( fieldNames )
+						? fieldNames
+						: [ fieldNames ];
+					const existingData = fromEntriesPolyfill(
+						Object.entries( characters[ id ].data ).filter(
+							( [ key ] ) => ! fields.includes( key )
+						)
+					);
+					generate( { existingData, id, fields, callbackOptions } );
+				} }
 			/>
 		</>
 	);
