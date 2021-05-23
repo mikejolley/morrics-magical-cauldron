@@ -36,6 +36,9 @@ export const Cards = ( { data, onRemove, onReroll } ) => {
 							patrons={ tavernData?.data?.patrons }
 							trait={ tavernData?.data?.trait }
 							reputation={ tavernData?.data?.reputation }
+							socialClass={ tavernData?.data?.socialClass }
+							lifestyle={ tavernData?.data?.lifestyle }
+							rooms={ tavernData?.data?.rooms }
 							hasData={ Boolean( tavernData?.data ) }
 							status={ tavernData?.status }
 							reroll={ ( fields, options ) => {

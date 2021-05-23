@@ -6,6 +6,7 @@ import ReactTooltip from 'react-tooltip';
 import InlineData from '../inline-data';
 import ContentList from '../content-list';
 import ContentItem from '../content-list/item';
+import a from 'indefinite';
 
 const TavernName = ( { name, loading } ) => {
 	useEffect( () => {
@@ -31,6 +32,9 @@ const Tavern = ( {
 	patrons,
 	trait,
 	reputation,
+	socialClass,
+	lifestyle,
+	rooms,
 	status,
 	reroll,
 	onRemove,
@@ -43,6 +47,21 @@ const Tavern = ( {
 	if ( ! hasData ) {
 		return null;
 	}
+
+	let socialClassAlt;
+
+	switch ( socialClass ) {
+		case 'lower':
+			socialClassAlt = 'low';
+			break;
+		case 'middle':
+			socialClassAlt = 'mid';
+			break;
+		case 'upper':
+			socialClassAlt = 'high';
+			break;
+	}
+
 	return (
 		<div className="card card--tavern">
 			{ onRemove && (
@@ -59,7 +78,7 @@ const Tavern = ( {
 						/>
 					</h3>
 					<h4>
-						{ `Lower Class Tavern` }
+						{ `${ socialClass } Class :: ${ lifestyle } Rooms` }
 						<button
 							onClick={ () =>
 								reroll( 'name', { source: 'generate' } )
@@ -80,18 +99,29 @@ const Tavern = ( {
 				</hgroup>
 				<div className="section">
 					<p>
-						{ `Known for it's ` }
+						{ `A ${ socialClassAlt } class tavern with ` }
 						<InlineData
-							value={ trait }
-							onClick={ () => reroll( 'trait' ) }
-						/>
-						{ `, ${ name?.content } is a XXXX class tavern with a ` }
-						<InlineData
+							prefix={
+								reputation
+									? a( reputation, { articleOnly: true } )
+									: ''
+							}
 							value={ reputation }
 							onClick={ () => reroll( 'reputation' ) }
 							suffix="reputation"
 						/>
-						{ `.` }
+						{ `, known for it's ` }
+						<InlineData
+							value={ trait }
+							onClick={ () => reroll( 'trait' ) }
+							suffix={ '. ' }
+						/>
+						<InlineData
+							value={ rooms }
+							prefix="There "
+							suffix=" available."
+							onClick={ () => reroll( 'rooms' ) }
+						/>
 					</p>
 				</div>
 				<div className="section">

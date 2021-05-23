@@ -6,8 +6,8 @@ import randomItem from 'random-item';
 /**
  * Internal dependencies
  */
-import { tavernNames } from 'shared/data';
-import { parseContentTemplate } from 'shared/utils';
+import { tavernNames, tavernTraits } from 'shared/data';
+import { roll, parseContentTemplate } from 'shared/utils';
 
 /**
  * Get a tavern name.
@@ -28,7 +28,6 @@ export const generateName = () => {
 	);
 
 	return parseContentTemplate( template, {
-		prefix: randomItem( tavernNames.prefix ),
 		suffix: randomItem( tavernNames.suffix ),
 		adjectives: randomItem( tavernNames.adjectives ),
 		adverbs: randomItem( tavernNames.adverbs ),
@@ -38,4 +37,72 @@ export const generateName = () => {
 		bodyParts: randomItem( tavernNames.bodyParts ),
 		people: randomItem( tavernNames.people ),
 	} );
+};
+
+export const generateTrait = () => {
+	const templates = tavernTraits.templates;
+
+	if ( ! templates ) {
+		return '';
+	}
+
+	const template = randomItem( templates );
+
+	return parseContentTemplate( template, {
+		money: randomItem( tavernTraits.money ),
+		beverages: randomItem( tavernTraits.beverages ),
+		attitude: randomItem( tavernTraits.attitude ),
+		staff: randomItem( tavernTraits.staff ),
+	} );
+};
+
+export const randomSocialClass = () => {
+	return randomItem( [
+		'lower',
+		'lower',
+		'middle',
+		'middle',
+		'middle',
+		'upper',
+	] );
+};
+
+export const generateLifestyle = ( socialClass ) => {
+	if ( socialClass === 'lower' ) {
+		return randomItem( [ 'wretched', 'squalid', 'poor' ] );
+	}
+	if ( socialClass === 'middle' ) {
+		return randomItem( [ 'modest', 'comfortable' ] );
+	}
+	return randomItem( [ 'wealthy', 'aristocratic' ] );
+};
+
+export const generateRooms = ( socialClass ) => {
+	let dice = 'd6-1';
+
+	if ( socialClass === 'lower' ) {
+		dice = 'd2-1';
+	} else if ( socialClass === 'middle' ) {
+		dice = 'd4-1';
+	}
+	const single = roll( dice );
+	const double = roll( dice );
+
+	if ( ! single && ! double ) {
+		return `are no rooms`;
+	}
+
+	if ( ! single || ! double ) {
+		return single + double === 1
+			? `is one room`
+			: `are ${ single + double } rooms`;
+	}
+
+	return (
+		( single === 1
+			? `is one single room`
+			: `are ${ single } single rooms` ) +
+		' and ' +
+		( double === 1 ? `one double room` : `${ double } double rooms` )
+	);
 };
