@@ -53,6 +53,7 @@ export const generateTrait = () => {
 		beverages: randomItem( tavernTraits.beverages ),
 		attitude: randomItem( tavernTraits.attitude ),
 		staff: randomItem( tavernTraits.staff ),
+		appearance: randomItem( tavernTraits.appearance ),
 	} );
 };
 

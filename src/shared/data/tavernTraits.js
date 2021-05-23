@@ -1,5 +1,25 @@
 export const tavernTraits = {
-	templates: [ '{$money} {$beverages}', '{$attitude} {$staff}' ],
+	templates: [
+		'{$money} {$beverages}',
+		'{$attitude} {$staff}',
+		'{$appearance} rooms',
+	],
+	appearance: [
+		'luxury',
+		'tidy',
+		'clean',
+		'smelly',
+		'untidy',
+		'trampy',
+		'dirty',
+		'disgusting',
+		'sparkling',
+		'neat',
+		'messy',
+		'quality',
+		'minimal',
+		'cluttered',
+	],
 	beverages: [
 		'hot drinks',
 		'cold drinks',
