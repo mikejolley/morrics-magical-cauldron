@@ -23,7 +23,6 @@ const ButtonGroup = ( {
 	selected,
 	options,
 	onChange,
-	onClear,
 	disabled,
 	className = '',
 	renderOption = defaultRenderOption,
@@ -33,16 +32,6 @@ const ButtonGroup = ( {
 	return (
 		<div className={ `field button-group ${ className }` }>
 			<label htmlFor={ htmlId }>{ label }</label>
-			{ onClear && (
-				<button
-					type="button"
-					onClick={ onClear }
-					disabled={ disabled }
-					className="link-button button-group__clear"
-				>
-					Clear
-				</button>
-			) }
 			<ul id={ htmlId }>
 				{ options.map( ( option ) => (
 					<li

@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import InlineData from '../inline-data';
 import AbilityList from './ability-list';
-import TraitList from './trait-list';
-import TraitListItem from './trait-list/item';
+import ContentList from '../content-list';
+import ContentItem from '../content-list/item';
 import Loading from '../loading';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDiceD20, faUserCircle } from '@fortawesome/free-solid-svg-icons';
@@ -131,50 +131,50 @@ const Character = ( {
 				/>
 			</div>
 			<div className="section">
-				<TraitList>
-					<TraitListItem
+				<ContentList>
+					<ContentItem
 						name="Plot Hook"
 						data={ plotHook }
 						onReroll={ () => reroll( 'plotHook' ) }
 						loading={ isResolving && plotHook === undefined }
 					/>
-					<TraitListItem
+					<ContentItem
 						name="Features"
 						data={ feature }
 						onReroll={ () => reroll( 'feature' ) }
 						loading={ isResolving && feature === undefined }
 					/>
-					<TraitListItem
+					<ContentItem
 						name="Personality"
 						data={ personality }
 						onReroll={ () => reroll( 'personality' ) }
 						loading={ isResolving && personality === undefined }
 					/>
-					<TraitListItem
+					<ContentItem
 						name="Ideal"
 						data={ ideal }
 						onReroll={ () => reroll( 'ideal' ) }
 						loading={ isResolving && ideal === undefined }
 					/>
-					<TraitListItem
+					<ContentItem
 						name="Bond"
 						data={ bond }
 						onReroll={ () => reroll( 'bond' ) }
 						loading={ isResolving && bond === undefined }
 					/>
-					<TraitListItem
+					<ContentItem
 						name="Flaw"
 						data={ flaw }
 						onReroll={ () => reroll( 'flaw' ) }
 						loading={ isResolving && flaw === undefined }
 					/>
-					<TraitListItem
+					<ContentItem
 						name="Voice"
 						data={ voice }
 						onReroll={ () => reroll( 'voice' ) }
 						loading={ isResolving && voice === undefined }
 					/>
-				</TraitList>
+				</ContentList>
 			</div>
 		</div>
 	);

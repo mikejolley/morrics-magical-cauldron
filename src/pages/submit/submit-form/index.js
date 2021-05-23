@@ -1,49 +1,37 @@
 /**
  * External dependencies
  */
-import { Link } from '@reach/router';
+import { Link, Router } from '@reach/router';
 
 /**
  * Internal dependencies
  */
-import Loading from 'components/loading';
-import { useAuth } from 'hooks';
-import SubmitContentForm from './submit-content-form';
+import Form from './form';
+import { npcContentTypes, tavernContentTypes } from './constants';
+import NpcOptions from './npc-options';
+import TavernOptions from './tavern-options';
 
 const SubmitForm = () => {
-	const { isLoggedIn, viewer, loadingViewer } = useAuth();
-
-	if ( loadingViewer ) {
-		return <Loading message={ 'Loading submission form...' } />;
-	}
-
 	return (
 		<>
-			<div className="generator__submit content-box">
-				{ isLoggedIn ? (
-					<p>
-						Submit content for the NPC generator using the form
-						below!{ ' ' }
-						{ viewer && (
-							<>
-								You are currently submitting content as{ ' ' }
-								<strong>{ viewer.username }</strong>.
-							</>
-						) }
-					</p>
-				) : (
-					<p>
-						Submit content for the NPC generator using the form
-						below! To have your name associated with submitted
-						content, you can optionally{ ' ' }
-						<Link to="/account" className="link-button">
-							sign in or create an account here
-						</Link>
-						. Guest submissions will be moderated.
-					</p>
-				) }
-			</div>
-			<SubmitContentForm />
+			<nav className="tab-nav">
+				<Link to="">NPC</Link>
+				<Link to="tavern">Tavern</Link>
+			</nav>
+			<Router primary={ false }>
+				<Form
+					path="/"
+					contentType="character"
+					subContentTypes={ npcContentTypes }
+					OptionsComponent={ NpcOptions }
+				/>
+				<Form
+					path="/tavern"
+					contentType="tavern"
+					subContentTypes={ tavernContentTypes }
+					OptionsComponent={ TavernOptions }
+				/>
+			</Router>
 		</>
 	);
 };

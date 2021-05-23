@@ -9,3 +9,5 @@ export * from './occupations';
 export * from './alignments';
 export * from './playerNames';
 export * from './tavernNames';
+export * from './tavernReputation';
+export * from './tavernTraits';

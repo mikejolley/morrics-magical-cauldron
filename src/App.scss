@@ -3,7 +3,7 @@
 html {
 	font: 400 18px 'Bitter', serif;
 	margin: 0;
-	padding: 0 0 3rem;
+	padding: 0 0 6rem;
 	background-color: $base-color;
 }
 body {
@@ -373,7 +373,7 @@ hgroup {
 	border-bottom: 2px solid rgba( 0, 0, 0, 0.2 );
 	border-top: 2px solid rgba( 255, 255, 255, 0.05 );
 	padding: 1.5em 0;
-	max-width: 60ch;
+	max-width: 64ch;
 	margin: 0 auto;
 
 	&:first-of-type {
@@ -514,7 +514,8 @@ button.reroll-button {
 .field {
 	text-align: left;
 	margin: 0;
-	label.hidden {
+	label.hidden,
+	label[aria-hidden=true] {
 		display: none;
 	}
 	label {
@@ -534,7 +535,7 @@ button.reroll-button {
 	.field__input {
 		display: flex;
 	}
-	p.field__description {
+	p.field__description, p.field__error {
 		color: lighten( $base-color, 30% );
 		font-weight: 400;
 		margin: 10px 5px 10px;
@@ -545,6 +546,9 @@ button.reroll-button {
 		text-align: center;
 		> svg.svg-inline--fa {
 			margin-right: 0.25em;
+		}
+		&.field__error {
+			color: red;
 		}
 	}
 	input,
@@ -564,6 +568,11 @@ button.reroll-button {
 		}
 		&::placeholder {
 			color: darken( $base-color, 10% );
+		}
+	}
+	&.field--error {
+		input, textarea {
+			border-color: red;
 		}
 	}
 	textarea {

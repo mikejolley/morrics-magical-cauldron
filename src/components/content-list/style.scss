@@ -1,6 +1,6 @@
 @import 'css/variables.scss';
 
-ul.trait-list {
+ul.content-list {
 	margin: 0 auto;
 	padding: 0;
 	list-style: none;
@@ -47,7 +47,7 @@ ul.trait-list {
 				font-size: 1em;
 			}
 		}
-		.trait__actions {
+		.content__actions {
 			padding: 0;
 			white-space: nowrap;
 			display: table-cell;
@@ -64,7 +64,7 @@ ul.trait-list {
 }
 
 @media only screen and ( max-width: 600px ) {
-	ul.trait-list {
+	ul.content-list {
 		display: flex;
 		flex-direction: column;
 		margin: -1em 0 0;
@@ -93,7 +93,7 @@ ul.trait-list {
 				padding: 0;
 			}
 
-			.trait__actions {
+			.content__actions {
 				display: block;
 				position: absolute;
 				top: 1em;

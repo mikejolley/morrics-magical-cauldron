@@ -1,16 +1,15 @@
 import { autop } from '@wordpress/autop';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDiceD20 } from '@fortawesome/free-solid-svg-icons';
-import Loading from '../../loading';
+import Loading from '../loading';
 
-const TraitItemContent = ( { author, content, loading } ) => {
+const ContentBody = ( { author, content, loading } ) => {
 	if ( loading ) {
 		return <Loading message={ false } />;
 	}
 	return (
 		<div>
 			<div
-				className="trait__content"
 				dangerouslySetInnerHTML={ {
 					__html: content,
 				} }
@@ -20,19 +19,20 @@ const TraitItemContent = ( { author, content, loading } ) => {
 	);
 };
 
-const TraitItem = ( { name, onReroll, loading, data = {} } ) => {
-	const author = data?.author || '';
+const ContentItem = ( { name, onReroll, loading, data = {} } ) => {
+	const author =
+		data?.author && data.author !== 'mikejolley' ? data.author : '';
 	const content = autop( data?.content || 'None' );
 
 	return (
-		<li className="trait">
+		<li className="content">
 			<strong>{ name }</strong>
-			<TraitItemContent
+			<ContentBody
 				author={ author }
 				content={ content }
 				loading={ loading }
 			/>
-			<span className="trait__actions">
+			<span className="content__actions">
 				<button
 					onClick={ onReroll }
 					className="reroll-button"
@@ -45,4 +45,4 @@ const TraitItem = ( { name, onReroll, loading, data = {} } ) => {
 	);
 };
 
-export default TraitItem;
+export default ContentItem;

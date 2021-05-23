@@ -8,48 +8,77 @@ import { stripHtml } from 'string-strip-html';
 /**
  * Internal dependencies
  */
-import { useSubmitContentMutation } from './mutations/use-submit-content-mutation';
-
-const errorCodes = {};
+import {
+	useSubmitCharacterDataMutation,
+	useSubmitTavernDataMutation,
+} from './mutations';
 
 /**
  * Hook which submits content via the API.
+ *
+ * @param {string} contentType Type of content (post type) e.g. character, tavern
  */
-export const useSubmitContent = () => {
-	const [ error, setError ] = useState( null );
+export const useSubmitContent = ( contentType ) => {
 	const [ status, setStatus ] = useState( 'idle' );
-	const { submitContentMutation } = useSubmitContentMutation();
+	const { mutation: submitCharacterData } = useSubmitCharacterDataMutation();
+	const { mutation: submitTavernData } = useSubmitTavernDataMutation();
 
-	const submitContent = ( { content, moral, ethic, type, race, gender } ) => {
-		setError( null );
+	const submitContent = ( props ) => {
 		setStatus( 'resolving' );
-		return submitContentMutation( {
-			content,
+
+		const success = ( result ) => {
+			setStatus( 'resolved' );
+			return result.data;
+		};
+
+		const fail = ( errors ) => {
+			setStatus( 'resolved' );
+			throw new Error(
+				`${ stripHtml( decodeEntities( errors.message ) ).result }`
+			);
+		};
+
+		const {
+			ethic,
+			moral,
+			race,
+			gender,
 			type,
-			moral: moral ? moral : 'any',
-			ethic: ethic ? ethic : 'any',
-			race: race ? race : 'any',
-			gender: gender ? gender : 'any',
-		} )
-			.then( ( result ) => {
-				setStatus( 'resolved' );
-				return result.data;
-			} )
-			.catch( ( errors ) => {
-				setError(
-					errorCodes[ errors.message ] ||
-						`${
-							stripHtml( decodeEntities( errors.message ) ).result
-						}`
-				);
-				setStatus( 'resolved' );
-			} );
+			content,
+			socialClass,
+		} = props;
+
+		switch ( contentType ) {
+			case 'character':
+				return submitCharacterData( {
+					variables: {
+						content,
+						ethic: ethic ? ethic : 'any',
+						moral: moral ? moral : 'any',
+						race: race ? race : 'any',
+						gender: gender ? gender : 'any',
+						characterDataType: type,
+					},
+				} )
+					.then( success )
+					.catch( fail );
+			case 'tavern':
+				return submitTavernData( {
+					variables: {
+						content,
+						socialClass: socialClass ? socialClass : 'any',
+						tavernDataType: type,
+					},
+				} )
+					.then( success )
+					.catch( fail );
+		}
+
+		return Promise.reject();
 	};
 
 	return {
 		submitContent,
-		error,
-		setError,
 		status,
 	};
 };

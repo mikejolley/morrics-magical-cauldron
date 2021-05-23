@@ -1,9 +1,4 @@
 /**
- * External dependencies
- */
-import { Link, Router } from '@reach/router';
-
-/**
  * Internal dependencies
  */
 import Generator from './generator';

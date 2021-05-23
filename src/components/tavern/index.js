@@ -1,8 +1,11 @@
 import { useEffect } from 'react';
 import Loading from '../loading';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDiceD20 } from '@fortawesome/free-solid-svg-icons';
+import { faDiceD20, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import ReactTooltip from 'react-tooltip';
+import InlineData from '../inline-data';
+import ContentList from '../content-list';
+import ContentItem from '../content-list/item';
 
 const TavernName = ( { name, loading } ) => {
 	useEffect( () => {
@@ -20,7 +23,18 @@ const TavernName = ( { name, loading } ) => {
 	);
 };
 
-const Tavern = ( { hasData, name, status, reroll, onRemove } ) => {
+const Tavern = ( {
+	hasData,
+	name,
+	description,
+	drink,
+	patrons,
+	trait,
+	reputation,
+	status,
+	reroll,
+	onRemove,
+} ) => {
 	const isResolving = status === 'resolving';
 	if ( isResolving && ! hasData ) {
 		return <Loading className="card" />;
@@ -45,6 +59,7 @@ const Tavern = ( { hasData, name, status, reroll, onRemove } ) => {
 						/>
 					</h3>
 					<h4>
+						{ `Lower Class Tavern` }
 						<button
 							onClick={ () =>
 								reroll( 'name', { source: 'generate' } )
@@ -54,8 +69,53 @@ const Tavern = ( { hasData, name, status, reroll, onRemove } ) => {
 						>
 							<FontAwesomeIcon icon={ faDiceD20 } />
 						</button>
+						<button
+							onClick={ () => reroll( 'name' ) }
+							className="reroll-button"
+							data-tip="Reroll User Submitted Name"
+						>
+							<FontAwesomeIcon icon={ faUserCircle } />
+						</button>
 					</h4>
 				</hgroup>
+				<div className="section">
+					<p>
+						{ `Known for it's ` }
+						<InlineData
+							value={ trait }
+							onClick={ () => reroll( 'trait' ) }
+						/>
+						{ `, ${ name?.content } is a XXXX class tavern with a ` }
+						<InlineData
+							value={ reputation }
+							onClick={ () => reroll( 'reputation' ) }
+							suffix="reputation"
+						/>
+						{ `.` }
+					</p>
+				</div>
+				<div className="section">
+					<ContentList>
+						<ContentItem
+							name="Appearance"
+							data={ description }
+							onReroll={ () => reroll( 'description' ) }
+							loading={ isResolving && description === undefined }
+						/>
+						<ContentItem
+							name="Signature Drink"
+							data={ drink }
+							onReroll={ () => reroll( 'drink' ) }
+							loading={ isResolving && drink === undefined }
+						/>
+						<ContentItem
+							name="Patrons"
+							data={ patrons }
+							onReroll={ () => reroll( 'patrons' ) }
+							loading={ isResolving && patrons === undefined }
+						/>
+					</ContentList>
+				</div>
 			</div>
 		</div>
 	);
