@@ -31,6 +31,14 @@ const Homepage = () => {
 				<h2>What&#x27;s New</h2>
 				<ul className="changelog">
 					<li>
+						<strong>24th May 2021</strong>
+						<ul>
+							<li>Feature - Tavern generator!</li>
+							<li>Refactor - Moved Submit Form to new page.</li>
+							<li>Feature - Submit multiple content at once.</li>
+						</ul>
+					</li>
+					<li>
 						<strong>12th March 2021</strong>
 						<ul>
 							<li>News - Started this changelog!</li>
