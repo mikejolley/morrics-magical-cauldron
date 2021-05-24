@@ -13,7 +13,7 @@ import { faInfoCircle, faSkull } from '@fortawesome/free-solid-svg-icons';
  * @param {string} props.value Data to show.
  * @param {boolean} props.grow If true, the field will be a textarea that grows with input.
  * @param {Function} props.onChange Input onChange event.
- * @param {stirng} props.error Error message.
+ * @param {string} props.error Error message.
  * @param {Object} props.props Remaining props.
  */
 const Field = ( {

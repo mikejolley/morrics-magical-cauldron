@@ -4,7 +4,7 @@
 import { useState } from 'react';
 
 const OptionsForm = ( { onChange } ) => {
-	const [ options, setOptions ] = useState( {} );
+	const [ options ] = useState( {} );
 	return (
 		<div className="tavern-generator__options content-box">
 			<button
