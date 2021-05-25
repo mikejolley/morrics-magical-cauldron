@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import Loading from '../loading';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDiceD20, faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import { faDiceD20 } from '@fortawesome/free-solid-svg-icons';
 import ReactTooltip from 'react-tooltip';
 import InlineData from '../inline-data';
 import ContentList from '../content-list';
@@ -80,20 +80,11 @@ const Tavern = ( {
 					<h4>
 						{ `${ socialClass } Class :: ${ lifestyle } Rooms` }
 						<button
-							onClick={ () =>
-								reroll( 'name', { source: 'generate' } )
-							}
+							onClick={ () => reroll( 'name' ) }
 							className="reroll-button"
 							data-tip="Reroll Name"
 						>
 							<FontAwesomeIcon icon={ faDiceD20 } />
-						</button>
-						<button
-							onClick={ () => reroll( 'name' ) }
-							className="reroll-button"
-							data-tip="Reroll User Submitted Name"
-						>
-							<FontAwesomeIcon icon={ faUserCircle } />
 						</button>
 					</h4>
 				</hgroup>

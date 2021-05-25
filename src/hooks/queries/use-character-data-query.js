@@ -10,6 +10,7 @@ const GET_CHARACTER_DATUM_BY_TYPE = gql`
 		$type: [CharacterDataTypeField]
 		$race: [RaceField]
 		$gender: [GenderField]
+		$limit: Int
 	) {
 		characterData(
 			where: {
@@ -20,7 +21,7 @@ const GET_CHARACTER_DATUM_BY_TYPE = gql`
 				genderName: $gender
 				orderby: { field: RAND, order: ASC }
 			}
-			first: 1
+			first: $limit
 		) {
 			nodes {
 				characterDataType
@@ -40,5 +41,5 @@ export const useCharacterDataQuery = () => {
 		skip: true,
 	} );
 
-	return ( variables ) => query.refetch( variables );
+	return ( variables ) => query.refetch( { limit: 1, ...variables } );
 };

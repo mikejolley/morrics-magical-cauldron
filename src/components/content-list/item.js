@@ -20,16 +20,15 @@ const ContentBody = ( { author, content, loading } ) => {
 };
 
 const ContentItem = ( { name, onReroll, loading, data = {} } ) => {
-	const author =
-		data?.author && data.author !== 'mikejolley' ? data.author : '';
-	const content = autop( data?.content || 'None' );
+	const author = data.author || '';
+	const content = data.content || 'None';
 
 	return (
 		<li className="content">
 			<strong>{ name }</strong>
 			<ContentBody
 				author={ author }
-				content={ content }
+				content={ autop( content ) }
 				loading={ loading }
 			/>
 			<span className="content__actions">

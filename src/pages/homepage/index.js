@@ -31,6 +31,19 @@ const Homepage = () => {
 				<h2>What&#x27;s New</h2>
 				<ul className="changelog">
 					<li>
+						<strong>25th May 2021</strong>
+						<ul>
+							<li>
+								Feature - Social class filtering on the Tavern
+								generator.
+							</li>
+							<li>
+								Refactor - Improved mix of user and generated
+								content when rerolling.
+							</li>
+						</ul>
+					</li>
+					<li>
 						<strong>24th May 2021</strong>
 						<ul>
 							<li>Feature - Tavern generator!</li>

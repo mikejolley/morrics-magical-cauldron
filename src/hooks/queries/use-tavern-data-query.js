@@ -7,6 +7,7 @@ const GET_TAVERN_DATUM_BY_TYPE = gql`
 	query TavernData(
 		$socialClass: [SocialClassField]
 		$type: [TavernDataTypeField]
+		$limit: Int
 	) {
 		tavernData(
 			where: {
@@ -14,7 +15,7 @@ const GET_TAVERN_DATUM_BY_TYPE = gql`
 				socialClassName: $socialClass
 				orderby: { field: RAND, order: ASC }
 			}
-			first: 1
+			first: $limit
 		) {
 			nodes {
 				tavernDataType
@@ -34,5 +35,5 @@ export const useTavernDataQuery = () => {
 		skip: true,
 	} );
 
-	return ( variables ) => query.refetch( variables );
+	return ( variables ) => query.refetch( { limit: 1, ...variables } );
 };

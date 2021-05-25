@@ -28,48 +28,39 @@ export const CharacterCards = ( { characters, onRemove, onReroll } ) => {
 			{ Object.entries( characters )
 				.slice( 0 )
 				.reverse()
-				.map( ( [ id, characterData ] ) => {
+				.map( ( [ id, { data: characterData = {}, status } ] ) => {
 					return (
 						<Character
 							key={ `${ id }` }
-							characterName={ characterData?.data?.name }
+							hasData={ Object.entries( characterData ).length }
+							characterName={ characterData.name }
 							characterAge={
-								ageDescriptors[
-									characterData?.data?.age || 'adult'
-								]
+								ageDescriptors[ characterData.age || 'adult' ]
 							}
 							characterRace={ getRaceProp(
-								characterData?.data?.race || 'human',
+								characterData.race || 'human',
 								'singular'
 							) }
 							characterAlignment={
 								alignments.find(
 									( { id: alignmentId } ) =>
-										alignmentId ===
-										characterData?.data?.alignment
+										alignmentId === characterData.alignment
 								)?.description
 							}
-							characterGender={
-								characterData?.data?.gender || 'male'
-							}
-							characterAppearance={
-								characterData?.data?.appearance
-							}
-							characterOccupation={
-								characterData?.data?.occupation
-							}
-							characterWeight={ characterData?.data?.weight }
-							characterHeight={ characterData?.data?.height }
-							abilities={ characterData?.data?.abilities }
-							plotHook={ characterData?.data?.plotHook }
-							feature={ characterData?.data?.feature }
-							personality={ characterData?.data?.personality }
-							ideal={ characterData?.data?.ideal }
-							bond={ characterData?.data?.bond }
-							flaw={ characterData?.data?.flaw }
-							voice={ characterData?.data?.voice }
-							status={ characterData?.status }
-							hasData={ Boolean( characterData?.data ) }
+							characterGender={ characterData.gender || 'male' }
+							characterAppearance={ characterData.appearance }
+							characterOccupation={ characterData.occupation }
+							characterWeight={ characterData.weight }
+							characterHeight={ characterData.height }
+							abilities={ characterData.abilities }
+							plotHook={ characterData.plotHook }
+							feature={ characterData.feature }
+							personality={ characterData.personality }
+							ideal={ characterData.ideal }
+							bond={ characterData.bond }
+							flaw={ characterData.flaw }
+							voice={ characterData.voice }
+							status={ status }
 							reroll={ ( fields, options ) => {
 								onReroll( id, fields, options );
 							} }

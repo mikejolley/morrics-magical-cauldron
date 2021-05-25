@@ -26,21 +26,21 @@ export const Cards = ( { data, onRemove, onReroll } ) => {
 			{ Object.entries( data )
 				.slice( 0 )
 				.reverse()
-				.map( ( [ id, tavernData ] ) => {
+				.map( ( [ id, { data: tavernData = {}, status } ] ) => {
 					return (
 						<Tavern
 							key={ `${ id }` }
-							name={ tavernData?.data?.name }
-							description={ tavernData?.data?.description }
-							drink={ tavernData?.data?.drink }
-							patrons={ tavernData?.data?.patrons }
-							trait={ tavernData?.data?.trait }
-							reputation={ tavernData?.data?.reputation }
-							socialClass={ tavernData?.data?.socialClass }
-							lifestyle={ tavernData?.data?.lifestyle }
-							rooms={ tavernData?.data?.rooms }
-							hasData={ Boolean( tavernData?.data ) }
-							status={ tavernData?.status }
+							hasData={ Object.entries( tavernData ).length }
+							name={ tavernData.name }
+							description={ tavernData.description }
+							drink={ tavernData.drink }
+							patrons={ tavernData.patrons }
+							trait={ tavernData.trait }
+							reputation={ tavernData.reputation }
+							socialClass={ tavernData.socialClass }
+							lifestyle={ tavernData.lifestyle }
+							rooms={ tavernData.rooms }
+							status={ status }
 							reroll={ ( fields, options ) => {
 								onReroll( id, fields, options );
 							} }

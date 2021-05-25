@@ -55,7 +55,13 @@ export const useNpcGenerator = () => {
 				( { id } ) => id === alignment
 			);
 
-			const characterDataPromise = async ( type, fallback = '' ) => {
+			/**
+			 * Get random data from the server in order to create a roll table.
+			 *
+			 * @param {string} type Type of data.
+			 * @param {number} limit Number of records to retrieve.
+			 */
+			const getDataPromise = async ( type, limit = 1 ) => {
 				try {
 					return await getCharacterData( {
 						moral: alignmentData.moral,
@@ -65,46 +71,61 @@ export const useNpcGenerator = () => {
 							: race,
 						gender: gender !== 'nonbinary' ? gender : 'any',
 						type,
+						limit,
 					} )
 						.then( ( { data: sourceData } ) => {
-							const randomSourceData = randomItem(
-								sourceData?.characterData?.nodes || []
+							const dataList =
+								sourceData?.characterData?.nodes || [];
+
+							return Promise.resolve(
+								dataList.map( ( { content, author } ) => {
+									return {
+										content: stripHtml( content ).result,
+										author: author?.node?.name || '',
+									};
+								} )
 							);
-							return Promise.resolve( {
-								content: randomSourceData.content || fallback,
-								author:
-									randomSourceData?.author?.node?.name || '',
-							} );
 						} )
 						.catch( () => {
-							return Promise.resolve( { content: fallback } );
+							return Promise.resolve( [] );
 						} );
 				} catch {
-					return Promise.resolve( { content: fallback } );
+					return Promise.resolve( [] );
 				}
+			};
+
+			const generateRollTable = (
+				sourceData = [],
+				content,
+				size = 20
+			) => {
+				return [ ...new Array( size ) ].map( ( _item, index ) => {
+					return sourceData[ index ]
+						? sourceData[ index ]
+						: {
+								content:
+									typeof content === 'function'
+										? content()
+										: content,
+								author: '',
+						  };
+				} );
 			};
 
 			/**
 			 * Returns an array of promises which resolve with data. Some use the API, some come from the client.
 			 */
 			const callbacks = {
-				name: ( { source = 'user' } ) => {
-					const generatedName = generateName( race, gender );
-
-					return source === 'user'
-						? characterDataPromise( 'name', generatedName ).then(
-								( data ) => {
-									data.content = stripHtml(
-										data.content
-									).result;
-									return data;
-								}
-						  )
-						: {
-								content: generatedName,
-								author: '',
-						  };
-				},
+				name: () =>
+					getDataPromise( 'name', 20 ).then( ( data ) =>
+						randomItem(
+							generateRollTable(
+								data,
+								() => generateName( race, gender ),
+								40
+							)
+						)
+					),
 				gender: () => Promise.resolve( gender ),
 				race: () => Promise.resolve( race ),
 				occupation: () =>
@@ -121,13 +142,35 @@ export const useNpcGenerator = () => {
 						generateAppearance( { gender, age, raceData } )
 					),
 				abilities: () => Promise.resolve( rollAbilities( { age } ) ),
-				feature: () => characterDataPromise( 'feature' ),
-				voice: () => characterDataPromise( 'voice' ),
-				plotHook: () => characterDataPromise( 'plotHook' ),
-				personality: () => characterDataPromise( 'trait' ),
-				ideal: () => characterDataPromise( 'ideal' ),
-				bond: () => characterDataPromise( 'bond' ),
-				flaw: () => characterDataPromise( 'flaw' ),
+				feature: () =>
+					getDataPromise( 'feature' ).then( ( data ) =>
+						randomItem( data )
+					),
+
+				voice: () =>
+					getDataPromise( 'voice' ).then( ( data ) =>
+						randomItem( data )
+					),
+				plotHook: () =>
+					getDataPromise( 'plotHook' ).then( ( data ) =>
+						randomItem( data )
+					),
+				personality: () =>
+					getDataPromise( 'trait' ).then( ( data ) =>
+						randomItem( data )
+					),
+				ideal: () =>
+					getDataPromise( 'ideal' ).then( ( data ) =>
+						randomItem( data )
+					),
+				bond: () =>
+					getDataPromise( 'bond' ).then( ( data ) =>
+						randomItem( data )
+					),
+				flaw: () =>
+					getDataPromise( 'flaw' ).then( ( data ) =>
+						randomItem( data )
+					),
 			};
 
 			const resolveCallbacks = ( fields = null, options = {} ) =>
